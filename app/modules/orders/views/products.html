@@ -1,0 +1,507 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Carga de Productos</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a>Productos</a>
+            </li>
+            <li class="active">
+                <strong>Producto</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="tabs-container">
+
+                <tabset>
+				    <tab>
+                        <tab-heading>
+                            Subir archivo
+                        </tab-heading>
+                        <div class="panel-body">
+
+                          <div class="col-lg-12">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>Zona de carga</h5>
+
+									<div ibox-tools></div>
+								</div>
+								<div class="ibox-content">
+								<form action="" class="dropzone" drop-zone="" id="file-dropzone">
+									<button type="submit" class="btn btn-primary pull-right">Enviar!</button>
+								</form>
+								</div>
+							
+							</div>
+						</div>
+
+                        </div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            Información de Producto
+                        </tab-heading>
+                        <div class="panel-body">
+
+                            <fieldset class="form-horizontal">
+                                <div class="form-group"><label class="col-sm-2 control-label">Nombre:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre de Producto"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Precio:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="$160.00"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Descripción:</label>
+                                    <div class="col-sm-10">
+                                        <div summernote class="summernote"  ng-model="main.summernoteText">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Etiqueta Título:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="..."></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Etiqueta Descripción:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Bicicleta de carreras"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Etiqueta Keywords:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Ejem: Repuesto, torque, tornillo"></div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            Datos
+                        </tab-heading>
+                        <div class="panel-body">
+
+                            <fieldset class="form-horizontal">
+                                <div class="form-group"><label class="col-sm-2 control-label">ID:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="543"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Modelo:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="..."></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Localización:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="location"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Tipo de Impuesto:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" >
+                                            <option>IVA 12</option>
+                                            <option>IVA 14</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Cantidad:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Quantity"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Cantidad Mínima:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="2"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Orden:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="0"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Estado:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" >
+                                            <option>option 1</option>
+                                            <option>option 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                        </div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            Descuento
+                        </tab-heading>
+                        <div class="panel-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-stripped table-bordered">
+
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            Grupo
+                                        </th>
+                                        <th>
+                                            Cantidad
+                                        </th>
+                                        <th>
+                                            Descuento
+                                        </th>
+                                        <th style="width: 20%">
+                                            Fecha de Inicio
+                                        </th>
+                                        <th style="width: 20%">
+                                            Fecha de Fin
+                                        </th>
+                                        <th>
+                                            Acciones
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" >
+                                                <option selected>Grupo 1</option>
+                                                <option>Grupo 2</option>
+                                                <option>Grupo 3</option>
+                                                <option>Grupo 4</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="10">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="$10.00">
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" >
+                                                <option selected>Grupo 1</option>
+                                                <option>Grupo 2</option>
+                                                <option>Grup 3</option>
+                                                <option>Grupo 4</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="10">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="$10.00">
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" >
+                                                <option selected>Grupo 1</option>
+                                                <option>Grupo 2</option>
+                                                <option>Grupo 3</option>
+                                                <option>Grupo 4</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="10">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="$10.00">
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" >
+                                                <option selected>Grupo 1</option>
+                                                <option>Grupo 2</option>
+                                                <option>Grupo 3</option>
+                                                <option>Grupo 4</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="10">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="$10.00">
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" >
+                                                <option selected>Grupo 1</option>
+                                                <option>Grupo 2</option>
+                                                <option>Grupo 3</option>
+                                                <option>Grupo 4</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="10">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="$10.00">
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" >
+                                                <option selected>Grupo 1</option>
+                                                <option>Grupo 2</option>
+                                                <option>Grupo 3</option>
+                                                <option>Grupo 4</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="10">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="$10.00">
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" >
+                                                <option selected>Grupo 1</option>
+                                                <option>Grupo 2</option>
+                                                <option>Grupo 3</option>
+                                                <option>Grupo 4</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="10">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="$10.00">
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2016">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            Imágenes
+                        </tab-heading>
+                        <div class="panel-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-stripped">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            Vista Previa
+                                        </th>
+                                        <th>
+                                            URL
+                                        </th>
+                                        <th>
+                                            Orden
+                                        </th>
+                                        <th>
+                                            Acciones
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="img/gallery/2s.jpg">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled value="http://mydomain.com/images/image1.png">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" value="1">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="img/gallery/1s.jpg">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled value="http://mydomain.com/images/image2.png">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" value="2">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="img/gallery/3s.jpg">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled value="http://mydomain.com/images/image3.png">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" value="3">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="img/gallery/4s.jpg">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled value="http://mydomain.com/images/image4.png">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" value="4">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="img/gallery/5s.jpg">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled value="http://mydomain.com/images/image5.png">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" value="5">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="img/gallery/6s.jpg">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled value="http://mydomain.com/images/image6.png">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" value="6">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="img/gallery/7s.jpg">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled value="http://mydomain.com/images/image7.png">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" value="7">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </tab>
+                </tabset>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

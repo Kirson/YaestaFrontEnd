@@ -1,0 +1,86 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>YaEsta.com - Órdenes</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a>Órdenes</a>
+            </li>
+            <li class="active">
+                <strong>Listado de Órdenes</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="modalDemoCtrl">
+
+
+<div class="row">
+<div class="col-lg-12">
+<div class="ibox float-e-margins">
+<div class="ibox-title">
+    <h5><strong>Listado de Órdenes</strong></h5>
+
+    <div ibox-tools></div>
+</div>
+<div class="ibox-content">
+    <table datatable="ng" class="table table-striped table-bordered table-hover dataTables-example">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Referencia</th>
+            <th>Nuevo Cliente</th>
+			<th>Entrega</th>
+			<th>Cliente</th>
+			<th>Total</th>
+			<th>Pago</th>
+			<th>Estado</th>
+			<th>Fecha</th>
+			<th>PDF</th>
+			<th>Tienda</th>
+			<th>Detalle</th>
+			<th>Factura</th>
+			<th>Seguimiento</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="order in main.orders">
+            <td>{{ order.id}}</td>
+            <td>{{ order.reference }}</td>
+            <td>{{ order.newCustomer }}</td>
+			<td>{{ order.deliveryPlace }}</td>
+			<td>{{ order.customer }}</td>
+			<td>{{ order.total }}</td>
+			<td>{{ order.pay }}</td>
+			<td><span class="label label-primary">{{ order.state }}</span></td>
+			<td>{{ order.date }}</td>
+			<td> 
+				<a href="">
+					<i class="fa fa-file-pdf-o"></i>
+				</a>
+			</td>
+			<td>{{ order.store }}</td>
+			<td> 
+				<button class="btn btn-primary" ng-click="openOrders('lg')"><i class="fa fa-search"></i></button>
+			</td>
+			<td> 
+				<button class="btn btn-primary" ng-click="openInvoices('lg')"><i class="fa fa-dollar"></i></button>
+			</td>
+			<td> 
+				<button class="btn btn-primary" ng-click="openTracking('lg')"><i class="fa fa-rss"></i></button>
+			</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
