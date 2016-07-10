@@ -1,15 +1,15 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>YaEsta.com - Marcas</h2>
+        <h2>YaEsta.com - Parametros</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="index.html">Inicio</a>
             </li>
             <li>
-                <a>Marcas</a>
+                <a>Parametros</a>
             </li>
             <li class="active">
-                <strong>Listado de Marcas</strong>
+                <strong>Listado de Parametros</strong>
             </li>
         </ol>
     </div>
@@ -24,7 +24,7 @@
 <div class="col-lg-12">
 <div class="ibox float-e-margins">
 <div class="ibox-title">
-    <h5><strong>Listado de Marcas</strong></h5>
+    <h5><strong>Listado de Parametros</strong></h5>
 
     <!--<div ibox-tools></div>-->
 </div>
@@ -34,17 +34,19 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Descripcion</th>
+            <th>Nemonico</th>
+            <th>Valor</th>
 			<th>Vitex Id</th>
 			
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="brand in main.brands">
-            <td>{{ brand.id}}</td>
-            <td>{{ brand.name }}</td>
-            <td>{{ brand.description }}</td>
-			<td>{{ brand.vtextId }}</td>
+        <tr ng-repeat="pm in main.parameters">
+            <td>{{ pm.id}}</td>
+            <td>{{ pm.name }}</td>
+            <td>{{ pm.nemonic }}</td>
+            <td>{{ pm.value }}</td>
+			<td>{{ cat.vitexId }}</td>
 			
         </tr>
         </tbody>

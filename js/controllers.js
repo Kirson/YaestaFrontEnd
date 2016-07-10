@@ -5,39 +5,6 @@
      * Define controllers with data used in Inspinia theme
      *
      *
-     * Functions (controllers)
-     *  - MainCtrl
-     *  - dashboardFlotOne
-     *  - dashboardFlotTwo
-     *  - dashboardFlotFive
-     *  - dashboardMap
-     *  - flotChartCtrl
-     *  - rickshawChartCtrl
-     *  - sparklineChartCtrl
-     *  - widgetFlotChart
-     *  - modalDemoCtrl
-     *  - ionSlider
-     *  - wizardCtrl
-     *  - CalendarCtrl
-     *  - chartJsCtrl
-     *  - GoogleMaps
-     *  - ngGridCtrl
-     *  - codeEditorCtrl
-     *  - nestableCtrl
-     *  - notifyCtrl
-     *  - translateCtrl
-     *  - imageCrop
-     *  - diff
-     *  - idleTimer
-     *  - liveFavicon
-     *  - formValidation
-     *  - agileBoard
-     *  - draggablePanels
-     *  - chartistCtrl
-     *  - metricsCtrl
-     *  - sweetAlertCtrl
-     *  - selectCtrl
-     *  - toastrCtrl
      *
      *
      */
@@ -47,7 +14,7 @@
      * Contains severals global data used in diferent view
      *
      */
-    function MainCtrl() {
+    function MainCtrl($scope,restServices,$modal) {
 
         /**
          * daterange - Used as initial model for data range picker in Advanced form view
@@ -59,281 +26,98 @@
          */
         this.slideInterval = 5000;
 
+        this.parameters = restServices('parameter/getAll/').query(function(data){  
+            return data;
+        });
 
+        this.parameters.$promise.then(function(data) {
+            //  console.log(data);
+        });
+
+        this.catalogs = restServices('catalog/getMainCatalogs/').query(function(data){  
+           return data;
+        });
+
+        this.catalogs.$promise.then(function(data) {
+              //console.log(data);
+        });
+
+
+        this.sellers = restServices('supplier/getAll/').query(function(data){  
+           return data;
+        });
+
+        this.sellers.$promise.then(function(data) {
+              //console.log(data);
+        });   
+
+        this.categories = restServices('category/getAll/').query(function(data){  
+           return data;
+        });
+
+        this.categories.$promise.then(function(data) {
+              //console.log(data);
+        });  
+
+
+        this.brands = restServices('brand/getAll/').query(function(data){  
+           return data;
+        });
+
+        this.brands.$promise.then(function(data) {
+              //console.log(data);
+        });        
+
+        this.ordersVitex = restServices('vitextIntegration/getOrdersNext50').query({sequence:0},function(data){  
+           // console.log(data);
+           return data;
+        });        
         
+        $scope.openOrders = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/orderDetail.html',
+                size: size,
+                controller: ModalOrderInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
     	
-    	this.urbanoOrders = [
-    	  {
-    		  number: '000001',
-    		  order: 'EGR0014',
-    		  pickUp: '2015-06-01',
-    		  observation: 'N/A',
-    		  createDate: '2015-05-31',
-    		  supplier: 'Ya Esta',
-    		  deliveryType: 'Titular',
-    		  state: '0',
-    		  error: 'OK',
-    		  store: 'Yaesta.com'
-    	  },
-    	  {
-    		  number: '000002',
-    		  order: 'EGR0018',
-    		  pickUp: '2015-06-01',
-    		  observation: 'N/A',
-    		  createDate: '2015-05-31',
-    		  supplier: 'Carmen Borja',
-    		  deliveryType: 'Titular',
-    		  state: '0',
-    		  error: 'OK',
-    		  store: 'Yaesta.com'
-    	  },
-    	  {
-    		  number: '000003',
-    		  order: 'EGR0024',
-    		  pickUp: '2015-06-01',
-    		  observation: 'N/A',
-    		  createDate: '2015-05-31',
-    		  supplier: 'Paul Tello',
-    		  deliveryType: 'Titular',
-    		  state: '0',
-    		  error: 'OK',
-    		  store: 'Yaesta.com'
-    	  }
-    	];
-
-        this.sellers = [
-          {
-              id: '1',
-              name: 'Prov 1',
-              category: 'Ropa',
-              error: 'OK'
-          },
-          {
-              id: '2',
-              name: 'Prov 2',
-              category: 'Computacion',
-              error: 'OK'
-          }
-
-        ];
-
-        this.categories = [
-          {
-              id: '1',
-              name: 'Cat 1',
-              description: 'Ropa',
-              vtextId: '1',
-              error: 'OK'
-          },
-          {
-              id: '2',
-              name: 'Cat 2',
-              description: 'Computacion',
-              vtextId: '1',
-              error: 'OK'
-          }
-
-        ];
-
-        this.brands = [
-          {
-              id: '1',
-              name: 'Huggies',
-              description: 'Huggies',
-              vtextId: '1',
-              error: 'OK'
-          },
-          {
-              id: '2',
-              name: 'Panolini',
-              description: 'Panolini',
-              vtextId: '1',
-              error: 'OK'
-          }
-
-        ];
-    	
-    	this.orders = [
-    	  {
-    		  id: '1',
-    		  reference: 'EGR0014',
-    		  newCustomer: 'Si',
-    		  deliveryPlace: 'Ecuador',
-    		  customer: 'Pablo Aulestia',
-    		  total: '$ 145.87',
-    		  pay: 'Pago contra entrega',
-    		  state: 'Preparación en proceso',
-    		  date: '2015-05-31',
-    		  store: 'Yaesta.com',
-    		  error: 'OK'
-    	  },
-    	  {
-    		  id: '2',
-    		  reference: 'EGR0024',
-    		  newCustomer: 'No',
-    		  deliveryPlace: 'Ecuador',
-    		  customer: 'Juan Perez',
-    		  total: '$ 97.00',
-    		  pay: 'Pago diferido',
-    		  state: 'Preparación en proceso',
-    		  date: '2015-05-31',
-    		  store: 'Yaesta.com',
-    		  error: 'OK'
-    	  },
-    	  {
-    		  id: '3',
-    		  reference: 'EGR0064',
-    		  newCustomer: 'No',
-    		  deliveryPlace: 'Ecuador',
-    		  customer: 'Juan Perez',
-    		  total: '$ 185.22',
-    		  pay: 'Pago diferido',
-    		  state: 'Preparación en proceso',
-    		  date: '2015-05-31',
-    		  store: 'Yaesta.com',
-    		  error: 'OK'
-    	  }
-    	];
-    	
-
+        $scope.openInvoices = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/invoice.html',
+                size: size,
+                controller: ModalInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
         
-        /**
-         * General variables for Peity Charts
-         * used in many view so this is in Main controller
-         */
-        this.BarChart = {
-            data: [5, 3, 9, 6, 5, 9, 7, 3, 5, 2, 4, 7, 3, 2, 7, 9, 6, 4, 5, 7, 3, 2, 1, 0, 9, 5, 6, 8, 3, 2, 1],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"],
-                width: 100
-            }
+        $scope.openTracking = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/invoice.html',
+                size: size,
+                controller: ModalInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
         };
-
-        this.BarChart2 = {
-            data: [5, 3, 9, 6, 5, 9, 7, 3, 5, 2],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
-
-        this.BarChart3 = {
-            data: [5, 3, 2, -1, -3, -2, 2, 3, 5, 2],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
-
-        this.LineChart = {
-            data: [5, 9, 7, 3, 5, 2, 5, 3, 9, 6, 5, 9, 4, 7, 3, 2, 9, 8, 7, 4, 5, 1, 2, 9, 5, 4, 7],
-            options: {
-                fill: '#1ab394',
-                stroke: '#169c81',
-                width: 64
-            }
-        };
-
-        this.LineChart2 = {
-            data: [3, 2, 9, 8, 47, 4, 5, 1, 2, 9, 5, 4, 7],
-            options: {
-                fill: '#1ab394',
-                stroke: '#169c81',
-                width: 64
-            }
-        };
-
-        this.LineChart3 = {
-            data: [5, 3, 2, -1, -3, -2, 2, 3, 5, 2],
-            options: {
-                fill: '#1ab394',
-                stroke: '#169c81',
-                width: 64
-            }
-        };
-
-        this.LineChart4 = {
-            data: [5, 3, 9, 6, 5, 9, 7, 3, 5, 2],
-            options: {
-                fill: '#1ab394',
-                stroke: '#169c81',
-                width: 64
-            }
-        };
-
-        this.PieChart = {
-            data: [1, 5],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
-
-        this.PieChart2 = {
-            data: [226, 360],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
-        this.PieChart3 = {
-            data: [0.52, 1.561],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
-        this.PieChart4 = {
-            data: [1, 4],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
-        this.PieChart5 = {
-            data: [226, 134],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
-        this.PieChart6 = {
-            data: [0.52, 1.041],
-            options: {
-                fill: ["#1ab394", "#d7d7d7"]
-            }
-        };
+       
     };
 
 
 
        
 
-
-    /**
-     * modalDemoCtrl - Controller used to run modal view
-     * used in Basic form view
-     */
-    function modalDemoCtrl($scope, $modal) {
-
-    	
-    	$scope.openOrders = function (size) {
-            var modalInstance = $modal.open({
-                templateUrl: 'app/modules/orders/views/orderDetail.html',
-                size: size,
-                controller: ModalInstanceCtrl
-            });
-        };
-    	
-    	$scope.openInvoices = function (size) {
-            var modalInstance = $modal.open({
-                templateUrl: 'app/modules/orders/views/invoice.html',
-                size: size,
-                controller: ModalInstanceCtrl
-            });
-        };
-    	
-    	$scope.openTracking = function (size) {
-            var modalInstance = $modal.open({
-                templateUrl: 'app/modules/orders/views/invoice.html',
-                size: size,
-                controller: ModalInstanceCtrl
-            });
-        };
-    };
 
     function ModalInstanceCtrl ($scope, $modalInstance) {
 
@@ -349,6 +133,25 @@
 
     };
 
+
+   function ModalOrderInstanceCtrl ($scope, $modalInstance, order) {
+
+        $scope.order=order;
+
+        console.log("order");
+        console.log($scope.order);
+
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+
+
+    };
 
 
 
@@ -405,40 +208,11 @@
 
         /* Event sources array */
         $scope.eventSources = [$scope.events];
-    }
+    };
 
 
 
-    /**
-     * notifyCtrl - Controller angular notify
-     */
-    function notifyCtrl($scope, notify) {
-        $scope.msg = 'Hello! This is a sample message!';
-        $scope.demo = function () {
-            notify({
-                message: $scope.msg,
-                classes: $scope.classes,
-                templateUrl: $scope.template
-            });
-        };
-        $scope.closeAll = function () {
-            notify.closeAll();
-        };
-
-        $scope.inspiniaTemplate = 'views/common/notify.html';
-        $scope.inspiniaDemo1 = function(){
-            notify({ message: 'Info - This is a Inspinia info notification', classes: 'alert-info', templateUrl: $scope.inspiniaTemplate});
-        }
-        $scope.inspiniaDemo2 = function(){
-            notify({ message: 'Success - This is a Inspinia success notification', classes: 'alert-success', templateUrl: $scope.inspiniaTemplate});
-        }
-        $scope.inspiniaDemo3 = function(){
-            notify({ message: 'Warning - This is a Inspinia warning notification', classes: 'alert-warning', templateUrl: $scope.inspiniaTemplate});
-        }
-        $scope.inspiniaDemo4 = function(){
-            notify({ message: 'Danger - This is a Inspinia danger notification', classes: 'alert-danger', templateUrl: $scope.inspiniaTemplate});
-        }
-    }
+    
 
     /**
      * translateCtrl - Controller for translate
@@ -447,14 +221,63 @@
         $scope.changeLanguage = function (langKey) {
             $translate.use(langKey);
         };
-    }
+    };
+ 
+
+  function loginCtrl($scope,Base64,UserService,$rootScope,$http,restServices,$window,ngDialog,$location){
+    //console.log("es login");
+
+        $rootScope.loggedUser = {
+
+        };
+        
+        $scope.adminUser = restServices('activiBpm/getAdminUser/').get(function(data){  
+           return data;
+        });
+
+        console.log($scope.adminUser);
+        //$scope.username = $scope.user.username;
+        //$scope.password = $scope.user.password;
+        $rootScope.loggedin = false;
+
+        $scope.login = function () {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + Base64.encode($scope.username + ":" + $scope.password);
+
+            UserService.get({user: $scope.username}, function (data) {
+            // data = JSON.parse(data);
+
+            //console.log("====>>> data");
+            //console.log(data);
+
+            $rootScope.loggedin = true;
+            $rootScope.loggedUser = data;
+            $rootScope.username = $scope.username;
+            $rootScope.password = $scope.password;
+
+            $location.path('/modules/orders');
+            
+            },
+            function(error) {
+            // error handler
+                console.log("Error de autenticacion");
+                 
+                 $window.alert("Error de autenticacion");
+                /* ngDialog.open({
+                    template: '<p>Error de autenticacion</p>',
+                    plain: true,
+                    className: 'ngdialog-theme-default' 
+                });
+                */
+               // SweetAlert.swal("Error", "Usuario o clave incorrecta :)", "error");
+            });
+        
+      };
+
+     
+  };
 
 
-       function login ($scope){
-
-            console.log("===>> login");
        
-    }
 
 
     /**
@@ -464,8 +287,8 @@
     angular
         .module('inspinia')
         .controller('MainCtrl', MainCtrl)
-        .controller('modalDemoCtrl', modalDemoCtrl)
+        .controller('ModalOrderInstanceCtrl', ModalOrderInstanceCtrl)
         .controller('CalendarCtrl', CalendarCtrl)
     	.controller('translateCtrl', translateCtrl)
-        .controller('login', login);
+        .controller('loginCtrl', loginCtrl);
 

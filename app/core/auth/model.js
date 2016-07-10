@@ -10,6 +10,12 @@ angular.module('auth').factory('authServices', function($resource){
 	        },
 	        update: { 
 	          method:"PUT"
+	        },
+	        get: { 
+	          method:"GET"
+	        },
+	        query: { 
+	          method:"GET"
 	        }
 	      }	    
         );              		        

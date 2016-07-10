@@ -8,11 +8,12 @@
  */
 function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdleProvider, KeepaliveProvider) {
 
+
     // Configure Idle settings
     IdleProvider.idle(5); // in seconds
     IdleProvider.timeout(120); // in seconds
 
-    $urlRouterProvider.otherwise("/modules/orders");
+    $urlRouterProvider.otherwise("/auth/login");
 
     $ocLazyLoadProvider.config({
         // Set to true if you want to see what and when is dynamically loaded
@@ -146,6 +147,52 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 }
             }
         })
+        .state('modules.catalogs', {
+            url: "/catalogs",
+            templateUrl: "app/modules/catalog/views/catalogs.html",
+            data: { pageTitle: 'Catalogos' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('modules.parameters', {
+            url: "/parameters",
+            templateUrl: "app/modules/catalog/views/parameters.html",
+            data: { pageTitle: 'Parametros' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
         .state('modules.categories', {
             url: "/categories",
             templateUrl: "app/modules/catalog/views/categories.html",
@@ -221,7 +268,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 }
             }
         })
-        
+
         .state('login', {
             url: "/login",
             templateUrl: "views/login.html",
@@ -232,7 +279,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
             templateUrl: "views/forgot_password.html",
             data: { pageTitle: 'Forgot password', specialClass: 'gray-bg' }
         })
-        
+
         ;
 
 }

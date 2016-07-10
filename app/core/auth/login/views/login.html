@@ -1,5 +1,5 @@
 <div class="middle-box text-center loginscreen  animated fadeInDown">
-    <div>
+    <div ng-controller="loginCtrl">
         <div>
             <!--<h1 class="logo-name">Yaesta.com</h1>-->
             <a href=""><img alt="image" class="img-circle" src="img/yaestacom-logo.jpg"></a>
@@ -8,14 +8,14 @@
         <p>Administración
         </p>
         <p>Por favor ingrese sus datos</p>
-        <form class="m-t" role="form" action="#">
+        <form class="m-t" role="form" action="#" >
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="Usuario " required="" ng-model="user.email">
+                <input type="text" class="form-control" placeholder="Usuario " required="true" ng-model="username">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Clave" required="" ng-model="user.password">
+                <input type="password" class="form-control" placeholder="Clave" required="true" ng-model="password">
             </div>
-            <button type="submit" class="btn btn-primary block full-width m-b" ng-click="login()">Enviar 1</button>
+            <button type="submit" class="btn btn-primary block full-width m-b" ng-click="login()">Enviar</button>
 		<!--
             <a ui-sref="forgot_password"><small>Forgot password?</small></a>
             <p class="text-muted text-center"><small>Do not have an account?</small></p>

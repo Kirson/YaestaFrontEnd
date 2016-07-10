@@ -13,10 +13,12 @@
         'ngRoute',
         'ngResource',
         'ngCookies',
-        'core',
-        'auth',
-        'rest'
+        'ngDialog',
+        'core'
     ])
-})();
+})(
+
+  
+);
 
 // Other libraries are loaded dynamically in the config.js file using the library ocLazyLoad

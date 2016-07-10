@@ -2,6 +2,7 @@
 angular.module('rest').factory('restServices', function($resource){  
     var base_url = "http://localhost:8097/";
     
+    
     return function(action) {
         return $resource(base_url + action + '/:params', {params: '@_params'}
 		,{
@@ -13,6 +14,9 @@ angular.module('rest').factory('restServices', function($resource){
 	        },
 	        update: { 
 	          method:"PUT"
+	        },
+	        query: { 
+	          method:"GET",  isArray:true
 	        }
 	      }	    
         );              		        
