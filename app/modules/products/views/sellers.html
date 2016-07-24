@@ -17,7 +17,7 @@
 
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight" ng-controller="modalDemoCtrl">
+<div class="wrapper wrapper-content animated fadeInRight">
 
 
 <div class="row">
@@ -34,14 +34,14 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Categoria</th>
+            <th>Email de Contacto</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="seller in main.sellers">
-            <td>{{ seller.id}}</td>
-            <td>{{ seller.name }}</td>
-            <td>{{ seller.category }}</td>
+        <tr ng-repeat="supplier in main.suppliers">
+            <td>{{ supplier.id}}</td>
+            <td>{{ supplier.name }}</td>
+            <td>{{ supplier.contactEmail }}</td>
             
            
         </tr>

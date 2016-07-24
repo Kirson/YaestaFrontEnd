@@ -30,46 +30,66 @@
             return data;
         });
 
-        this.parameters.$promise.then(function(data) {
+        //this.parameters.$promise.then(function(data) {
             //  console.log(data);
-        });
+        //});
 
-        this.catalogs = restServices('catalog/getMainCatalogs/').query(function(data){  
+        this.catalogs = restServices('catalog/getMainCatalogs').query(function(data){  
            return data;
         });
 
-        this.catalogs.$promise.then(function(data) {
+        //this.catalogs.$promise.then(function(data) {
               //console.log(data);
-        });
+        //});
 
 
-        this.sellers = restServices('supplier/getAll/').query(function(data){  
+        this.suppliers = restServices('supplier/getAll/').query(function(data){  
            return data;
         });
 
-        this.sellers.$promise.then(function(data) {
+        //this.suppliers.$promise.then(function(data) {
               //console.log(data);
-        });   
+        //});   
 
-        this.categories = restServices('category/getAll/').query(function(data){  
+        this.categories = restServices('category/getAll').query(function(data){  
            return data;
         });
 
-        this.categories.$promise.then(function(data) {
+        //this.categories.$promise.then(function(data) {
               //console.log(data);
-        });  
+        //});  
 
 
-        this.brands = restServices('brand/getAll/').query(function(data){  
+        this.brands = restServices('brand/getAll').query(function(data){  
            return data;
         });
 
-        this.brands.$promise.then(function(data) {
+        //this.brands.$promise.then(function(data) {
               //console.log(data);
-        });        
+        //});        
 
+        /*
         this.ordersVitex = restServices('vitextIntegration/getOrdersNext50').query({sequence:0},function(data){  
-           // console.log(data);
+           return data;
+        });
+        */  
+        
+        this.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
+           //console.log(data);
+           return data;
+        });      
+
+        var urlServiceCatalogOrderStatusIntegration = 'catalog/getSubCatalogs'+'ORDER_STATUS_INTEGRATION';
+
+        this.orderStatusIntegrationList = restServices(urlServiceCatalogOrderStatusIntegration ).query(function(data){  
+           console.log(data);
+           return data;
+        }); 
+        
+        var urlServiceCatalogOrderStatusVtex = 'catalog/getSubCatalogs'+'ORDER_STATUS_VTEX';
+
+        this.orderStatusVtexList = restServices(urlServiceCatalogOrderStatusVtex).query(function(data){  
+           console.log(data);
            return data;
         });        
         
@@ -134,12 +154,41 @@
     };
 
 
-   function ModalOrderInstanceCtrl ($scope, $modalInstance, order) {
+   function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices) {
 
         $scope.order=order;
+        $scope.showApprovedCancel=true;
+        
 
         console.log("order");
         console.log($scope.order);
+
+        var urlService = 'vitextIntegration/getOrderComplete'+$scope.order.orderId;
+
+        $scope.orderComplete =  restServices(urlService).get(function(data){  
+           return data;
+        });
+
+        //$scope.orderComplete = $scope.orderComplete.promise.then(data);
+
+        //$scope.orderComplete.totalPrice = $scope.order.totalValue;
+
+        console.log("orderComplete");
+        console.log($scope.orderComplete);
+
+        if($scope.orderComplete.status!="canceled" && $scope.orderComplete.status!="invoiced"){
+            $scope.showApprovedCancel=true;
+        }else{
+            $scope.showApprovedCancel=false;
+        }
+
+        if($scope.orderComplete.appStatus=="approved"){
+            $scope.showGeneratedGuide=true;
+            $scope.showApprovedCancel=false;
+        }else{
+            $scope.showGeneratedGuide=false;
+        }
+
 
         $scope.ok = function () {
             $modalInstance.close();
@@ -149,7 +198,58 @@
             $modalInstance.dismiss('cancel');
         };
 
+        $scope.aproveOrder = function (vorderComplete) {
+            //$modalInstance.close();
 
+            urlService = 'vitextIntegration/changeStatus';
+
+            console.log("===++===");
+            console.log(vorderComplete);
+            vorderComplete.appStatus = "approved";
+
+            $scope.orderCompleteUpd =  restServices(urlService).save({order:vorderComplete,action:"approved"},function(data){  
+                return data;
+            });
+
+            $scope.showGeneratedGuide=true;
+            $scope.showApprovedCancel=false;
+
+            alert('La orden ha sido aprobada!');
+        };
+
+        $scope.cancelOrder = function (vorderComplete) {
+            //$modalInstance.close();
+
+            urlService = 'vitextIntegration/changeStatus';
+
+            console.log("===++===");
+            console.log(vorderComplete);
+            vorderComplete.appStatus = "cancel";
+
+            $scope.orderCompleteUpd =  restServices(urlService).save({order:vorderComplete,action:"cancel"},function(data){  
+                return data;
+            });
+
+            alert('La orden ha sido cancelada!');
+        };
+
+        /*
+        $scope.$watch('showApprovedCancel', function() {
+            alert('hey, showApprovedCancel has changed!');
+        });
+        */
+
+        $scope.generateGuide = function(vorderComplete){
+            
+            urlService = 'vitextIntegration/generateGuide';
+
+            $scope.orderCompleteUpd =  restServices(urlService).save({orderComplete:vorderComplete,supplierDeliveryInfoList:vorderComplete.supplierDeliveryInfoList},function(data){  
+                return data;
+            });
+
+            alert('La guia ha sido generada!');
+
+        }
 
     };
 
@@ -224,7 +324,7 @@
     };
  
 
-  function loginCtrl($scope,Base64,UserService,$rootScope,$http,restServices,$window,ngDialog,$location){
+  function loginCtrl($scope,Base64,UserService,$rootScope,$http,restServices,$window,ngDialog,$location,SweetAlert){
     //console.log("es login");
 
         $rootScope.loggedUser = {
@@ -261,14 +361,14 @@
             // error handler
                 console.log("Error de autenticacion");
                  
-                 $window.alert("Error de autenticacion");
+                 //$window.alert("Error de autenticacion");
                 /* ngDialog.open({
                     template: '<p>Error de autenticacion</p>',
                     plain: true,
                     className: 'ngdialog-theme-default' 
                 });
                 */
-               // SweetAlert.swal("Error", "Usuario o clave incorrecta :)", "error");
+                SweetAlert.swal("Error", "Usuario o clave incorrecta :)", "error");
             });
         
       };

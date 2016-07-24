@@ -14,7 +14,8 @@
         'ngResource',
         'ngCookies',
         'ngDialog',
-        'core'
+        'core',
+        'oitozero.ngSweetAlert'
     ])
 })(
 

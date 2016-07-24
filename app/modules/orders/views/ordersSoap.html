@@ -35,36 +35,32 @@
             <tr>
                 <th>ID</th>
                 <th>Cliente</th>
-                <th>Estado</th>
+                <th>Ciudad</th>
     			<th>Total</th>
     			<th>Fecha</th>
     			<th>Tienda</th>
     			<th>Detalle</th>
-                <!--
     			<th>Factura</th>
     			<th>Seguimiento</th>
-                -->
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="order in main.orderSchema.list">
-                <td>{{ order.orderId}}</td>
-                <td>{{ order.clientName }}</td>
-                <td>{{ order.statusDescription }}</td>
-                <td align="right">{{ order.totalValue | number:2 }}</td>
-    			<td>{{ order.creationDate | date:'yyyy-MM-dd HH:mm'}}</td>
-    			<td>{{ order.origin }}</td>
+            <tr ng-repeat="order in main.ordersVitex">
+                <td>{{ order.id}}</td>
+                <td>{{ order.customerName }}</td>
+                <td>{{ order.city }}</td>
+                <td>{{ order.cost }}</td>
+    			<td>{{ order.purchaseDate }}</td>
+    			<td>{{ order.store }}</td>
     			<td> 
     				<button class="btn btn-primary" ng-click="openOrders('lg',order)"><i class="fa fa-search"></i></button>
     			</td>
-                <!--
     			<td> 
     				<button class="btn btn-primary" ng-click="openInvoices('lg',order)"><i class="fa fa-dollar"></i></button>
     			</td>
     			<td> 
     				<button class="btn btn-primary" ng-click="openTracking('lg',order)"><i class="fa fa-rss"></i></button>
     			</td>
-                -->
             </tr>
             </tbody>
         </table>
