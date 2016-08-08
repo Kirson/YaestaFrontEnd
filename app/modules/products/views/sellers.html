@@ -33,8 +33,9 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Razon Social Proveedor</th>
             <th>Email de Contacto</th>
+            <th>Editar</th>
         </tr>
         </thead>
         <tbody>
@@ -42,7 +43,9 @@
             <td>{{ supplier.id}}</td>
             <td>{{ supplier.name }}</td>
             <td>{{ supplier.contactEmail }}</td>
-            
+            <td>
+                <button class="btn btn-primary" ng-click="openSupplier('lg',supplier)"><i class="fa fa-search"></i></button>
+            </td>
            
         </tr>
         </tbody>

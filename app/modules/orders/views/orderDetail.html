@@ -94,12 +94,13 @@
                                         <button type="button" class="btn btn-primary" ng-click="aproveOrder(orderComplete)">Aprobar</button>
                                     </div>
                                 </div>
+                                <!--
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary" ng-click="cancelOrder(orderComplete)">Cancelar</button>
                                     </div>
                                 </div>
-
+                                -->
                             </div>
                         </div>
                     </div>
@@ -119,6 +120,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="customerAditionalInfo">Informacion de  Referencia Cliente</label>
+                                        <input type="text" id="customerAditionalInfo" name="customerAditionalInfo" ng-model="customerAditionalInfo" placeholder="Informacion de Referencia Cliente" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
                                     <table datatable="ng2" class="table table-striped table-bordered table-hover dataTables-example">
                                         <thead>
                                             <tr>
@@ -133,13 +142,14 @@
                                                 <td>{{ supplierInfo.supplier.id}}-{{ supplierInfo.supplier.name}}</td>
                                                 <td>{{ supplierInfo.supplier.shippingAddress }}</td>
                                                 <td><input type="text"  placeholder="Paquetes" class="form-control" value="{{supplierInfo.packages}}"></td>
-                                                <td><input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.deliveryDate}}"></td>
+                                                <td><input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.deliveryDate | date:'yyyy-MM-dd'}}"></td>
                                                 
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                            
                             <div class="row">
                                 <div class="col-sm-10">
                                     

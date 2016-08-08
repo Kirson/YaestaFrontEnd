@@ -14,7 +14,7 @@
      * Contains severals global data used in diferent view
      *
      */
-    function MainCtrl($scope,restServices,$modal) {
+    function MainCtrl($scope,restServices,$modal, $timeout) {
 
         /**
          * daterange - Used as initial model for data range picker in Advanced form view
@@ -64,6 +64,10 @@
            return data;
         });
 
+        this.clients = restServices('client/getAll').query(function(data){  
+           return data;
+        });
+
         //this.brands.$promise.then(function(data) {
               //console.log(data);
         //});        
@@ -74,8 +78,9 @@
         });
         */  
         
-        this.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
-           //console.log(data);
+        $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
+           console.log("00000000000");
+           console.log(data);
            return data;
         });      
 
@@ -108,9 +113,23 @@
     	
         $scope.openInvoices = function (size,order) {
             var modalInstance = $modal.open({
-                templateUrl: 'app/modules/orders/views/invoice.html',
+                templateUrl: 'app/modules/orders/views/invoiceDetail.html',
                 size: size,
-                controller: ModalInstanceCtrl,
+                controller: ModalInvoiceInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+
+        $scope.openCreditNote = function (size,order) {
+            console.log("Ingresa");
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/creditNote.html',
+                size: size,
+                controller: ModalCreditNoteInstanceCtrl,
                 resolve: {
                     order: function () {
                         return order;
@@ -130,6 +149,41 @@
                     }
                 }
             });
+        };
+
+        $scope.openSupplier = function (size,supplier) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/products/views/seller-edit.html',
+                size: size,
+                controller: sellerUpdateCtrl,
+                resolve: {
+                    supplier: function () {
+                        return supplier;
+                    }
+                }
+            });
+        };
+
+        $scope.refresh = function(){
+            
+            //console.log("00000000001");
+            $scope.orderSchema = {};
+            //console.log("00000000002");
+
+            $timeout(function() {
+            //     console.log("00000000004");
+                $scope.orderSchema = {};
+                $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
+              //      console.log("00000000004");
+              //      console.log(data);
+                    return data;
+                }); 
+               
+                $scope.$apply();
+            }, 1000);
+            
+            //console.log("00000000005");
+      
         };
        
     };
@@ -154,11 +208,11 @@
     };
 
 
-   function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices) {
+   function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert) {
 
         $scope.order=order;
         $scope.showApprovedCancel=true;
-        
+        $scope.customerAditionalInfo="";
 
         console.log("order");
         console.log($scope.order);
@@ -169,10 +223,7 @@
            return data;
         });
 
-        //$scope.orderComplete = $scope.orderComplete.promise.then(data);
-
-        //$scope.orderComplete.totalPrice = $scope.order.totalValue;
-
+        
         console.log("orderComplete");
         console.log($scope.orderComplete);
 
@@ -211,10 +262,12 @@
                 return data;
             });
 
-            $scope.showGeneratedGuide=true;
-            $scope.showApprovedCancel=false;
+            console.log("===**===");
+            console.log($scope.orderCompleteUpd );
 
-            alert('La orden ha sido aprobada!');
+              SweetAlert.swal("Info", "La orden ha sido actualizada :)", "info");
+              $scope.showGeneratedGuide=true;
+              $scope.showApprovedCancel=false;
         };
 
         $scope.cancelOrder = function (vorderComplete) {
@@ -233,23 +286,178 @@
             alert('La orden ha sido cancelada!');
         };
 
-        /*
-        $scope.$watch('showApprovedCancel', function() {
-            alert('hey, showApprovedCancel has changed!');
-        });
-        */
+        
 
         $scope.generateGuide = function(vorderComplete){
             
             urlService = 'vitextIntegration/generateGuide';
 
-            $scope.orderCompleteUpd =  restServices(urlService).save({orderComplete:vorderComplete,supplierDeliveryInfoList:vorderComplete.supplierDeliveryInfoList},function(data){  
+            $scope.guideInfoBean =  restServices(urlService).save({orderComplete:vorderComplete,supplierDeliveryInfoList:vorderComplete.supplierDeliveryInfoList,customerAdditionalInfo:$scope.customerAditionalInfo},function(data){  
                 return data;
             });
 
-            alert('La guia ha sido generada!');
+            
+            var vmensaje = "La guias han sido generadas :)";
+            console.log("Respuesta de generar guias")
+            console.log($scope.guideInfoBean);
+            console.log($scope.guideInfoBean.$promise);
+
+            if($scope.guideInfoBean.error=="OK"){
+              SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
+            }else{
+                SweetAlert.swal("Error", "Problema al generar guias orden:)", "error");
+            }
 
         }
+
+    };
+
+
+    function ModalInvoiceInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert) {
+
+        $scope.order=order;
+        $scope.showInvoice=true;
+        $scope.showCreditNote=true;
+        $scope.motive="";
+        $scope.invoiceNumber="";
+        $scope.invoiceDate="";
+
+        console.log("order");
+        console.log($scope.order);
+
+        var urlService = 'vitextIntegration/getOrderComplete'+$scope.order.orderId;
+
+        $scope.orderComplete =  restServices(urlService).get(function(data){  
+           return data;
+        });
+
+        
+        console.log("orderComplete");
+        console.log($scope.orderComplete);
+
+        if($scope.orderComplete.status!="canceled" && $scope.orderComplete.status!="invoiced"){
+            $scope.showApprovedCancel=true;
+        }else{
+            $scope.showApprovedCancel=false;
+        }
+
+        if($scope.orderComplete.appStatus=="approved"){
+            $scope.showGeneratedGuide=true;
+            $scope.showApprovedCancel=false;
+        }else{
+            $scope.showGeneratedGuide=false;
+        }
+
+
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        $scope.invoiceOrder = function (vorderComplete) {
+            //$modalInstance.close();
+
+            urlService = 'vitextIntegration/invoiceOrder';
+
+            console.log("===++===");
+            console.log(vorderComplete);
+            vorderComplete.appStatus = "approved";
+
+            $scope.invoice =  restServices(urlService).save({order:vorderComplete,action:"invoice"},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.invoice);
+
+            
+            SweetAlert.swal("Info", "La orden ha sido facturada:)", "info");
+            $scope.showGeneratedGuide=true;
+            $scope.showApprovedCancel=false;
+            
+        };
+
+        $scope.creditNoteOrder = function (vorderComplete) {
+            //$modalInstance.close();
+
+            urlService = 'vitextIntegration/creditNoteOrder';
+
+            console.log("===++===");
+            console.log(vorderComplete);
+            vorderComplete.appStatus = "approved";
+
+            $scope.creditNote =  restServices(urlService).save({orderComplete:vorderComplete,motive:$scope.motive,invoiceNumber:$scope.invoiceNumber,invoiceDate:$scope.invoiceDate},function(data){  
+                return data;
+            });
+
+            console.log("===*CN*===");
+            console.log($scope.creditNote);
+
+            
+            SweetAlert.swal("Info", "La nota de credito para la orden ha sido generada:)", "info");
+            
+        };
+
+
+        
+
+    };
+
+    function ModalCreditNoteInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert) {
+
+        $scope.order=order;
+        $scope.showCreditNote=true;
+        
+
+        console.log("order");
+        console.log($scope.order);
+
+        var urlService = 'vitextIntegration/getOrderComplete'+$scope.order.orderId;
+
+        $scope.orderComplete =  restServices(urlService).get(function(data){  
+           return data;
+        });
+
+        
+        console.log("orderComplete");
+        console.log($scope.orderComplete);
+
+        
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        $scope.creditNoteOrder = function (vorderComplete) {
+            //$modalInstance.close();
+
+            urlService = 'vitextIntegration/creditNoteOrder';
+
+            console.log("===++===");
+            console.log(vorderComplete);
+            vorderComplete.appStatus = "approved";
+
+            $scope.invoice =  restServices(urlService).save({order:vorderComplete,action:"invoice"},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.invoice);
+
+            
+            SweetAlert.swal("Info", "La orden ha sido facturada:)", "info");
+            $scope.showGeneratedGuide=true;
+            $scope.showApprovedCancel=false;
+            
+        };
+
+        
 
     };
 
@@ -376,6 +584,61 @@
      
   };
 
+  function sellerCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+
+        $scope.seller = {};
+        $scope.seller.name = "";
+        $scope.seller.contactEmail = "";
+        $scope.seller.contactName = "";
+        $scope.seller.contactLastName = "";
+        $scope.seller.address = "";
+        $scope.seller.postalCode = "";
+        $scope.seller.ruc = "";
+        $scope.seller.phone = "";
+
+         var urlService = 'supplier/create';
+
+        $scope.saveSeller = function () {
+           $scope.supplier =  restServices(urlService).save({supplier:$scope.seller},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.supplier);
+
+            
+            SweetAlert.swal("Info", "El proveedor ha sido guardado)", "info");
+        };
+  };
+
+
+  function sellerUpdateCtrl($scope,$rootScope,$http,restServices,supplier,$modalInstance, SweetAlert){
+
+        $scope.seller = supplier;
+
+        var urlService = 'supplier/update';
+        
+        $scope.updateSeller = function (vsupplier) {
+           $scope.supplier =  restServices(urlService).save({supplier:vsupplier},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.supplier);
+
+            
+            SweetAlert.swal("Info", "El proveedor ha sido guardado)", "info");
+        };
+
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+  };
+
 
        
 
@@ -388,6 +651,9 @@
         .module('inspinia')
         .controller('MainCtrl', MainCtrl)
         .controller('ModalOrderInstanceCtrl', ModalOrderInstanceCtrl)
+        .controller('ModalInvoiceInstanceCtrl', ModalInvoiceInstanceCtrl)
+        .controller('ModalCreditNoteInstanceCtrl', ModalCreditNoteInstanceCtrl)
+        .controller('sellerCreateCtrl', sellerCreateCtrl)
         .controller('CalendarCtrl', CalendarCtrl)
     	.controller('translateCtrl', translateCtrl)
         .controller('loginCtrl', loginCtrl);

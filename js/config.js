@@ -147,6 +147,52 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 }
             }
         })
+        .state('modules.sellerCreate', {
+            url: "/sellerCreate",
+            templateUrl: "app/modules/products/views/seller-create.html",
+            data: { pageTitle: 'Proveedores' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('modules.sellerUpdate', {
+            url: "/sellerUpdate",
+            templateUrl: "app/modules/products/views/seller-edit.html",
+            data: { pageTitle: 'Proveedores' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
         .state('modules.catalogs', {
             url: "/catalogs",
             templateUrl: "app/modules/catalog/views/catalogs.html",
@@ -220,6 +266,29 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
             url: "/brands",
             templateUrl: "app/modules/catalog/views/brands.html",
             data: { pageTitle: 'Marcas' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('modules.customers', {
+            url: "/customers",
+            templateUrl: "app/modules/customers/views/customers.html",
+            data: { pageTitle: 'Clientes' },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
                     return $ocLazyLoad.load([
