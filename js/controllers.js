@@ -81,9 +81,18 @@
         $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
            console.log("00000000000");
            console.log(data);
+           $scope.$broadcast('scroll.refreshComplete');
            return data;
-        });      
-
+        });
+           
+       /*
+        $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get().$promise.then(function (result) {
+                console.log('EL RESULTADO ', result);
+                $scope.orderSchema = result.resource;
+                $scope.$broadcast('scroll.refreshComplete');
+                return $scope.orderSchema;
+            });    
+        */
         var urlServiceCatalogOrderStatusIntegration = 'catalog/getSubCatalogs'+'ORDER_STATUS_INTEGRATION';
 
         this.orderStatusIntegrationList = restServices(urlServiceCatalogOrderStatusIntegration ).query(function(data){  
@@ -208,11 +217,27 @@
     };
 
 
-   function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert) {
+   function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert,DTOptionsBuilder, DTColumnDefBuilder) {
 
         $scope.order=order;
         $scope.showApprovedCancel=true;
         $scope.customerAditionalInfo="";
+        $scope.dtInstance1 = {};
+        $scope.dtInstance2 = {};
+        $scope.dtOptions = DTOptionsBuilder.newOptions();
+        $scope.dtColumnDefs1 = [
+            DTColumnDefBuilder.newColumnDef(0),
+            DTColumnDefBuilder.newColumnDef(1),
+            DTColumnDefBuilder.newColumnDef(2),
+            DTColumnDefBuilder.newColumnDef(3),
+            DTColumnDefBuilder.newColumnDef(4)
+        ];
+        $scope.dtColumnDefs2 = [
+            DTColumnDefBuilder.newColumnDef(0),
+            DTColumnDefBuilder.newColumnDef(1),
+            DTColumnDefBuilder.newColumnDef(2),
+            DTColumnDefBuilder.newColumnDef(3)
+        ];
 
         console.log("order");
         console.log($scope.order);
@@ -220,6 +245,7 @@
         var urlService = 'vitextIntegration/getOrderComplete'+$scope.order.orderId;
 
         $scope.orderComplete =  restServices(urlService).get(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
            return data;
         });
 

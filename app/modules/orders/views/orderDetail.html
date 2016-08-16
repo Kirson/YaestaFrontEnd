@@ -58,7 +58,9 @@
                         
                         
                                 <div class="panel-body">
-                                    <table datatable="ng" class="table table-striped table-bordered table-hover dataTables-example">
+                                    <table datatable="" dt-options="dtOptions" 
+                                           dt-column-defs="dtColumnDefs1"
+                                           class="table table-striped table-bordered table-hover dataTables-example">
                                         <thead>
                                             <tr>
                                                 <th>Id Producto</th>
@@ -128,7 +130,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table datatable="ng2" class="table table-striped table-bordered table-hover dataTables-example">
+                                    <table datatable="" dt-options="dtOptions"  
+                                           dt-column-defs="dtColumnDefs2"
+                                           class="table table-striped table-bordered table-hover dataTables-example">
                                         <thead>
                                             <tr>
                                                 <th>Proveedor</th>
@@ -142,7 +146,7 @@
                                                 <td>{{ supplierInfo.supplier.id}}-{{ supplierInfo.supplier.name}}</td>
                                                 <td>{{ supplierInfo.supplier.shippingAddress }}</td>
                                                 <td><input type="text"  placeholder="Paquetes" class="form-control" value="{{supplierInfo.packages}}"></td>
-                                                <td><input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.deliveryDate | date:'yyyy-MM-dd'}}"></td>
+                                                <td><input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.strDeliveryDate}}"></td>
                                                 
                                             </tr>
                                         </tbody>
