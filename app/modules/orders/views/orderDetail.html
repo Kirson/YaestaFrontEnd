@@ -58,9 +58,7 @@
                         
                         
                                 <div class="panel-body">
-                                    <table datatable="" dt-options="dtOptions" 
-                                           dt-column-defs="dtColumnDefs1"
-                                           class="table table-striped table-bordered table-hover dataTables-example">
+                                    <table class="footable table table-stripped">
                                         <thead>
                                             <tr>
                                                 <th>Id Producto</th>
@@ -93,16 +91,10 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" ng-click="aproveOrder(orderComplete)">Aprobar</button>
+                                        <button type="button" class="btn btn-primary" ng-click="aproveOrder(orderComplete)">Mostrar Detalle</button>
                                     </div>
                                 </div>
-                                <!--
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-primary" ng-click="cancelOrder(orderComplete)">Cancelar</button>
-                                    </div>
-                                </div>
-                                -->
+                                
                             </div>
                         </div>
                     </div>
@@ -114,7 +106,7 @@
                                 <div class="col-sm-10">
                                     <p>Recibe: {{orderComplete.shippingData.address.receiverName}}</p>
                                     <p>Ciudad: {{orderComplete.shippingData.address.city}}</p>
-                                    <p>Direccion: {{orderComplete.shippingData.address.street}} {{orderComplete.shippingData.address.number}} {{orderComplete.shippingData.address.complement}}</p>
+                                    <p>Direcci&oacute;n: {{orderComplete.shippingData.address.street}} {{orderComplete.shippingData.address.number}} {{orderComplete.shippingData.address.complement}}</p>
                                 </div>
                                 <div class="col-sm-2">
                                 
@@ -123,27 +115,25 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="control-label" for="customerAditionalInfo">Informacion de  Referencia Cliente</label>
+                                        <label class="control-label" for="customerAditionalInfo">Informaci&oacute;n de  Referencia Cliente</label>
                                         <input type="text" id="customerAditionalInfo" name="customerAditionalInfo" ng-model="customerAditionalInfo" placeholder="Informacion de Referencia Cliente" class="form-control" >
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table datatable="" dt-options="dtOptions"  
-                                           dt-column-defs="dtColumnDefs2"
-                                           class="table table-striped table-bordered table-hover dataTables-example">
+                                    <table class="footable table table-stripped">
                                         <thead>
                                             <tr>
                                                 <th>Proveedor</th>
-                                                <th>Direccion</th>
+                                                <th>Direcci&oacute;n</th>
                                                 <th>Paquetes</th>
                                                 <th>Fecha de Despacho</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="supplierInfo in orderComplete.supplierDeliveryInfoList">
-                                                <td>{{ supplierInfo.supplier.id}}-{{ supplierInfo.supplier.name}}</td>
+                                                <td>{{ supplierInfo.supplier.id}}-{{ supplierInfo.supplier.name}} -{{ supplierInfo.supplier.zone.codigo}}</td>
                                                 <td>{{ supplierInfo.supplier.shippingAddress }}</td>
                                                 <td><input type="text"  placeholder="Paquetes" class="form-control" value="{{supplierInfo.packages}}"></td>
                                                 <td><input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.strDeliveryDate}}"></td>
@@ -160,7 +150,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" ng-click="generateGuide(orderComplete)">Generar Guias</button>
+                                        <button type="button" class="btn btn-primary" ng-click="generateGuide(orderComplete)">Generar Gu&iacute;as</button>
                                     </div>
                                 </div>
 
@@ -177,9 +167,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">Cerrar</button>
-		<!--
-			<button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
-		-->
+		
     </div>
 
 </div>

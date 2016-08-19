@@ -33,9 +33,14 @@
             <button class="btn btn-primary" ng-click="refresh()">
                 <i class="fa fa-search">Refrescar</i>
             </button>
+             <button class="btn btn-primary" ng-click="exportAction('excel');">
+                <i class="fa fa-file">Exportar Tabla</i>
+            </button>
         </div>
-        <div>
-        <table datatable="ng" class="table table-striped table-bordered table-hover dataTables-example">
+        <div class="ibox-content">
+                    <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                           placeholder="Buscar en tabla">
+        <table  id="orderTable" class="footable table table-stripped exportTable export-excel" data-page-size="20" data-filter=#filter>
             <thead>
             <tr>
                 <th>ID</th>
@@ -45,10 +50,7 @@
     			<th>Fecha</th>
     			<th>Tienda</th>
     			<th>Detalles</th>
-                <th>Factura / Nota de Credito</th>
-                <!--
-    			<th>Nota de Credito</th>
-                -->
+                <th>Factura / Nota de Cr&eacute;dito</th>
             </tr>
             </thead>
             <tbody>
@@ -66,15 +68,19 @@
     			<td> 
     				<button class="btn btn-primary" ng-click="openInvoices('lg',order)"><i class="fa fa-dollar"></i></button>
     			</td>
-                <!--
-    			<td> 
-                   <button class="btn btn-primary" ng-click="openInvoices('lg',order)"><i class="fa fa-dollar"></i></button>
-    				<button class="btn btn-primary" ng-click="openCreditNote('lg',order)"><i class="fa fa-rss"></i></button>
-    			</td>
-                -->
             </tr>
             </tbody>
+            <tfoot>
+                        <tr>
+                            <td colspan="8">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+            </tfoot>
         </table>
+        </div>
+        <div class="row">
+           
         </div>
 
          

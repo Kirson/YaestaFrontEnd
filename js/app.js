@@ -15,7 +15,8 @@
         'ngCookies',
         'ngDialog',
         'core',
-        'oitozero.ngSweetAlert'
+        'oitozero.ngSweetAlert',
+        'ExportTableDirectives'
     ])
 })(
 

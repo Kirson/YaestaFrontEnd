@@ -68,15 +68,10 @@
            return data;
         });
 
-        //this.brands.$promise.then(function(data) {
-              //console.log(data);
-        //});        
-
-        /*
-        this.ordersVitex = restServices('vitextIntegration/getOrdersNext50').query({sequence:0},function(data){  
+        this.sequences = restServices('sequence/getAll').query(function(data){  
            return data;
-        });
-        */  
+        });      
+
         
         $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
            console.log("00000000000");
@@ -84,15 +79,12 @@
            $scope.$broadcast('scroll.refreshComplete');
            return data;
         });
+
+        $scope.orderItemList = restServices('order/getAllItems').query(function(data){  
+           return data;
+        });
            
-       /*
-        $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get().$promise.then(function (result) {
-                console.log('EL RESULTADO ', result);
-                $scope.orderSchema = result.resource;
-                $scope.$broadcast('scroll.refreshComplete');
-                return $scope.orderSchema;
-            });    
-        */
+       
         var urlServiceCatalogOrderStatusIntegration = 'catalog/getSubCatalogs'+'ORDER_STATUS_INTEGRATION';
 
         this.orderStatusIntegrationList = restServices(urlServiceCatalogOrderStatusIntegration ).query(function(data){  
@@ -173,6 +165,19 @@
             });
         };
 
+        $scope.openSequence = function (size,seq) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/catalog/views/sequence-edit.html',
+                size: size,
+                controller: sequenceUpdateCtrl,
+                resolve: {
+                    seq: function () {
+                        return seq;
+                    }
+                }
+            });
+        };
+
         $scope.refresh = function(){
             
             //console.log("00000000001");
@@ -193,6 +198,21 @@
             
             //console.log("00000000005");
       
+        };
+
+        $scope.exportAction = function(action){ 
+            $scope.export_action=action;
+            console.log("action");
+            console.log( $scope.export_action);
+            switch($scope.export_action){ 
+                case 'pdf': $scope.$broadcast('export-pdf', {}); 
+                      break; 
+                case 'excel': $scope.$broadcast('export-excel', {fileName:'ordenes.xls'}); 
+                      break; 
+                case 'doc': $scope.$broadcast('export-doc', {});
+                      break; 
+                default: console.log('no event caught'); 
+            }
         };
        
     };
@@ -398,6 +418,15 @@
 
             console.log("===**===");
             console.log($scope.invoice);
+
+            urlService = 'vitextIntegration/invoiceOrderVtex';
+
+            $scope.invoiceVtex =  restServices(urlService).save({order:vorderComplete,action:"invoice"},function(data){  
+                return data;
+            });
+
+            onsole.log("===**===");
+            console.log($scope.invoiceVtex);
 
             
             SweetAlert.swal("Info", "La orden ha sido facturada:)", "info");
@@ -622,10 +651,85 @@
         $scope.seller.ruc = "";
         $scope.seller.phone = "";
 
+        $scope.contactSelected  = {};
+        $scope.sellerContacts = [];
+        
+        $scope.newContact  = {
+            id: -1,
+            name: "",
+            phone: "",
+            email: ""
+        };
+
+        $scope.removeContactList = [];
+
+        $scope.showAddContact = false;
+
+        $scope.getTemplate = function (contact) {
+            if (contact.id === $scope.contactSelected.id) return 'edit';
+            else return 'display';
+        };
+
+        $scope.editContact = function (contact) {
+            $scope.contactSelected = angular.copy(contact);
+        };
+
+        $scope.saveContact = function (idx) {
+            console.log("Saving contact");
+            $scope.sellerContacts[idx] = angular.copy($scope.contactSelected);
+            $scope.reset();
+        };
+
+        $scope.reset = function () {
+            $scope.contactSelected = {};
+            $scope.newContact  = {
+                id: -1,
+                name: "",
+                phone: "",
+                email: ""
+            };
+        };
+
+        $scope.addContact = function () {
+            $scope.showAddContact = true;
+        };
+
+        $scope.addNewContact = function () {
+            $scope.sellerContacts.push($scope.newContact);
+            $scope.showAddContact = false;
+            $scope.reset();
+            $scope.getTemplate($scope.newContact);
+        };
+
+
+        $scope.cancelNewContact = function () {
+            $scope.showAddContact = false;
+            $scope.reset();
+            $scope.getTemplate($scope.newContact);
+        };
+
+        $scope.removeContact = function (idx) {
+            console.log("Ingresa a remover");
+            console.log(idx);
+            $scope.contactSelected = angular.copy($scope.sellerContacts[idx]);
+            $scope.sellerContacts.splice(idx, 1);
+            $scope.removeContactList.push($scope.contactSelected);
+            $scope.showAddContact = false;
+           
+            $timeout(function() {
+                $scope.reset();
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$apply();
+            }, 1000);
+
+            
+            $scope.getTemplate($scope.newContact);
+        };
+
          var urlService = 'supplier/create';
 
         $scope.saveSeller = function () {
-           $scope.supplier =  restServices(urlService).save({supplier:$scope.seller},function(data){  
+           $scope.supplier =  restServices(urlService).save({supplier:$scope.seller,contactList:$scope.sellerContacts},function(data){  
                 return data;
             });
 
@@ -638,14 +742,103 @@
   };
 
 
-  function sellerUpdateCtrl($scope,$rootScope,$http,restServices,supplier,$modalInstance, SweetAlert){
+  function sellerUpdateCtrl($scope,$rootScope,$http,restServices,supplier,$modalInstance, SweetAlert,$timeout){
+
+        $scope.contactSelected  = {};
+        $scope.sellerContacts = [];
+        
+        $scope.newContact  = {
+            id: -1,
+            name: "",
+            phone: "",
+            email: ""
+        };
+
+        $scope.removeContactList = [];
+
+        $scope.showAddContact = false;
 
         $scope.seller = supplier;
 
-        var urlService = 'supplier/update';
+        var urlService = 'supplier/getContacts'+$scope.seller.id;
+
+        $scope.sellerContacts = restServices(urlService).query(function(data){  
+           return data;
+        });
+
+        console.log($scope.sellerContacts);
+
+        // gets the template to ng-include for a table row / item
+        $scope.getTemplate = function (contact) {
+            if (contact.id === $scope.contactSelected.id) return 'edit';
+            else return 'display';
+        };
+
+        $scope.editContact = function (contact) {
+            $scope.contactSelected = angular.copy(contact);
+        };
+
+        $scope.saveContact = function (idx) {
+            console.log("Saving contact");
+            $scope.sellerContacts[idx] = angular.copy($scope.contactSelected);
+            $scope.reset();
+        };
+
+        $scope.reset = function () {
+            $scope.contactSelected = {};
+            $scope.newContact  = {
+                id: -1,
+                name: "",
+                phone: "",
+                email: ""
+            };
+        };
+
+        $scope.addContact = function () {
+            $scope.showAddContact = true;
+        };
+
+        $scope.addNewContact = function () {
+            $scope.sellerContacts.push($scope.newContact);
+            $scope.showAddContact = false;
+            $scope.reset();
+            $scope.getTemplate($scope.newContact);
+        };
+
+
+        $scope.cancelNewContact = function () {
+            $scope.showAddContact = false;
+            $scope.reset();
+            $scope.getTemplate($scope.newContact);
+        };
+
+        $scope.removeContact = function (idx) {
+            console.log("Ingresa a remover");
+            console.log(idx);
+            $scope.contactSelected = angular.copy($scope.sellerContacts[idx]);
+            $scope.sellerContacts.splice(idx, 1);
+            $scope.removeContactList.push($scope.contactSelected);
+            $scope.showAddContact = false;
+
+            $timeout(function() {
+                 urlService = 'supplier/removeContact';
+                $scope.resp =  restServices(urlService).save({contact:$scope.contactSelected},function(data){  
+                    return data;
+                });
+                console.log($scope.resp);
+                $scope.reset();
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$apply();
+            }, 1000);
+
+            
+            $scope.getTemplate($scope.newContact);
+        };
+
         
         $scope.updateSeller = function (vsupplier) {
-           $scope.supplier =  restServices(urlService).save({supplier:vsupplier},function(data){  
+           urlService = 'supplier/update';
+           $scope.supplier =  restServices(urlService).save({supplier:vsupplier,contactList:$scope.sellerContacts,removeContactList:$scope.removeContactList},function(data){  
                 return data;
             });
 
@@ -666,6 +859,58 @@
   };
 
 
+///
+function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+
+        $scope.seq = {};
+        $scope.seq.seqName = "";
+        $scope.seq.seqNextValue = 1;
+        $scope.seq.increment = 1;
+       
+
+         var urlService = 'sequence/save';
+
+        $scope.saveSequence = function () {
+           $scope.supplier =  restServices(urlService).save({tableSequence:$scope.seq},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.seq);
+
+            
+            SweetAlert.swal("Info", "El registro ha sido guardado)", "info");
+        };
+  };
+
+
+  function sequenceUpdateCtrl($scope,$rootScope,$http,restServices,seq,$modalInstance, SweetAlert){
+
+        $scope.seq = seq;
+
+        var urlService = 'sequence/save';
+        
+        $scope.updateSequence = function (vSequence) {
+           $scope.supplier =  restServices(urlService).save({tableSequence:vSequence},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.seq);
+
+            
+            SweetAlert.swal("Info", "El registro ha sido actualizado)", "info");
+        };
+
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+  };
+
        
 
 
@@ -680,6 +925,8 @@
         .controller('ModalInvoiceInstanceCtrl', ModalInvoiceInstanceCtrl)
         .controller('ModalCreditNoteInstanceCtrl', ModalCreditNoteInstanceCtrl)
         .controller('sellerCreateCtrl', sellerCreateCtrl)
+        .controller('sellerUpdateCtrl', sellerUpdateCtrl)
+        .controller('sequenceCreateCtrl', sequenceCreateCtrl)
         .controller('CalendarCtrl', CalendarCtrl)
     	.controller('translateCtrl', translateCtrl)
         .controller('loginCtrl', loginCtrl);

@@ -30,17 +30,15 @@
             <li ng-class="{active: $state.includes('app')}">
                 <a href=""><i class="fa fa-desktop"></i> <span class="nav-label">{{ 'MODULES' | translate }}</span>  <span class="pull-right label label-primary">*</span></a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('app')}">
-                    <li ui-sref-active="active"><a ui-sref="modules.catalogs">Catalogos</a></li>
-                    <li ui-sref-active="active"><a ui-sref="modules.parameters">Parametros</a></li>
+                    <li ui-sref-active="active"><a ui-sref="modules.catalogs">Cat&aacute;logos</a></li>
+                    <li ui-sref-active="active"><a ui-sref="modules.parameters">Par&aacute;metros</a></li>
+                    <li ui-sref-active="active"><a ui-sref="modules.sequences">Secuencias</a></li>
+                    <li ui-sref-active="active"><a ui-sref="modules.sequenceCreate">Crear Secuencias</a></li>
                     <li ui-sref-active="active"><a ui-sref="modules.customers">Clientes</a></li>
-                    <!--
-                    <li ui-sref-active="active"><a ui-sref="modules.categories">Categorias</a></li>
-                    <li ui-sref-active="active"><a ui-sref="modules.brands">Marcas</a></li>
-                    -->
                     <li ui-sref-active="active"><a ui-sref="modules.sellers">Proveedores</a></li>
                     <li ui-sref-active="active"><a ui-sref="modules.sellerCreate">Crear Proveedor</a></li>
-                    <li ui-sref-active="active"><a ui-sref="modules.products">Productos</a></li>
-				    <li ui-sref-active="active"><a ui-sref="modules.orders">Órdenes</a></li>
+                    <li ui-sref-active="active"><a ui-sref="modules.orders">Órdenes</a></li>
+                    <li ui-sref-active="active"><a ui-sref="modules.orderItems">Informe Items Orden</a></li>
 					
                    
                 </ul>
