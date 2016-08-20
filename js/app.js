@@ -16,7 +16,8 @@
         'ngDialog',
         'core',
         'oitozero.ngSweetAlert',
-        'ExportTableDirectives'
+        'ExportTableDirectives',
+        'ngCsv'
     ])
 })(
 

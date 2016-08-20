@@ -80,10 +80,11 @@
            return data;
         });
 
-        $scope.orderItemList = restServices('order/getAllItems').query(function(data){  
+        $scope.orderItemList = restServices('order/getAllItemsVO').query(function(data){  
            return data;
         });
-           
+         
+           $scope.getArray=$scope.orderItemList;
        
         var urlServiceCatalogOrderStatusIntegration = 'catalog/getSubCatalogs'+'ORDER_STATUS_INTEGRATION';
 
@@ -210,6 +211,8 @@
                 case 'excel': $scope.$broadcast('export-excel', {fileName:'ordenes.xls'}); 
                       break; 
                 case 'doc': $scope.$broadcast('export-doc', {});
+                      break; 
+                case 'csv': $scope.$broadcast('export-csv', {});
                       break; 
                 default: console.log('no event caught'); 
             }
