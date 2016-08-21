@@ -1,0 +1,60 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>YaEsta.com - Secuencias</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a>Secuencias</a>
+            </li>
+            <li class="active">
+                <strong>Listado de Secuencias</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+
+
+<div class="row">
+<div class="col-lg-12">
+<div class="ibox float-e-margins">
+<div class="ibox-title">
+    <h5><strong>Listado de Marcas</strong></h5>
+
+    <!--<div ibox-tools></div>-->
+</div>
+<div class="ibox-content">
+    <table class="footable table table-stripped">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Siguiente Valor</th>
+            <th>Incremento</th>
+            <th>Editar</th>
+			
+			
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="seq in main.sequences">
+            <td>{{ seq.seqName}}</td>
+            <td>{{ seq.seqNextValue }}</td>
+            <td>{{ seq.increment }}</td>
+            <td>
+                <button class="btn btn-primary" ng-click="openSequence('lg',seq)"><i class="fa fa-search"></i></button>
+            </td>
+	    </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>

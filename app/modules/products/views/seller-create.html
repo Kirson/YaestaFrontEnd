@@ -1,0 +1,135 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Creaci&oacute;n de Proveedores</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a>Proveedores</a>
+            </li>
+            <li class="active">
+                <strong>Proveedores</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div ng-controller="sellerCreateCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="tabs-container">
+
+                <tabset>
+				    
+                    <tab>
+                        <tab-heading>
+                            Informaci&oacute;n de Proveedor
+                        </tab-heading>
+                        <div class="panel-body">
+
+                            <fieldset class="form-horizontal">
+                                <div class="form-group"><label class="col-sm-2 control-label">Nombre:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre de Proveedor" ng-model="seller.name"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">RUC:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="RUC" ng-model="seller.ruc"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Nombre Contacto:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre Contacto" ng-model="seller.contactName"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Apellido Contacto:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Apellido Contacto" ng-model="seller.contactLastName"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Email Contacto:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Ejemplo: proveedor@email.com" ng-model="seller.contactEmail"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Tel&eacute;fono Contacto:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="5930201010101" ng-model="seller.phone"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Direcci&oacute;n Contacto:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="Ejem: Avenida 10 de Agosto y Naciones Unidas" ng-model="seller.address"></div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">C&oacute;digo Postal:</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="010101" ng-model="seller.postalCode"></div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            Contactos de Proveedor
+                        </tab-heading>
+                             <div class="ibox seller-detail">
+                        <div class="ibox-content">
+                        <div class="row">
+                            <table  class="footable table table-stripped" >
+                                <thead>
+                                    <tr>
+                                        <th>Nombre de Contacto</th>
+                                        <th>Email de Contacto</th>
+                                        <th>Tel&eacute;fono</th>
+                                        <th>Acci&oacute;n</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="contact in sellerContacts" 
+                                        ng-include="getTemplate(contact)">
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <script type="text/ng-template" id="display">
+                                <td>{{ contact.name }}</td>
+                                <td>{{ contact.email }}</td>
+                                <td>{{ contact.phone }}</td>
+                                <td>
+                                    <button ng-click="editContact(contact)">Editar</button>
+                                    <button ng-click="removeContact($index)">Eliminar</button>
+                                </td>
+                            </script>
+                            <script type="text/ng-template" id="edit">
+                                <td><input type="text" ng-model="contactSelected.name" /></td>
+                                <td><input type="text" ng-model="contactSelected.email" /></td>
+                                <td><input type="text" ng-model="contactSelected.phone" /></td>
+                                <td>
+                                    <button ng-click="saveContact($index)">Actualizar</button>
+                                    <button ng-click="reset()">Cancelar</button>
+                                </td>
+                            </script>
+
+                            <button type="button" class="btn btn-primary" ng-click="addContact()"> Nuevo Contacto</button>
+                            <div ng-show="showAddContact">
+                              
+                                    <fieldset class="form-horizontal">
+                                        <div class="form-group"><label class="col-sm-2 control-label">Nombre:</label>
+                                        <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre de Contacto" ng-model="newContact.name"></div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Email:</label>
+                                        <div class="col-sm-10"><input type="text" class="form-control" placeholder="Email de Contacto" ng-model="newContact.email"></div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Tel&eacute;fono:</label>
+                                        <div class="col-sm-10"><input type="text" class="form-control" placeholder="Tel&eacute;fono de Contacto" ng-model="newContact.phone"></div>
+                                    </fieldset>
+                                    <button type="button" class="btn btn-primary" ng-click="addNewContact()"> Agregar Contacto</button>
+                                     <button type="button" class="btn btn-primary" ng-click="cancelNewContact()"> Cancelar</button>
+                                </div>
+                            </div>
+                    </div>
+
+                    </div>
+
+
+                    </tab>
+                    
+                    
+                </tabset>
+                    <button type="button" class="btn btn-primary" ng-click="saveSeller()"> Guardar</button>
+            </div>
+
+
+        </div>
+    </div>
+  </div>
+</div>

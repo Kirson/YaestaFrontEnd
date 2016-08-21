@@ -1,0 +1,115 @@
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>YaEsta.com - Órdenes & Items</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Inicio</a>
+                </li>
+                <li>
+                    <a>Órdenes & Items</a>
+                </li>
+                <li class="active">
+                    <strong>Listado de Órdenes</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" ng-controller="MainCtrl">
+
+
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5><strong>Listado de Órdenes & Items</strong></h5>
+
+        <div ibox-tools></div>
+    </div>
+    <div class="ibox-content">
+        <div class="row">
+             
+            <button class="btn btn-primary" ng-csv="getArray" 
+                    csv-header="['proveedor', 'forma_pago', 'codigo_compra','pedido','codigo_cliente',
+                                 'ciudad_destino','provincia_destino','nombre_destinatario','direccion_destinatario',
+                                 'telefono_cliente','codigo_producto','descripcion_producto','valor_unitario',
+                                 'descuento','numero_items','valor_item','precio_cliente','valor_a_cobrar',
+                                 'estado_orden','fecha']"
+                    filename="exportOrders.csv" field-separator=";" decimal-separator="," add-bom="true">
+                <i class="fa fa-file">Exportar Tabla</i>
+            </button>
+        </div>
+        <div class="ibox-content">
+                    <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                           placeholder="Buscar en tabla">
+        <table  id="orderTable" class="footable table table-stripped exportTable export-excel" data-page-size="20" data-filter=#filter>
+            <thead>
+            <tr>
+                <th>Proveedor</th>
+                <th>Forma de Pago</th>
+                <th>C&oacute;digo de Compra</th>
+                <th>Pedido</th>
+                <th>C&oacute;digo de Cliente</th>
+                <th>Destino-Ciudad</th>
+                <th>Destino-Provincia</th>
+                <th>Nombre Destinatario</th>
+                <th>Direcci&oacute;n Destinatario</th>
+                <th>Tel&eacute;fono Cliente</th>
+                <th>C&oacute;digo de Producto</th>
+                <th>Descripci&oacute;n de Producto</th>
+                <th>Valor Unitario</th>
+                <th>Descuento</th>
+                <th>N&uacute;mero de Items</th>
+                <th>Valor del Item</th>
+               <th>Precio Cliente</th>
+                <th>Valor a cobrar</th>
+                <th>Estado Orden</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="orderItem in orderItemList">
+                <td>{{ orderItem.supplierName}}</td>
+                <td>{{ orderItem.wayToPay }}</td>
+                <td>{{ orderItem.vitexId }}</td>
+                <td>{{ orderItem.orderSequence }}</td>
+                <td>{{ orderItem.customerDocument }}</td>
+                <td>{{ orderItem.customerCanton }}</td>
+                <td>{{ orderItem.customerState }}</td>
+                <td>{{ orderItem.customerName }}</td>
+                <td>{{ orderItem.customerAddress }}</td>
+                <td>{{ orderItem.customerPhone }}</td>
+                <td>{{ orderItem.productKey }}</td>
+                <td>{{ orderItem.productDescription }}</td>
+                <td>{{ orderItem.unitPrice }}</td>
+                <td>{{ orderItem.discount }}</td>
+                <td>{{ orderItem.quantity }}</td>
+                <td>{{ orderItem.price }}</td>
+                <td>{{ orderItem.customerValue }}</td>
+                <td>{{ orderItem.valueReceivables }}</td>
+                <td>{{ orderItem.statusDescription}}</td>
+                <td>{{ orderItem.orderDate | date:'yyyy-MM-dd' }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+                        <tr>
+                            <td colspan="11">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+            </tfoot>
+        </table>
+        </div>
+        <div class="row">
+           
+        </div>
+
+         
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
