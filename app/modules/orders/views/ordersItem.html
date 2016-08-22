@@ -30,6 +30,10 @@
     </div>
     <div class="ibox-content">
         <div class="row">
+
+             <button class="btn btn-primary" ng-click="refreshItems()">
+                <i class="fa fa-search">Refrescar</i>
+            </button>
              
             <button class="btn btn-primary" ng-csv="getArray" 
                     csv-header="['proveedor', 'forma_pago', 'codigo_compra','pedido','codigo_cliente',
@@ -63,7 +67,7 @@
                 <th>Descuento</th>
                 <th>N&uacute;mero de Items</th>
                 <th>Valor del Item</th>
-               <th>Precio Cliente</th>
+                <th>Precio Cliente</th>
                 <th>Valor a cobrar</th>
                 <th>Estado Orden</th>
                 <th>Fecha</th>

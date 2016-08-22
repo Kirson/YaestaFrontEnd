@@ -84,7 +84,7 @@
            return data;
         });
          
-           $scope.getArray=$scope.orderItemList;
+        $scope.getArray=$scope.orderItemList;
        
         var urlServiceCatalogOrderStatusIntegration = 'catalog/getSubCatalogs'+'ORDER_STATUS_INTEGRATION';
 
@@ -181,25 +181,48 @@
 
         $scope.refresh = function(){
             
-            //console.log("00000000001");
             $scope.orderSchema = {};
-            //console.log("00000000002");
-
+        
             $timeout(function() {
-            //     console.log("00000000004");
                 $scope.orderSchema = {};
                 $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
-              //      console.log("00000000004");
-              //      console.log(data);
                     return data;
                 }); 
                
                 $scope.$apply();
             }, 1000);
             
-            //console.log("00000000005");
-      
+        
         };
+
+         $scope.refreshItems = function(){
+            
+            $scope.orderItemList = [];
+            $scope.getArray = [];
+
+            $timeout(function() {
+                $scope.processOrderItems = "";
+                $scope.processOrderItems = restServices('vitextIntegration/loadOrderItems').get(function(data){  
+                    return data;
+                });    
+               
+                $scope.$apply();
+            }, 1000);
+
+            $timeout(function() {
+                $scope.orderItemList = [];
+                $scope.orderItemList = restServices('order/getAllItemsVO').query(function(data){  
+                    return data;
+                });    
+               
+                $scope.$apply();
+            }, 1000);
+
+            $scope.getArray=$scope.orderItemList;
+            
+        };
+         
+        
 
         $scope.exportAction = function(action){ 
             $scope.export_action=action;
@@ -322,7 +345,7 @@
         $scope.cancelOrder = function (vorderComplete) {
             //$modalInstance.close();
 
-            urlService = 'vitextIntegration/changeStatus';
+            urlService = 'vitextIntegration/cancelOrder';
 
             console.log("===++===");
             console.log(vorderComplete);
@@ -332,7 +355,7 @@
                 return data;
             });
 
-            alert('La orden ha sido cancelada!');
+            SweetAlert.swal("Info", "La orden ha sido cancelada :)", "info");
         };
 
         
@@ -351,11 +374,13 @@
             console.log($scope.guideInfoBean);
             console.log($scope.guideInfoBean.$promise);
 
+            SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
+            /*
             if($scope.guideInfoBean.error=="OK"){
               SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
             }else{
                 SweetAlert.swal("Error", "Problema al generar guias orden:)", "error");
-            }
+            }*/
 
         }
 
@@ -422,15 +447,16 @@
             console.log("===**===");
             console.log($scope.invoice);
 
+            /*
             urlService = 'vitextIntegration/invoiceOrderVtex';
 
             $scope.invoiceVtex =  restServices(urlService).save({order:vorderComplete,action:"invoice"},function(data){  
                 return data;
             });
 
-            onsole.log("===**===");
+            console.log("===**===");
             console.log($scope.invoiceVtex);
-
+            */
             
             SweetAlert.swal("Info", "La orden ha sido facturada:)", "info");
             $scope.showGeneratedGuide=true;
