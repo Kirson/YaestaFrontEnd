@@ -14,8 +14,10 @@
      * Contains severals global data used in diferent view
      *
      */
-    function MainCtrl($scope,restServices,$modal, $timeout) {
+    function MainCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert) {
 
+        $scope.order = "";
+        $scope.orderId = "";
         /**
          * daterange - Used as initial model for data range picker in Advanced form view
          */
@@ -38,35 +40,33 @@
            return data;
         });
 
-        //this.catalogs.$promise.then(function(data) {
-              //console.log(data);
-        //});
-
+        
 
         this.suppliers = restServices('supplier/getAll/').query(function(data){  
            return data;
         });
 
-        //this.suppliers.$promise.then(function(data) {
-              //console.log(data);
-        //});   
+        $scope.getArraySuppliers = restServices('supplier/getAllVO/').query(function(data){  
+           return data;
+        });
 
+        
         this.categories = restServices('category/getAll').query(function(data){  
            return data;
         });
 
-        //this.categories.$promise.then(function(data) {
-              //console.log(data);
-        //});  
+          
 
 
         this.brands = restServices('brand/getAll').query(function(data){  
            return data;
         });
 
-        this.clients = restServices('client/getAll').query(function(data){  
+        this.clients = restServices('client/getAllVO').query(function(data){  
            return data;
         });
+
+        $scope.getCustomerArray=this.clients;
 
         this.sequences = restServices('sequence/getAll').query(function(data){  
            return data;
@@ -74,8 +74,6 @@
 
         
         $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
-           console.log("00000000000");
-           console.log(data);
            $scope.$broadcast('scroll.refreshComplete');
            return data;
         });
@@ -85,6 +83,12 @@
         });
          
         $scope.getArray=$scope.orderItemList;
+
+        $scope.newClientList = restServices('client/getNewClient').query(function(data){  
+           return data;
+        });
+         
+        $scope.getClientArray=$scope.newClientList
        
         var urlServiceCatalogOrderStatusIntegration = 'catalog/getSubCatalogs'+'ORDER_STATUS_INTEGRATION';
 
@@ -98,11 +102,39 @@
         this.orderStatusVtexList = restServices(urlServiceCatalogOrderStatusVtex).query(function(data){  
            console.log(data);
            return data;
-        });        
+        });    
+
+        $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });  
+
+        $scope.bankList = restServices('catalog/getSubCatalogsBANK_CATALOG').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });    
+
+        $scope.accountTypeList = restServices('catalog/getSubCatalogsACCOUNT_TYPE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });    
         
         $scope.openOrders = function (size,order) {
             var modalInstance = $modal.open({
                 templateUrl: 'app/modules/orders/views/orderDetail.html',
+                size: size,
+                controller: ModalOrderInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+
+        $scope.openCancelOrders = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/orderCancelDetail.html',
                 size: size,
                 controller: ModalOrderInstanceCtrl,
                 resolve: {
@@ -179,6 +211,19 @@
             });
         };
 
+        $scope.searchOrder = function(){
+            console.log($scope.orderId);
+            var vurl='vitextIntegration/getOrderComplete'+$scope.orderId;
+            $timeout(function() {
+                $scope.order = "";
+                $scope.order = restServices(vurl).get(function(data){  
+                    return data;
+                }); 
+               
+                $scope.$apply();
+            }, 1000);    
+        };
+
         $scope.refresh = function(){
             
             $scope.orderSchema = {};
@@ -197,10 +242,16 @@
 
          $scope.refreshItems = function(){
             
+
+            SweetAlert.swal("Info", "Por favor espere la confirmacion de culminacion del proceso :)", "info");
+
             $scope.orderItemList = [];
             $scope.getArray = [];
+            $scope.processOrderItems = "";
 
-            $timeout(function() {
+            var vpromises = [];
+
+             $timeout(function() {
                 $scope.processOrderItems = "";
                 $scope.processOrderItems = restServices('vitextIntegration/loadOrderItems').get(function(data){  
                     return data;
@@ -209,6 +260,7 @@
                 $scope.$apply();
             }, 1000);
 
+            
             $timeout(function() {
                 $scope.orderItemList = [];
                 $scope.orderItemList = restServices('order/getAllItemsVO').query(function(data){  
@@ -219,9 +271,42 @@
             }, 1000);
 
             $scope.getArray=$scope.orderItemList;
-            
+           
+            //vpromises.push($scope.processOrderItems);
+            vpromises.push($scope.orderItemList);
+            vpromises.push($scope.getArray);
+
+            $q.all(vpromises).then(function (results) { 
+               SweetAlert.swal("Info", "La informacion ha sido actualizada :)", "info");
+            });
+
+        };
+
+        $scope.reloadItems = function(){
+
+            $timeout(function() {
+                $scope.processOrderItems = "";
+                $scope.processOrderItems = restServices('vitextIntegration/loadOrderItems').get(function(data){  
+                    return data;
+                });    
+               
+                $scope.$apply();
+            }, 1000);
+
         };
          
+         $scope.reloadClients = function(){
+
+            $timeout(function() {
+                $scope.processClients = "";
+                $scope.processClients = restServices('client/updateInfo').get(function(data){  
+                    return data;
+                });    
+               
+                $scope.$apply();
+            }, 1000);
+
+        };
         
 
         $scope.exportAction = function(action){ 
@@ -264,8 +349,10 @@
 
 
    function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert,DTOptionsBuilder, DTColumnDefBuilder) {
-
+        $scope.motiveCancel="";
         $scope.order=order;
+        $scope.deliveryList=[];
+        $scope.deliverySelected={};
         $scope.showApprovedCancel=true;
         $scope.customerAditionalInfo="";
         $scope.dtInstance1 = {};
@@ -295,9 +382,31 @@
            return data;
         });
 
-        
         console.log("orderComplete");
         console.log($scope.orderComplete);
+
+        $scope.deliveryList = restServices('catalog/getSubCatalogsDELIVERY_PROVIDER').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        console.log("deliveryList");
+        console.log($scope.deliveryList);
+
+        $scope.motiveCancelList = restServices('catalog/getSubCatalogsORDER_CANCEL_MOTIVE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        console.log("motiveCancelList");
+        console.log($scope.motiveCancelList);
+
+        $scope.onSelectedMotiveCancel = function (selectedMotiveCancel) {
+            console.log("selectedMotiveCancel");
+            console.log(selectedMotiveCancel);
+            $scope.motiveCancel = angular.copy(selectedMotiveCancel);
+            $scope.orderComplete.motiveCancelId = $scope.motiveCancel.id;
+        };
 
         if($scope.orderComplete.status!="canceled" && $scope.orderComplete.status!="invoiced"){
             $scope.showApprovedCancel=true;
@@ -358,6 +467,20 @@
             SweetAlert.swal("Info", "La orden ha sido cancelada :)", "info");
         };
 
+        $scope.onSelectedDelivery = function (selectedSupplier,selectedDelivery,idx) {
+            console.log("selectedSupplier");
+            console.log(selectedSupplier);
+            console.log("selectedDelivery");
+            console.log(selectedDelivery);
+            $scope.deliverySelected = angular.copy(selectedDelivery);
+            $scope.supplierDeliveryInfoList = angular.copy($scope.orderComplete.supplierDeliveryInfoList);
+            $scope.supplierDeliveryInfoList.splice(idx, 1);
+            selectedSupplier.delivery = selectedDelivery;
+            $scope.supplierDeliveryInfoList.push(selectedSupplier);
+            $scope.orderComplete.supplierDeliveryInfoList = $scope.supplierDeliveryInfoList;
+            console.log("ojo");
+            console.log($scope.orderComplete);
+        };
         
 
         $scope.generateGuide = function(vorderComplete){
@@ -638,8 +761,8 @@
             UserService.get({user: $scope.username}, function (data) {
             // data = JSON.parse(data);
 
-            //console.log("====>>> data");
-            //console.log(data);
+            console.log("====>>> USER data");
+            console.log(data);
 
             $rootScope.loggedin = true;
             $rootScope.loggedUser = data;
@@ -668,17 +791,158 @@
      
   };
 
+  function orderItemCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+        $scope.startDate = "";
+        $scope.finishDate = "";
+
+        $scope.dateOptions = {
+            dateFormat: "dd-mm-yyyy"
+        };
+       
+        $scope.orderItemList = restServices('order/getAllItemsVO').query(function(data){  
+           return data;
+        });
+         
+        $scope.getArray=$scope.orderItemList;  
+
+        $scope.searchNewItems = function(vStart,vFinish){
+          
+            console.log("startDate");console.log($scope.startDate);  
+            console.log("finishDate");console.log($scope.finishDate);  
+             console.log("startDate");console.log(vStart);  
+            console.log("finishDate");console.log(vFinish);  
+            var vurl = 'order/getItemsByRangeDateVO/'+$scope.startDate+'/'+$scope.finishDate;
+            console.log("vurl");console.log(vurl);
+            $scope.orderItemList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getArray=$scope.orderItemList;   
+        };  
+      
+  };
+
+  function warehouseItemCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+        $scope.startDate = "";
+        $scope.finishDate = "";
+
+        $scope.dateOptions = {
+            dateFormat: "dd-mm-yyyy"
+        };
+       
+        $scope.warehouseItemList = restServices('order/getAllWarehouseVO').query(function(data){  
+           return data;
+        });
+         
+        $scope.getArrayWarehouse=$scope.warehouseItemList;  
+
+        $scope.searchNewWarehouseItems = function(vStart,vFinish){
+          
+            console.log("startDate");console.log($scope.startDate);  
+            console.log("finishDate");console.log($scope.finishDate);  
+            console.log("startDate");console.log(vStart);  
+            console.log("finishDate");console.log(vFinish);  
+            var vurl = 'order/getItemsWarehouseByRangeDateVO/'+$scope.startDate+'/'+$scope.finishDate;
+            console.log("vurl");console.log(vurl);
+            $scope.warehouseItemList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getArrayWarehouse=$scope.warehouseItemList;   
+        };  
+      
+  };
+
+  function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+        $scope.startDate = "";
+        $scope.finishDate = "";
+
+        $scope.dateOptions = {
+            dateFormat: "dd-mm-yyyy"
+        };
+       
+        $scope.guideList = restServices('guide/getAllVO').query(function(data){  
+           return data;
+        });
+         
+        $scope.getGuideArray=$scope.guideList;  
+
+        $scope.searchGuides = function(vStart,vFinish){
+          
+            console.log("startDate");console.log($scope.startDate);  
+            console.log("finishDate");console.log($scope.finishDate);  
+             console.log("startDate");console.log(vStart);  
+            console.log("finishDate");console.log(vFinish);  
+            var vurl = 'guide/getGuidesByRangeDateVO/'+$scope.startDate+'/'+$scope.finishDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guideList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getGuideArray=$scope.guideList;   
+        };  
+      
+  };
+
   function sellerCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
 
+         $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });  
+
+        $scope.bankList = restServices('catalog/getSubCatalogsBANK_CATALOG').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });    
+
+        $scope.accountTypeList = restServices('catalog/getSubCatalogsACCOUNT_TYPE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });    
+
+        $scope.supplierStatusList = restServices('catalog/getSubCatalogsSUPPLIER_STATUS').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });  
+
+        $scope.productListStatusList = restServices('catalog/getSubCatalogsPRODUCT_LIST_STATUS').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        $scope.priorityListStatus = restServices('catalog/getSubCatalogsPRIORITY').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
         $scope.seller = {};
-        $scope.seller.name = "";
-        $scope.seller.contactEmail = "";
-        $scope.seller.contactName = "";
-        $scope.seller.contactLastName = "";
-        $scope.seller.address = "";
-        $scope.seller.postalCode = "";
-        $scope.seller.ruc = "";
-        $scope.seller.phone = "";
+        $scope.seller.name              = "";
+        $scope.seller.contactEmail      = "";
+        $scope.seller.contactName       = "";
+        $scope.seller.contactLastName   = "";
+        $scope.seller.address           = "";
+        $scope.seller.postalCode        = "";
+        $scope.seller.ruc               = "";
+        $scope.seller.phone             = "";
+        $scope.seller.bank              = null;
+        $scope.seller.category          = null;
+        $scope.seller.accountType       = null;
+        $scope.seller.accountNumber     = "";
+        $scope.seller.accountName       = "";
+        $scope.seller.accountEmail      = "";
+        $scope.seller.isNew             = true;
+        $scope.seller.supplierStatus    = null;
+        $scope.seller.productListStatus = null;
+        $scope.seller.isWarehouse       = false;
+        $scope.seller.priority          = null;
+        
+        $scope.bank                 = "";
+        $scope.category             = "";
+        $scope.accountType          = "";
+        $scope.supplierStatus       = "";
+        $scope.productListStatus    = "";
+        
 
         $scope.contactSelected  = {};
         $scope.sellerContacts = [];
@@ -755,6 +1019,49 @@
             $scope.getTemplate($scope.newContact);
         };
 
+        $scope.onSelectedCategory = function (selectedCategory) {
+            console.log("selectedCategory");
+            console.log(selectedCategory);
+            $scope.category = angular.copy(selectedCategory);
+            $scope.seller.category = selectedCategory;
+        };
+
+        $scope.onSelectedBank = function (selectedBank) {
+            console.log("selectedBank");
+            console.log(selectedBank);
+            $scope.bank = angular.copy(selectedBank);
+            $scope.seller.bank = selectedBank;
+        };
+
+        $scope.onSelectedAccountType = function (selectedAccountType) {
+            console.log("selectedAccountType");
+            console.log(selectedAccountType);
+            $scope.accountType = angular.copy(selectedAccountType);
+            $scope.seller.accountType = selectedAccountType;
+        };
+
+        $scope.onSelectedSupplierStatus = function (selectedSupplierStatus) {
+            console.log("selectedSupplierStatus");
+            console.log(selectedSupplierStatus);
+            $scope.supplierStatus = angular.copy(selectedSupplierStatus);
+            $scope.seller.supplierStatus = selectedSupplierStatus;
+        };
+
+        $scope.onSelectedProductListStatus = function (selectedProductListStatus) {
+            console.log("selectedProductListStatus");
+            console.log(selectedProductListStatus);
+            $scope.supplierStatus = angular.copy(selectedProductListStatus);
+            $scope.seller.productListStatus = selectedProductListStatus;
+        };
+
+        $scope.onSelectedPriorityListStatus = function (selectedPriority) {
+            console.log("selectedPriority");
+            console.log(selectedPriority);
+            $scope.priority = angular.copy(selectedPriority);
+            $scope.seller.priority = selectedPriority;
+        };
+
+
          var urlService = 'supplier/create';
 
         $scope.saveSeller = function () {
@@ -773,8 +1080,41 @@
 
   function sellerUpdateCtrl($scope,$rootScope,$http,restServices,supplier,$modalInstance, SweetAlert,$timeout){
 
+
+        $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });  
+
+        $scope.bankList = restServices('catalog/getSubCatalogsBANK_CATALOG').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });    
+
+        $scope.accountTypeList = restServices('catalog/getSubCatalogsACCOUNT_TYPE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });    
+
+        $scope.supplierStatusList = restServices('catalog/getSubCatalogsSUPPLIER_STATUS').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });  
+
+        $scope.productListStatusList = restServices('catalog/getSubCatalogsPRODUCT_LIST_STATUS').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        }); 
+
+        $scope.priorityListStatus = restServices('catalog/getSubCatalogsPRIORITY').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });   
+
         $scope.contactSelected  = {};
         $scope.sellerContacts = [];
+
+
         
         $scope.newContact  = {
             id: -1,
@@ -787,7 +1127,16 @@
 
         $scope.showAddContact = false;
 
-        $scope.seller = supplier;
+        $scope.seller               = supplier;
+        $scope.seller.isNew         = false;
+        $scope.bank                 = supplier.bank;
+        $scope.category             = supplier.category;
+        $scope.accountType          = supplier.accountType;
+        $scope.supplierStatus       = supplier.supplierStatus;
+        $scope.productListStatus    = supplier.productListStatus;
+        $scope.priority             = supplier.priority;
+        $scope.seller.isWarehouse   = supplier.isWarehouse;
+        
 
         var urlService = 'supplier/getContacts'+$scope.seller.id;
 
@@ -862,6 +1211,48 @@
 
             
             $scope.getTemplate($scope.newContact);
+        };
+
+        $scope.onSelectedCategory = function (selectedCategory) {
+            console.log("selectedCategory");
+            console.log(selectedCategory);
+            $scope.category = angular.copy(selectedCategory);
+            $scope.seller.category = selectedCategory;
+        };
+
+        $scope.onSelectedBank = function (selectedBank) {
+            console.log("selectedBank");
+            console.log(selectedBank);
+            $scope.bank = angular.copy(selectedBank);
+            $scope.seller.bank = selectedBank;
+        };
+
+        $scope.onSelectedAccountType = function (selectedAccountType) {
+            console.log("selectedAccountType");
+            console.log(selectedAccountType);
+            $scope.accountType = angular.copy(selectedAccountType);
+            $scope.seller.accountType = selectedAccountType;
+        };
+
+        $scope.onSelectedSupplierStatus = function (selectedSupplierStatus) {
+            console.log("selectedSupplierStatus");
+            console.log(selectedSupplierStatus);
+            $scope.supplierStatus = angular.copy(selectedSupplierStatus);
+            $scope.seller.supplierStatus = selectedSupplierStatus;
+        };
+
+        $scope.onSelectedProductListStatus = function (selectedProductListStatus) {
+            console.log("selectedProductListStatus");
+            console.log(selectedProductListStatus);
+            $scope.supplierStatus = angular.copy(selectedProductListStatus);
+            $scope.seller.productListStatus = selectedProductListStatus;
+        };
+
+        $scope.onSelectedPriorityListStatus = function (selectedPriority) {
+            console.log("selectedPriority");
+            console.log(selectedPriority);
+            $scope.priority = angular.copy(selectedPriority);
+            $scope.seller.priority = selectedPriority;
         };
 
         
@@ -956,6 +1347,9 @@ function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
         .controller('sellerCreateCtrl', sellerCreateCtrl)
         .controller('sellerUpdateCtrl', sellerUpdateCtrl)
         .controller('sequenceCreateCtrl', sequenceCreateCtrl)
+        .controller('orderItemCtrl', orderItemCtrl)
+        .controller('guideCtrl', guideCtrl)
+        .controller('warehouseItemCtrl',warehouseItemCtrl)
         .controller('CalendarCtrl', CalendarCtrl)
     	.controller('translateCtrl', translateCtrl)
         .controller('loginCtrl', loginCtrl);

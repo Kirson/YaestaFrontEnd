@@ -1173,6 +1173,18 @@ button.dim:active:before {
     position: relative;
     width: 100%;
 }
+
+.datetime-picker-dropdown {
+
+}
+
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {
+    border: 0;
+}
+
+.datetime-picker-dropdown > li.time-picker-menu div > table {
+
+}
 .chosen-container-multi .chosen-choices li.search-choice {
     background: #f1f1f1;
     border: 1px solid #ededed;

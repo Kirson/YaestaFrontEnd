@@ -29,6 +29,13 @@
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
+    <div class="row">
+            <button class="btn btn-primary" ng-csv="getCustomerArray" 
+                    csv-header="['id','documento', 'nombre', 'apellido','telefono','email','provincia','canton','direccion','ultima_forma_pago','codigo_postal']"
+                    filename="Lista_Clientes.csv" field-separator=";" decimal-separator="," add-bom="true">
+                <i class="fa fa-file">Exportar Tabla</i>
+            </button>
+        </div>
         <div>
          <input type="text" class="form-control input-sm m-b-xs" id="filter"
                            placeholder="Buscar en tabla">
@@ -42,6 +49,9 @@
     			<th>Email</th>
     			<th>Tel&eacute;fono</th>
     			<th>Direcci&oacute;n</th>
+                <th>Provincia</th>
+                <th>Cant&oacute;n</th>
+                <th>&Uacute;ltima forma de Pago</th>
     			
             </tr>
             </thead>
@@ -52,15 +62,18 @@
                 <td>{{ customer.lastName }}</td>
                 <td>{{ customer.document }}</td>
     			<td>{{ customer.email }}</td>
-    			<td>{{ customer.phoneNumber }}</td>
+    			<td>{{ customer.phone }}</td>
                 <td>{{ customer.address }}</td>
+                <td>{{ customer.province}}</td>
+                <td>{{ customer.canton}}</td>
+                <td>{{ customer.lastPaymentMethod}}</td>
     			
     			
             </tr>
             </tbody>
             <tfoot>
                         <tr>
-                            <td colspan="7">
+                            <td colspan="10">
                                 <ul class="pagination pull-right"></ul>
                             </td>
                         </tr>

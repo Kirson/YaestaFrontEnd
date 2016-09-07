@@ -29,6 +29,16 @@
     <div ibox-tools></div>
 </div>
 <div class="ibox-content">
+    <div class="row">
+        <button class="btn btn-primary" ng-csv="getArraySuppliers" 
+                csv-header="['id', 'nombre', 'emailContacto','nombreContacto','apellidoContacto',
+                'telefono','provincia','canton','direccion']"
+                filename="exportSuppliers.csv" field-separator=";" decimal-separator="," add-bom="true">
+                                <i class="fa fa-file">Exportar Tabla</i>
+        </button>
+    </div>
+</div>
+<div class="ibox-content">
     <input type="text" class="form-control input-sm m-b-xs" id="filter"
                            placeholder="Buscar en tabla">
     <table class="footable table table-stripped" data-page-size="20" data-filter=#filter>

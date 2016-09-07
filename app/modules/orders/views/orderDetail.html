@@ -61,6 +61,7 @@
                                     <table class="footable table table-stripped">
                                         <thead>
                                             <tr>
+                                                <th>Proveedor</th>
                                                 <th>Id Producto</th>
                                                 <th>Nombre Producto</th>
                                                 <th>Cantidad</th>
@@ -70,6 +71,7 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="item in orderComplete.items">
+                                                <td>{{ item.supplierName}}</td>
                                                 <td>{{ item.productId}}</td>
                                                 <td>{{ item.name }}</td>
                                                 <td>{{ item.quantity }}</td>
@@ -129,15 +131,34 @@
                                                 <th>Direcci&oacute;n</th>
                                                 <th>Paquetes</th>
                                                 <th>Fecha de Despacho</th>
+                                                <th>Generar Gu&iacute;a</th>
+                                                <th>Delivery</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="supplierInfo in orderComplete.supplierDeliveryInfoList">
-                                                <td>{{ supplierInfo.supplier.id}}-{{ supplierInfo.supplier.name}} -{{ supplierInfo.supplier.zone.codigo}}</td>
-                                                <td>{{ supplierInfo.supplier.shippingAddress }}</td>
-                                                <td><input type="text"  placeholder="Paquetes" class="form-control" value="{{supplierInfo.packages}}"></td>
-                                                <td><input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.strDeliveryDate}}"></td>
-                                                
+                                                <td>
+                                                    {{ supplierInfo.supplier.id}}-{{ supplierInfo.supplier.name}} -{{ supplierInfo.supplier.zone.codigo}}
+                                                </td>
+                                                <td>
+                                                    {{ supplierInfo.supplier.shippingAddress }}
+                                                </td>
+                                                <td>
+                                                    <input type="text"  placeholder="Paquetes" class="form-control" value="{{supplierInfo.packages}}">
+                                                </td>
+                                                <td>
+                                                    <input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.strDeliveryDate}}">
+                                                </td>
+                                                <td><input type="checkbox" ng-model="supplierInfo.selected"></td>
+                                                <td>
+                                                    <ui-select ng-model="supplierInfo.delivery" 
+                                                        theme="bootstrap" on-select="onSelectedDelivery(supplierInfo,$item,$index)">
+                                                        <ui-select-match placeholder="Seleccione">{{supplierInfo.delivery.name}}</ui-select-match>
+                                                        <ui-select-choices repeat="deliveryItem in deliveryList | filter: $select.search">
+                                                                {{deliveryItem.name}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -152,10 +173,6 @@
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary" ng-click="generateGuide(orderComplete)">Generar Gu&iacute;as</button>
                                     </div>
-                                    <div class="form-group">
-                                         <button type="button" class="btn btn-primary" ng-click="cancelOrder(orderComplete)">Cancelar Orden</button>
-                                    </div>
-
                                 </div>
 
                             </div>

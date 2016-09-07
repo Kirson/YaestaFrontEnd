@@ -17,7 +17,8 @@
         'core',
         'oitozero.ngSweetAlert',
         'ExportTableDirectives',
-        'ngCsv'
+        'ngCsv',
+        'ui.date'
     ])
 })(
 

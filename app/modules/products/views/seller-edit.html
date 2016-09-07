@@ -30,6 +30,17 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">Nombre:</label>
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre de Proveedor" ng-model="seller.name"></div>
                                 </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Categor&iacute;a:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="category" 
+                                                        theme="bootstrap" on-select="onSelectedCategory($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.category.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iCategory in categoryList | filter: $select.search">
+                                                                {{iCategory.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
                                 <div class="form-group"><label class="col-sm-2 control-label">RUC:</label>
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="RUC" ng-model="seller.ruc"></div>
                                 </div>
@@ -49,8 +60,46 @@
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="Ejem: Avenida 10 de Agosto y Naciones Unidas" ng-model="seller.address"></div>
                                 </div>
                                 <div class="form-group"><label class="col-sm-2 control-label">C&oacute;digo Postal:</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="010101" ng-model="seller.postalCode"></div>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="010101" ng-model="seller.postalCode" ng-required="true"></div>
                                 </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Estado Proveedor:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="supplierStatus" 
+                                                        theme="bootstrap" on-select="onSelectedSupplierStatus($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.supplierStatus.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iSupplierStatus in supplierStatusList | filter: $select.search">
+                                                                {{iSupplierStatus.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Estado Carga Productos:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="productListStatus" 
+                                                        theme="bootstrap" on-select="onSelectedProductListStatus($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.productListStatus.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iProductListStatus in productListStatusList | filter: $select.search">
+                                                                {{iProductListStatus.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Prioridad:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="priority" 
+                                                        theme="bootstrap" on-select="onSelectedPriorityListStatus($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.priority.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iPriority in priorityListStatus | filter: $select.search">
+                                                                {{iPriority.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">Es bodega?:</label>
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" ng-model="seller.isWarehouse">
+                                    </div>
+                                </div>   
                             </fieldset>
                     </div>
                     
@@ -67,62 +116,107 @@
                     <tab-heading>
                             Informaci&oacute;n de Contactos Proveedor
                     </tab-heading>
-                        <div class="ibox seller-detail">
+                    <div class="ibox seller-detail">
                         <div class="ibox-content">
-                        <div class="row">
-                            <table  class="footable table table-stripped" >
-                                <thead>
-                                    <tr>
-                                        <th>Nombre de Contacto</th>
-                                        <th>Email de Contacto</th>
-                                        <th>Tel&eacute;fono</th>
-                                        <th>Acci&oacute;n</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="contact in sellerContacts" 
-                                        ng-include="getTemplate(contact)">
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="row">
+                                <table  class="footable table table-stripped" >
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de Contacto</th>
+                                            <th>Email de Contacto</th>
+                                            <th>Tel&eacute;fono</th>
+                                            <th>Acci&oacute;n</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="contact in sellerContacts" 
+                                            ng-include="getTemplate(contact)">
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                            <script type="text/ng-template" id="display">
-                                <td>{{ contact.name }}</td>
-                                <td>{{ contact.email }}</td>
-                                <td>{{ contact.phone }}</td>
-                                <td>
-                                    <button ng-click="editContact(contact)">Editar</button>
-                                    <button ng-click="removeContact($index)">Eliminar</button>
-                                </td>
-                            </script>
-                            <script type="text/ng-template" id="edit">
-                                <td><input type="text" ng-model="contactSelected.name" /></td>
-                                <td><input type="text" ng-model="contactSelected.email" /></td>
-                                <td><input type="text" ng-model="contactSelected.phone" /></td>
-                                <td>
-                                    <button ng-click="saveContact($index)">Actualizar</button>
-                                    <button ng-click="reset()">Cancelar</button>
-                                </td>
-                            </script>
+                                <script type="text/ng-template" id="display">
+                                    <td>{{ contact.name }}</td>
+                                    <td>{{ contact.email }}</td>
+                                    <td>{{ contact.phone }}</td>
+                                    <td>
+                                        <button ng-click="editContact(contact)">Editar</button>
+                                        <button ng-click="removeContact($index)">Eliminar</button>
+                                    </td>
+                                </script>
+                                <script type="text/ng-template" id="edit">
+                                    <td><input type="text" ng-model="contactSelected.name" /></td>
+                                    <td><input type="text" ng-model="contactSelected.email" /></td>
+                                    <td><input type="text" ng-model="contactSelected.phone" /></td>
+                                    <td>
+                                        <button ng-click="saveContact($index)">Actualizar</button>
+                                        <button ng-click="reset()">Cancelar</button>
+                                    </td>
+                                </script>
 
-                            <button type="button" class="btn btn-primary" ng-click="addContact()"> Nuevo Contacto</button>
-                            <div ng-show="showAddContact">
-                              
-                                    <fieldset class="form-horizontal">
-                                        <div class="form-group"><label class="col-sm-2 control-label">Nombre:</label>
-                                        <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre de Contacto" ng-model="newContact.name"></div>
-                                        <div class="form-group"><label class="col-sm-2 control-label">Email:</label>
-                                        <div class="col-sm-10"><input type="text" class="form-control" placeholder="Email de Contacto" ng-model="newContact.email"></div>
-                                        <div class="form-group"><label class="col-sm-2 control-label">Tel&eacute;fono:</label>
-                                        <div class="col-sm-10"><input type="text" class="form-control" placeholder="Tel&eacute;fono de Contacto" ng-model="newContact.phone"></div>
-                                    </fieldset>
-                                    <button type="button" class="btn btn-primary" ng-click="addNewContact()"> Agregar Contacto</button>
-                                     <button type="button" class="btn btn-primary" ng-click="cancelNewContact()"> Cancelar</button>
+                                <button type="button" class="btn btn-primary" ng-click="addContact()"> Nuevo Contacto</button>
+                                <div ng-show="showAddContact">
+                                  
+                                        <fieldset class="form-horizontal">
+                                            <div class="form-group"><label class="col-sm-2 control-label">Nombre:</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre de Contacto" ng-model="newContact.name"></div>
+                                            <div class="form-group"><label class="col-sm-2 control-label">Email:</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Email de Contacto" ng-model="newContact.email"></div>
+                                            <div class="form-group"><label class="col-sm-2 control-label">Tel&eacute;fono:</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Tel&eacute;fono de Contacto" ng-model="newContact.phone"></div>
+                                        </fieldset>
+                                        <button type="button" class="btn btn-primary" ng-click="addNewContact()"> Agregar Contacto</button>
+                                         <button type="button" class="btn btn-primary" ng-click="cancelNewContact()"> Cancelar</button>
+                                    </div>
                                 </div>
-                            </div>
+                        </div>
                     </div>
+                </tab>
+                <tab>
+                    <tab-heading>
+                            Informaci&oacute;n de Pagos Proveedor
+                    </tab-heading>
+                        <div class="ibox seller-detail">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <fieldset class="form-horizontal">
+                                        <div class="form-group"><label class="col-sm-2 control-label">Banco:</label>
+                                            <div class="col-sm-10">
+                                                <ui-select ng-model="bank" 
+                                                        theme="bootstrap" on-select="onSelectedBank($item)">
+                                                        <ui-select-match placeholder="Seleccione">{{seller.bank.name}}</ui-select-match>
+                                                        <ui-select-choices repeat="iBank in bankList | filter: $select.search">
+                                                                {{iBank.name}}
+                                                        </ui-select-choices>
+                                                </ui-select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Tipo de cuenta:</label>
+                                            <div class="col-sm-10">
+                                                <ui-select ng-model="accountType" 
+                                                        theme="bootstrap" on-select="onSelectedAccountType($item)">
+                                                        <ui-select-match placeholder="Seleccione">{{seller.accountType.name}}</ui-select-match>
+                                                        <ui-select-choices repeat="iAccountType in accountTypeList | filter: $select.search">
+                                                                {{iAccountType.name}}
+                                                        </ui-select-choices>
+                                                </ui-select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">N&uacute;mero de cuenta:</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="N&uacute;mero de Cuenta" ng-model="seller.accountNumber" ></div>
+                                        </div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Nombre en cuenta:</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre en cuenta" ng-model="seller.accountName" ></div>
+                                        </div>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Email para pagos:</label>
+                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Email para pagos" ng-model="seller.accountEmail" ></div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                </div>
 
-                    </div>
+                            </div>
+                        </div>  
                 </tab>
                 </tabset>
                 </div>
