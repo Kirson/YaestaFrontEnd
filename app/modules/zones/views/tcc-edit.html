@@ -1,0 +1,80 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">Detalle de Zona TCC {{zoneT.codigo}}</h4>
+    </div>
+    <div class="modal-body">
+        <p><strong>Detalle de Zona TCC {{zoneT.codigo}}</strong> 
+       </p>
+        
+        
+        <div class="row">
+        <div class="col-lg-12">
+
+            <div class="tabs-container">
+
+                <tabset>
+                    
+                    <tab>
+                        <tab-heading>
+                            Informaci&oacute;n de Zona
+                        </tab-heading>
+
+            <div class="ibox seller-detail">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <fieldset class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">C&oacute;digo</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="C&oacute;digo" ng-model="zoneT.codigo">
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">Provincia:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Provincia" ng-model="zoneT.provincia">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Cant&oacute;n:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Cant&oacute;n" ng-model="zoneT.canton">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Parroquia:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Parroquia" ng-model="zoneT.parroquia">
+                                    </div>
+                                </div>
+
+                                    
+                            </fieldset>
+                    </div>
+                    
+
+                    </div>
+
+                    
+
+                    
+
+                </div>
+                </tab>
+                
+                
+                </tabset>
+                </div>
+        </div>
+    </div>
+        
+        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="updateZone(zoneT)"> Actualizar</button>
+        <button type="button" class="btn btn-white" ng-click="cancel()">Cerrar</button>
+    </div>
+
+</div>
+

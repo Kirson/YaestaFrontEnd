@@ -18,9 +18,12 @@
         'oitozero.ngSweetAlert',
         'ExportTableDirectives',
         'ngCsv',
-        'ui.date'
+        'ui.date',
+        'momentPicker',
+        'angularjs-datetime-picker'
     ])
-})(
+})
+(
 
   
 );

@@ -30,11 +30,11 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-2" for="startDate">Fecha Inicio</label>
                                 <div class="input-group date col-lg-3">
-                                    <input ui-date ui-date-format="dd-mm-yyyy hh:mm"  ng-model="startDate"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input ng-model="startDate" datetime-picker hour="23" minute='59' placeholder="Seleccione una fecha..." date-format="yyyy-MM-dd HH:mm:ss"/>
                                 </div>
                                 <label class="control-label col-lg-2" for="finishDate">Fecha Fin</label>
                                 <div class="input-group date col-lg-3">
-                                    <input ui-date ui-date-format="dd-mm-yyyy hh:mm" ng-model="finishDate"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input ng-model="finishDate" datetime-picker hour="23" minute='59' placeholder="Seleccione una fecha..." date-format="yyyy-MM-dd HH:mm:ss"/>
                                 </div>
                                 <div class="col-lg-2">
                                         <button class="btn btn-primary" ng-click="searchNewWarehouseItems(startDate,finishDate)">

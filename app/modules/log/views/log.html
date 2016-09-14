@@ -1,0 +1,70 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>YaEsta.com - Log de Aplicaci&oacute;n</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a>Log de Aplicaci&oacute;n</a>
+            </li>
+            <li class="active">
+                <strong>Listado de Log</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="logYaestaCtrl">
+
+
+<div class="row">
+<div class="col-lg-12">
+<div class="ibox float-e-margins">
+<div class="ibox-title">
+    <h5><strong>Listado de Log</strong></h5>
+
+    <div ibox-tools></div>
+</div>
+
+<div class="ibox-content">
+    <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                           placeholder="Buscar en tabla">
+    <table class="footable table table-stripped" data-page-size="20" data-filter=#filter>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Proceso</th>
+            <th>Orden</th>
+            <th>Info Error</th>
+            <th>Texto Informativo</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="log in logs">
+            <td>{{ log.id}}</td>
+            <td>{{ log.processName }}</td>
+            <td>{{ log.orderId }}</td>
+            <td>{{ log.xmlInfo }}</td>
+            <td>{{ log.textInfo }}</td>
+            <td>{{ log.logDate }}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+            </tfoot>
+    </table>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>

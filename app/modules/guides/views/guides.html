@@ -33,11 +33,11 @@
             <div class="form-group">
                 <label class="control-label col-lg-2" for="startDate">Fecha Inicio</label>
                 <div class="input-group date col-lg-3">
-                    <input ui-date ui-date-format="dd-mm-yyyy"  ng-model="startDate"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input ng-model="startDate" datetime-picker hour="23" minute='59' placeholder="Seleccione una fecha..." date-format="yyyy-MM-dd HH:mm:ss"/>
                 </div>
                 <label class="control-label col-lg-2" for="finishDate">Fecha Fin</label>
                 <div class="input-group date col-lg-3">
-                    <input ui-date ui-date-format="dd-mm-yyyy" ng-model="finishDate"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input ng-model="finishDate" datetime-picker hour="23" minute='59' placeholder="Seleccione una fecha..." date-format="yyyy-MM-dd HH:mm:ss"/>
                 </div>
                 <div class="col-lg-2">
                     <button class="btn btn-primary" ng-click="searchGuides(startDate,finishDate)">
@@ -70,6 +70,7 @@
                 <th>Proveedor</th>
     			<th>Cliente</th>
     			<th>Fecha</th>
+                <th>Detalles</th>
     	    </tr>
             </thead>
             <tbody>
@@ -83,13 +84,15 @@
                 <td>{{ guide.supplierName }}</td>
                 <td>{{ guide.customerName }}</td>
     			<td>{{ guide.creationDate | date:'yyyy-MM-dd HH:mm'}}</td>
-    			
+    			<td> 
+                    <button class="btn btn-primary" ng-click="openGuides('lg',guide)"><i class="fa fa-search"></i></button>
+                </td>
     			
             </tr>
             </tbody>
             <tfoot>
                         <tr>
-                            <td colspan="9">
+                            <td colspan="10">
                                 <ul class="pagination pull-right"></ul>
                             </td>
                         </tr>

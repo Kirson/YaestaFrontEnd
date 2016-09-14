@@ -14,10 +14,27 @@
      * Contains severals global data used in diferent view
      *
      */
-    function MainCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert) {
+    function MainCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert, $rootScope) {
 
         $scope.order = "";
         $scope.orderId = "";
+
+        $scope.roleId = $rootScope.role;
+        console.log($rootScope.role);
+        console.log($scope.roleId);
+
+        if($scope.roleId==2){
+            $scope.logistUser = true;
+            $scope.comercialUser = false;
+        }
+        else{
+            $scope.logistUser = false;
+            $scope.comercialUser = true;
+        }
+
+        console.log($scope.logistUser);
+        console.log($scope.comercialUser);
+
         /**
          * daterange - Used as initial model for data range picker in Advanced form view
          */
@@ -456,11 +473,15 @@
 
             urlService = 'vitextIntegration/cancelOrder';
 
+            $scope.orderComplete.motiveCancelId = $scope.motiveCancel.id;
+            vorderComplete.motiveCancelId = $scope.motiveCancel.id;
+            vorderComplete.motiveCancelText = $scope.orderComplete.motiveCancelText;
+
             console.log("===++===");
             console.log(vorderComplete);
             vorderComplete.appStatus = "cancel";
 
-            $scope.orderCompleteUpd =  restServices(urlService).save({order:vorderComplete,action:"cancel"},function(data){  
+            $scope.orderCompleteUpd =  restServices(urlService).save({order:vorderComplete,action:"cancel",motiveCancelId:$scope.motiveCancel.id,motiveCancelText:$scope.orderComplete.motiveCancelText},function(data){  
                 return data;
             });
 
@@ -737,11 +758,10 @@
             $translate.use(langKey);
         };
     };
- 
 
-  function loginCtrl($scope,Base64,UserService,$rootScope,$http,restServices,$window,ngDialog,$location,SweetAlert){
-    //console.log("es login");
 
+    function loginActivitiCtrl($scope,Base64,UserService,$rootScope,$http,restServices,$window,ngDialog,$location,SweetAlert){
+  
         $rootScope.loggedUser = {
 
         };
@@ -751,8 +771,7 @@
         });
 
         console.log($scope.adminUser);
-        //$scope.username = $scope.user.username;
-        //$scope.password = $scope.user.password;
+       
         $rootScope.loggedin = false;
 
         $scope.login = function () {
@@ -775,16 +794,180 @@
             function(error) {
             // error handler
                 console.log("Error de autenticacion");
-                 
-                 //$window.alert("Error de autenticacion");
-                /* ngDialog.open({
-                    template: '<p>Error de autenticacion</p>',
-                    plain: true,
-                    className: 'ngdialog-theme-default' 
-                });
-                */
                 SweetAlert.swal("Error", "Usuario o clave incorrecta :)", "error");
             });
+        
+      };
+
+     
+  };
+
+  function usersCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+
+    $scope.users = restServices('user/getAll').query(function(data){  
+           return data;
+    });
+
+    $scope.openUser = function (size,user) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/user/views/user-edit.html',
+                size: size,
+                controller: userUpdateCtrl,
+                resolve: {
+                    user: function () {
+                        return user;
+                    }
+                }
+            });
+    };
+
+
+  };
+
+
+  function userCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout){
+
+    $scope.role = null;
+    $scope.user = {};
+    $scope.user.firstName   = "";
+    $scope.user.lastName    = "";
+    $scope.user.email       = "";
+    $scope.user.login       = "";
+    $scope.user.password    = "";
+    $scope.user.role        = null;
+    $scope.user.userRole        = null;
+
+    $scope.roleList = restServices('catalog/getSubCatalogsROLE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+    });
+
+    $scope.onSelectedRole = function (selectedRole) {
+        console.log("selectedRole");
+        console.log(selectedRole);
+        $scope.role = angular.copy(selectedRole);
+        $scope.user.role = selectedRole;
+        $scope.user.userRole = selectedRole;
+    };
+        
+    var urlService = 'user/save';
+
+    $scope.saveUser = function () {
+        $scope.user =  restServices(urlService).save({user:$scope.user},function(data){  
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.user);
+        SweetAlert.swal("Info", "El usuario ha sido guardado)", "info");
+    };
+
+  };
+
+  function userUpdateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$modalInstance,user){
+
+    $scope.user = user;
+    $scope.role = user.role;
+    $scope.userRole = user.userRole;
+
+    $scope.roleList = restServices('catalog/getSubCatalogsROLE').query(function(data){  
+        $scope.$broadcast('scroll2.refreshComplete');
+        return data;
+    });
+
+    $scope.onSelectedRole = function (selectedRole) {
+        console.log("selectedRole");
+        console.log(selectedRole);
+        $scope.role = angular.copy(selectedRole);
+        $scope.user.role = selectedRole;
+        $scope.user.userRole = selectedRole;
+    };
+
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+   
+    var urlService = 'user/save';
+
+    $scope.updateUser = function () {
+        $scope.user =  restServices(urlService).save({user:$scope.user},function(data){  
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.user);
+        SweetAlert.swal("Info", "El usuario ha sido actualizado)", "info");
+    };
+
+  };
+
+  function loginCtrl($scope,Base64,UserService,$rootScope,$http,restServices,$window,ngDialog,$location,SweetAlert, $timeout){
+  
+        $rootScope.loggedin = false;
+
+        $scope.login = function () {
+
+            var vurl = 'user/findByLoginPassword/'+ $scope.username + '/' + $scope.password + '/';
+        
+            console.log(vurl);
+
+            var vId = null;
+            var vRole = null;
+
+            $scope.loginUser = restServices(vurl).get(function(data){  
+                $scope.$broadcast('scroll.refreshComplete');
+                console.log(">>>");
+                console.log(data);
+                vId = data.$promise.id;
+                console.log("<<<<");
+                console.log(vId);
+                console.log(">>>");
+                vId = data.id;
+                console.log(vId);
+                vRole = data.roleId;
+
+                $timeout(function() {
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$apply();
+                    vId = data.id;
+                    vRole = data.roleId;
+                    console.log("))))");
+                    console.log(vRole);
+                    $scope.$apply();
+                }, 2000);
+
+                if(vId!=null){
+                    $rootScope.loggedin = true;
+                    $rootScope.loggedUser = $scope.loginUser;
+                    $rootScope.username = $scope.username;
+                    $rootScope.password = $scope.password;
+                    $rootScope.role = vRole;
+                    if(vRole==2){
+                        console.log("a");
+                         console.log(vRole);
+                        $location.path('/modules/orders');
+                    }else{
+                        console.log("b");
+                         console.log(vRole);
+                        $location.path('/modules/sellers');
+                    }
+                }
+                else{
+                    console.log(">>>");
+                    console.log(vId);
+                    console.log("Error de autenticacion");
+                    SweetAlert.swal("Error", "Usuario o clave incorrecta :)", "error");
+                }
+
+                return data;
+            });
+
+            console.log($scope.loginUser);
+            console.log(vId);
         
       };
 
@@ -842,7 +1025,7 @@
             console.log("finishDate");console.log($scope.finishDate);  
             console.log("startDate");console.log(vStart);  
             console.log("finishDate");console.log(vFinish);  
-            var vurl = 'order/getItemsWarehouseByRangeDateVO/'+$scope.startDate+'/'+$scope.finishDate;
+            var vurl = 'order/getItemsWarehouseByRangeDateStrVO/'+$scope.startDate+'/'+$scope.finishDate;
             console.log("vurl");console.log(vurl);
             $scope.warehouseItemList = restServices(vurl).query(function(data){  
                 return data;
@@ -853,7 +1036,7 @@
       
   };
 
-  function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+  function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
         $scope.startDate = "";
         $scope.finishDate = "";
 
@@ -871,16 +1054,89 @@
           
             console.log("startDate");console.log($scope.startDate);  
             console.log("finishDate");console.log($scope.finishDate);  
-             console.log("startDate");console.log(vStart);  
+            console.log("startDate");console.log(vStart);  
             console.log("finishDate");console.log(vFinish);  
-            var vurl = 'guide/getGuidesByRangeDateVO/'+$scope.startDate+'/'+$scope.finishDate;
+            var vurl = 'guide/getGuidesByRangeStrDateVO/'+$scope.startDate+'/'+$scope.finishDate;
             console.log("vurl");console.log(vurl);
             $scope.guideList = restServices(vurl).query(function(data){  
                 return data;
             });
          
             $scope.getGuideArray=$scope.guideList;   
+        };
+
+        $scope.openGuides = function (size,guide) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/guides/views/guideDetail.html',
+                size: size,
+                controller: guideDetailCtrl,
+                resolve: {
+                    guide: function () {
+                        return guide;
+                    }
+                }
+            });
         };  
+      
+  };
+
+  function guideDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modalInstance, guide){
+        $scope.startDate = "";
+        $scope.finishDate = "";
+        $scope.guideStatus = "";
+        $scope.showUpdateGuide=true;
+
+        $scope.dateOptions = {
+            dateFormat: "dd-mm-yyyy"
+        };
+
+        $scope.guideStatusList = restServices('catalog/getSubCatalogsGUIDE_STATUS').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        var vurl = 'guide/findById'+guide.id;
+       
+        $scope.guideComplete = restServices(vurl).get(function(data){  
+           return data;
+        });
+
+        $scope.guideStatus = $scope.guideComplete.guideStatus;
+         
+        vurl = 'guide/getTrackingInfo/'+$scope.guideComplete.id+'/'+$scope.guideComplete.deliveryName;
+
+        $scope.trackingList = restServices(vurl).get(function(data){  
+           return data;
+        });
+
+        $scope.onSelectedStatus = function (selectedStatus) {
+            console.log("selectedStatus");
+            console.log(selectedStatus);
+            $scope.guideStatus = angular.copy(selectedStatus);
+            $scope.guideComplete.guideStatus = selectedStatus;
+        };
+        
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        $scope.saveGuide = function () {
+           var urlService = 'guide/saveGuide';
+           $scope.guideUpd =  restServices(urlService).save({guide:$scope.guideComplete},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.guideUpd);
+
+            
+            SweetAlert.swal("Info", "La guia ha sido actualizada)", "info");
+        };
+
       
   };
 
@@ -916,6 +1172,11 @@
            return data;
         });
 
+        $scope.supplierTypeList = restServices('catalog/getSubCatalogsSUPPLIER_TYPE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
         $scope.seller = {};
         $scope.seller.name              = "";
         $scope.seller.contactEmail      = "";
@@ -936,12 +1197,14 @@
         $scope.seller.productListStatus = null;
         $scope.seller.isWarehouse       = false;
         $scope.seller.priority          = null;
-        
+        $scope.seller.supplierType      = null;
+
         $scope.bank                 = "";
         $scope.category             = "";
         $scope.accountType          = "";
         $scope.supplierStatus       = "";
         $scope.productListStatus    = "";
+        $scope.supplierType         = "";
         
 
         $scope.contactSelected  = {};
@@ -1061,6 +1324,13 @@
             $scope.seller.priority = selectedPriority;
         };
 
+        $scope.onSelectedSupplierType = function (selectedSupplierType) {
+            console.log("selectedSupplierType");
+            console.log(selectedSupplierType);
+            $scope.supplierType = angular.copy(selectedSupplierType);
+            $scope.seller.supplierType = selectedSupplierType;
+        };
+
 
          var urlService = 'supplier/create';
 
@@ -1111,6 +1381,11 @@
            return data;
         });   
 
+        $scope.supplierTypeList = restServices('catalog/getSubCatalogsSUPPLIER_TYPE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
         $scope.contactSelected  = {};
         $scope.sellerContacts = [];
 
@@ -1136,6 +1411,7 @@
         $scope.productListStatus    = supplier.productListStatus;
         $scope.priority             = supplier.priority;
         $scope.seller.isWarehouse   = supplier.isWarehouse;
+        $scope.seller.supplierType  = supplier.supplierType;
         
 
         var urlService = 'supplier/getContacts'+$scope.seller.id;
@@ -1255,7 +1531,13 @@
             $scope.seller.priority = selectedPriority;
         };
 
-        
+        $scope.onSelectedSupplierType = function (selectedSupplierType) {
+            console.log("selectedSupplierType");
+            console.log(selectedSupplierType);
+            $scope.supplierType = angular.copy(selectedSupplierType);
+            $scope.seller.supplierType = selectedSupplierType;
+        };
+
         $scope.updateSeller = function (vsupplier) {
            urlService = 'supplier/update';
            $scope.supplier =  restServices(urlService).save({supplier:vsupplier,contactList:$scope.sellerContacts,removeContactList:$scope.removeContactList},function(data){  
@@ -1331,6 +1613,155 @@ function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
         };
   };
 
+
+function tramacoCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+
+    $scope.tramacoZones = restServices('tramacoZone/getAll').query(function(data){  
+           return data;
+    });
+
+    $scope.openZone = function (size,zoneT) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/zones/views/tramaco-edit.html',
+                size: size,
+                controller: tramacoUpdateCtrl,
+                resolve: {
+                    zoneT: function () {
+                        return zoneT;
+                    }
+                }
+            });
+    };
+
+
+};
+
+function tramacoCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout){
+
+    $scope.zoneT = {};
+    $scope.zoneT.codigo     = "";
+    $scope.zoneT.provincia  = "";
+    $scope.zoneT.canton     = "";
+    $scope.zoneT.parroquia  = "";
+        
+    var urlService = 'tramacoZone/save';
+
+    $scope.saveZone = function () {
+        $scope.zoneT =  restServices(urlService).save({zone:$scope.zoneT},function(data){  
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.zoneT);
+        SweetAlert.swal("Info", "La zona ha sido guardada)", "info");
+    };
+
+  };
+
+  function tramacoUpdateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$modalInstance,zoneT){
+
+    $scope.zoneT = zoneT;
+
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+   
+    var urlService = 'tramacoZone/save';
+
+    $scope.updateZone = function () {
+        $scope.zoneT =  restServices(urlService).save({zone:$scope.zoneT},function(data){  
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.zoneT);
+        SweetAlert.swal("Info", "La zona ha sido actualizada)", "info");
+    };
+
+  };
+
+  function tccCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+
+    $scope.tccZones = restServices('coberturaTcc/getAll').query(function(data){  
+           return data;
+    });
+
+    $scope.openZone = function (size,zoneT) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/zones/views/tcc-edit.html',
+                size: size,
+                controller: tccUpdateCtrl,
+                resolve: {
+                    zoneT: function () {
+                        return zoneT;
+                    }
+                }
+            });
+    };
+
+
+};
+
+function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout){
+
+    $scope.zoneT = {};
+    $scope.zoneT.codigo     = "";
+    $scope.zoneT.provincia  = "";
+    $scope.zoneT.canton     = "";
+    $scope.zoneT.parroquia  = "";
+        
+    var urlService = 'coberturaTcc/save';
+
+    $scope.saveZone = function () {
+        $scope.zoneT =  restServices(urlService).save({zone:$scope.zoneT},function(data){  
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.zoneT);
+        SweetAlert.swal("Info", "La zona ha sido guardada)", "info");
+    };
+
+  };
+
+  function tccUpdateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$modalInstance,zoneT){
+
+    $scope.zoneT = zoneT;
+
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+   
+    var urlService = 'coberturaTcc/save';
+
+    $scope.updateZone = function () {
+        $scope.zoneT =  restServices(urlService).save({zone:$scope.zoneT},function(data){  
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.zoneT);
+        SweetAlert.swal("Info", "La zona ha sido actualizada)", "info");
+    };
+
+  };
+
+  function logYaestaCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+
+    $scope.logs = restServices('yaestalog/getAll').query(function(data){  
+           return data;
+    });
+
+  };
+
        
 
 
@@ -1349,8 +1780,20 @@ function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
         .controller('sequenceCreateCtrl', sequenceCreateCtrl)
         .controller('orderItemCtrl', orderItemCtrl)
         .controller('guideCtrl', guideCtrl)
+        .controller('guideDetailCtrl', guideDetailCtrl)
         .controller('warehouseItemCtrl',warehouseItemCtrl)
         .controller('CalendarCtrl', CalendarCtrl)
     	.controller('translateCtrl', translateCtrl)
-        .controller('loginCtrl', loginCtrl);
+        .controller('loginCtrl', loginCtrl)
+        .controller('loginActivitiCtrl',loginActivitiCtrl)
+        .controller('usersCtrl',usersCtrl)
+        .controller('userCreateCtrl',userCreateCtrl)
+        .controller('userUpdateCtrl',userUpdateCtrl)
+        .controller('tramacoCtrl',tramacoCtrl)
+        .controller('tramacoCreateCtrl',tramacoCreateCtrl)
+        .controller('tramacoUpdateCtrl',tramacoUpdateCtrl)
+        .controller('tccCtrl',tccCtrl)
+        .controller('tccCreateCtrl',tccCreateCtrl)
+        .controller('tccUpdateCtrl',tccUpdateCtrl)
+        .controller('logYaestaCtrl',logYaestaCtrl);
 
