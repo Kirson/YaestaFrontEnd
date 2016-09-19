@@ -12,6 +12,9 @@ angular.module('rest').factory('restServices', function($resource){
 	        save: { 
 	          method:"POST"
 	        },
+	        delete: { 
+	          method:"POST"
+	        },
 	        update: { 
 	          method:"PUT"
 	        },

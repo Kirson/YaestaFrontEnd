@@ -38,7 +38,7 @@
         </button>
     </div>
 </div>
-<div class="ibox-content">
+<div class="ibox-content" ng-controller="sellerCtrl">
     <input type="text" class="form-control input-sm m-b-xs" id="filter"
                            placeholder="Buscar en tabla">
     <table class="footable table table-stripped" data-page-size="20" data-filter=#filter>
@@ -48,15 +48,19 @@
             <th>Razon Social Proveedor</th>
             <th>Email de Contacto</th>
             <th>Editar</th>
+            <th>Eliminar</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="supplier in main.suppliers">
+        <tr ng-repeat="supplier in suppliers">
             <td>{{ supplier.id}}</td>
             <td>{{ supplier.name }}</td>
             <td>{{ supplier.contactEmail }}</td>
             <td>
                 <button class="btn btn-primary" ng-click="openSupplier('lg',supplier)"><i class="fa fa-search"></i></button>
+            </td>
+            <td>
+                <button class="btn btn-primary" ng-click="deleteSupplier('lg',supplier)"><i class="fa fa-trash"></i></button>
             </td>
            
         </tr>

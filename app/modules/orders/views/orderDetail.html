@@ -133,6 +133,7 @@
                                                 <th>Fecha de Despacho</th>
                                                 <th>Generar Gu&iacute;a</th>
                                                 <th>Delivery</th>
+                                                <th>Imprimir</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -156,6 +157,15 @@
                                                         <ui-select-match placeholder="Seleccione">{{supplierInfo.delivery.name}}</ui-select-match>
                                                         <ui-select-choices repeat="deliveryItem in deliveryList | filter: $select.search">
                                                                 {{deliveryItem.name}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </td>
+                                                 <td>
+                                                    <ui-select ng-model="supplierInfo.itemIdentityType" 
+                                                        theme="bootstrap" on-select="onSelectedItemIdentityType(supplierInfo,$item,$index)">
+                                                        <ui-select-match placeholder="Seleccione">{{supplierInfo.itemIdentityType.name}}</ui-select-match>
+                                                        <ui-select-choices repeat="itemIdentityType in itemIdentityTypeList | filter: $select.search">
+                                                                {{itemIdentityType.name}}
                                                         </ui-select-choices>
                                                     </ui-select>
                                                 </td>

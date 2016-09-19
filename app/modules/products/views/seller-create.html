@@ -34,17 +34,6 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">Nombre:</label>
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="Nombre de Proveedor" ng-model="seller.name"></div>
                                 </div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Categor&iacute;a:</label>
-                                    <div class="col-sm-10">
-                                        <ui-select ng-model="category" 
-                                                        theme="bootstrap" on-select="onSelectedCategory($item)">
-                                                <ui-select-match placeholder="Seleccione">{{seller.category.name}}</ui-select-match>
-                                                <ui-select-choices repeat="iCategory in categoryList | filter: $select.search">
-                                                                {{iCategory.name}}
-                                                </ui-select-choices>
-                                        </ui-select>
-                                    </div>
-                                </div>
                                 <div class="form-group"><label class="col-sm-2 control-label">RUC:</label>
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="RUC" ng-model="seller.ruc"></div>
                                 </div>
@@ -66,55 +55,7 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">C&oacute;digo Postal:</label>
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="010101" ng-model="seller.postalCode" ng-required="true"></div>
                                 </div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Estado Proveedor:</label>
-                                    <div class="col-sm-10">
-                                        <ui-select ng-model="supplierStatus" 
-                                                        theme="bootstrap" on-select="onSelectedSupplierStatus($item)">
-                                                <ui-select-match placeholder="Seleccione">{{seller.supplierStatus.name}}</ui-select-match>
-                                                <ui-select-choices repeat="iSupplierStatus in supplierStatusList | filter: $select.search">
-                                                                {{iSupplierStatus.name}}
-                                                </ui-select-choices>
-                                        </ui-select>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Estado Carga Productos:</label>
-                                    <div class="col-sm-10">
-                                        <ui-select ng-model="productListStatus" 
-                                                        theme="bootstrap" on-select="onSelectedProductListStatus($item)">
-                                                <ui-select-match placeholder="Seleccione">{{seller.productListStatus.name}}</ui-select-match>
-                                                <ui-select-choices repeat="iProductListStatus in productListStatusList | filter: $select.search">
-                                                                {{iProductListStatus.name}}
-                                                </ui-select-choices>
-                                        </ui-select>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Prioridad:</label>
-                                    <div class="col-sm-10">
-                                        <ui-select ng-model="priority" 
-                                                        theme="bootstrap" on-select="onSelectedPriorityListStatus($item)">
-                                                <ui-select-match placeholder="Seleccione">{{seller.priority.name}}</ui-select-match>
-                                                <ui-select-choices repeat="iPriority in priorityListStatus | filter: $select.search">
-                                                                {{iPriority.name}}
-                                                </ui-select-choices>
-                                        </ui-select>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Tipo:</label>
-                                    <div class="col-sm-10">
-                                        <ui-select ng-model="supplierType" 
-                                                        theme="bootstrap" on-select="onSelectedSupplierType($item)">
-                                                <ui-select-match placeholder="Seleccione">{{seller.supplierType.name}}</ui-select-match>
-                                                <ui-select-choices repeat="iSupplierType in supplierTypeList | filter: $select.search">
-                                                                {{iSupplierType.name}}
-                                                </ui-select-choices>
-                                        </ui-select>
-                                    </div>
-                                </div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Es bodega?:</label>
-                                    <div class="col-sm-10">
-                                        <input type="checkbox" ng-model="seller.isWarehouse">
-                                    </div>
-                                </div>    
+                                    
                             </fieldset>
 
                         </div>
@@ -182,6 +123,90 @@
 
 
                 </tab>
+                 <tab>
+                    <tab-heading>
+                        Informaci&oacute;n de Seller Center
+                    </tab-heading>
+                    <div class="ibox seller-detail">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <fieldset class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Categor&iacute;a:</label>
+                                        <div class="col-sm-10">
+                                            <ui-select ng-model="category" 
+                                                        theme="bootstrap" on-select="onSelectedCategory($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.category.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iCategory in categoryList | filter: $select.search">
+                                                                {{iCategory.name}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">Estado Proveedor:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="supplierStatus" 
+                                                        theme="bootstrap" on-select="onSelectedSupplierStatus($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.supplierStatus.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iSupplierStatus in supplierStatusList | filter: $select.search">
+                                                                {{iSupplierStatus.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Estado Carga Productos:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="productListStatus" 
+                                                        theme="bootstrap" on-select="onSelectedProductListStatus($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.productListStatus.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iProductListStatus in productListStatusList | filter: $select.search">
+                                                                {{iProductListStatus.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Prioridad:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="priority" 
+                                                        theme="bootstrap" on-select="onSelectedPriorityListStatus($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.priority.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iPriority in priorityListStatus | filter: $select.search">
+                                                                {{iPriority.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Tipo:</label>
+                                    <div class="col-sm-10">
+                                        <ui-select ng-model="supplierType" 
+                                                        theme="bootstrap" on-select="onSelectedSupplierType($item)">
+                                                <ui-select-match placeholder="Seleccione">{{seller.supplierType.name}}</ui-select-match>
+                                                <ui-select-choices repeat="iSupplierType in supplierTypeList | filter: $select.search">
+                                                                {{iSupplierType.name}}
+                                                </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Usuario Seller:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="seller.userSeller" placeholder="Nombre de usuario sin espacios">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Es bodega?:</label>
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" ng-model="seller.isWarehouse">
+                                    </div>
+                                </div>
+                                </fieldset>
+                            </div>
+                         </div>
+                     </div>
+                 </tab>
                  <tab>
                     <tab-heading>
                             Informaci&oacute;n de Pagos Proveedor

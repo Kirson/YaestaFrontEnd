@@ -59,14 +59,6 @@
 
         
 
-        this.suppliers = restServices('supplier/getAll/').query(function(data){  
-           return data;
-        });
-
-        $scope.getArraySuppliers = restServices('supplier/getAllVO/').query(function(data){  
-           return data;
-        });
-
         
         this.categories = restServices('category/getAll').query(function(data){  
            return data;
@@ -202,18 +194,7 @@
             });
         };
 
-        $scope.openSupplier = function (size,supplier) {
-            var modalInstance = $modal.open({
-                templateUrl: 'app/modules/products/views/seller-edit.html',
-                size: size,
-                controller: sellerUpdateCtrl,
-                resolve: {
-                    supplier: function () {
-                        return supplier;
-                    }
-                }
-            });
-        };
+        
 
         $scope.openSequence = function (size,seq) {
             var modalInstance = $modal.open({
@@ -370,6 +351,8 @@
         $scope.order=order;
         $scope.deliveryList=[];
         $scope.deliverySelected={};
+        $scope.itemIdentityTypeList = [];
+        $scope.itemIdentityTypeSelected={};
         $scope.showApprovedCancel=true;
         $scope.customerAditionalInfo="";
         $scope.dtInstance1 = {};
@@ -417,6 +400,14 @@
 
         console.log("motiveCancelList");
         console.log($scope.motiveCancelList);
+
+        $scope.itemIdentityTypeList = restServices('catalog/getSubCatalogsITEM_IDENTITY_TYPE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        console.log("itemIdentityTypeLis");
+        console.log($scope.itemIdentityTypeLis);
 
         $scope.onSelectedMotiveCancel = function (selectedMotiveCancel) {
             console.log("selectedMotiveCancel");
@@ -497,6 +488,21 @@
             $scope.supplierDeliveryInfoList = angular.copy($scope.orderComplete.supplierDeliveryInfoList);
             $scope.supplierDeliveryInfoList.splice(idx, 1);
             selectedSupplier.delivery = selectedDelivery;
+            $scope.supplierDeliveryInfoList.push(selectedSupplier);
+            $scope.orderComplete.supplierDeliveryInfoList = $scope.supplierDeliveryInfoList;
+            console.log("ojo");
+            console.log($scope.orderComplete);
+        };
+        
+        $scope.onSelectedItemIdentityType = function (selectedSupplier,selectedItemIdentityType,idx) {
+            console.log("selectedSupplier");
+            console.log(selectedSupplier);
+            console.log("selectedItemIdentityType");
+            console.log(selectedItemIdentityType);
+            $scope.itemIdentityTypeSelected = angular.copy(selectedItemIdentityType);
+            $scope.supplierDeliveryInfoList = angular.copy($scope.orderComplete.supplierDeliveryInfoList);
+            $scope.supplierDeliveryInfoList.splice(idx, 1);
+            selectedSupplier.itemIdentityType = selectedItemIdentityType;
             $scope.supplierDeliveryInfoList.push(selectedSupplier);
             $scope.orderComplete.supplierDeliveryInfoList = $scope.supplierDeliveryInfoList;
             console.log("ojo");
@@ -1080,7 +1086,7 @@
       
   };
 
-  function guideDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modalInstance, guide){
+  function guideDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modalInstance,$timeout, guide){
         $scope.startDate = "";
         $scope.finishDate = "";
         $scope.guideStatus = "";
@@ -1095,17 +1101,30 @@
            return data;
         });
 
+        console.log("guide");
+        console.log(guide);
+
         var vurl = 'guide/findById'+guide.id;
        
         $scope.guideComplete = restServices(vurl).get(function(data){  
            return data;
         });
 
+        /*
+        $timeout(function() {
+                
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$apply();
+        }, 1000);
+        */
+        console.log("guideComplete");
+        console.log($scope.guideComplete);
+
         $scope.guideStatus = $scope.guideComplete.guideStatus;
          
-        vurl = 'guide/getTrackingInfo/'+$scope.guideComplete.id+'/'+$scope.guideComplete.deliveryName;
+        vurl = 'guide/getTrackingInfo/'+guide.id+'/'+guide.deliveryName;
 
-        $scope.trackingList = restServices(vurl).get(function(data){  
+        $scope.trackingList = restServices(vurl).query(function(data){  
            return data;
         });
 
@@ -1138,6 +1157,76 @@
         };
 
       
+  };
+
+  function sellerCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+
+    $scope.suppliers = restServices('supplier/getAll/').query(function(data){  
+        return data;
+    });
+
+    $scope.getArraySuppliers = restServices('supplier/getAllVO/').query(function(data){  
+        return data;
+    });
+
+    $scope.openSupplier = function (size,supplier) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/modules/products/views/seller-edit.html',
+            size: size,
+            controller: sellerUpdateCtrl,
+            resolve: {
+                supplier: function () {
+                    return supplier;
+                }
+            }
+        });
+    };
+
+    $scope.deleteSupplier = function (size,supplier) {
+            
+        var urlService = 'supplier/deleteSupplier';
+
+        $scope.supplierDelete =  restServices(urlService).delete({supplierId:supplier.id},function(data){  
+
+            console.log("data");
+            console.log(data);
+
+            if(data.response=="OK"){
+                SweetAlert.swal("Info", "El proveedor ha sido eliminado)", "info");
+            }else{
+                SweetAlert.swal("Info", "El proveedor no puede ser eliminado, tiene registros de ordenes)", "info");
+            }
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.supplierDelete);
+
+        $timeout(function() {
+          
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$apply();
+        }, 1000);
+            
+        $scope.suppliers = restServices('supplier/getAll/').query(function(data){  
+            return data;
+        });
+
+        $scope.getArraySuppliers = restServices('supplier/getAllVO/').query(function(data){  
+            return data;
+        });
+
+        
+
+        $timeout(function() {
+          
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$apply();
+        }, 1000);
+        
+        $location.path('/modules/sellers');
+    };
+  
   };
 
   function sellerCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
@@ -1775,6 +1864,7 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
         .controller('ModalOrderInstanceCtrl', ModalOrderInstanceCtrl)
         .controller('ModalInvoiceInstanceCtrl', ModalInvoiceInstanceCtrl)
         .controller('ModalCreditNoteInstanceCtrl', ModalCreditNoteInstanceCtrl)
+        .controller('sellerCtrl',sellerCtrl)
         .controller('sellerCreateCtrl', sellerCreateCtrl)
         .controller('sellerUpdateCtrl', sellerUpdateCtrl)
         .controller('sequenceCreateCtrl', sequenceCreateCtrl)

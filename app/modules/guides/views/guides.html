@@ -49,8 +49,8 @@
         <div class="row">
             <button class="btn btn-primary" ng-csv="getGuideArray" 
                                     csv-header="['id_interno', 'numero_guia', 'nombre_delivery','nombre_cliente','estado_guia',
-                                    'estado_delivery','fecha_creacion','fecha_entrega','direccion_destinatario',
-                                    'id_orden','id_proveedor','nombre_proveedor']"
+                                    'estado_delivery','fecha_creacion','fecha_orden','fecha_entrega',
+                                    'direccion_destinatario','id_orden','id_proveedor','nombre_proveedor']"
                                     filename="exportGuides.csv" field-separator=";" decimal-separator="," add-bom="true">
                                 <i class="fa fa-file">Exportar Tabla</i>
             </button>
@@ -69,7 +69,7 @@
                 <th>Delivery</th>
                 <th>Proveedor</th>
     			<th>Cliente</th>
-    			<th>Fecha</th>
+    			<th>Fecha Orden</th>
                 <th>Detalles</th>
     	    </tr>
             </thead>
@@ -83,7 +83,7 @@
                 <td>{{ guide.deliveryName }}</td>
                 <td>{{ guide.supplierName }}</td>
                 <td>{{ guide.customerName }}</td>
-    			<td>{{ guide.creationDate | date:'yyyy-MM-dd HH:mm'}}</td>
+    			<td>{{ guide.orderDate | date:'yyyy-MM-dd HH:mm'}}</td>
     			<td> 
                     <button class="btn btn-primary" ng-click="openGuides('lg',guide)"><i class="fa fa-search"></i></button>
                 </td>
