@@ -1,0 +1,48 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">Detalle de Log del Sistema {{log.orderId}}</h4>
+    </div>
+    <div class="modal-body">
+        <p><strong>Detalle de Log del Sistema</strong> 
+       </p>
+		
+		
+		<div class="row">
+        <div class="col-lg-12">
+
+            <div class="ibox product-detail">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label" for="customer">Orden</label>
+                                <input type="text" id="orden" name="orden" placeholder="Orden" class="form-control" ng-disabled="true" ng-model="log.orderId">
+                            </div>
+                        </div>
+                   </div>
+                   <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label" for="customer">JSON Factura</label>
+                                <input type="text" id="jsonFactura" name="jsonFactura" placeholder="JSON" class="form-control" ng-disabled="true" ng-model="log.xmlInfo">
+                            </div>
+                        </div>
+                   </div>
+                    
+               
+                </div>
+               </div>
+               
+            </div>
+
+        </div>
+    </div>
+	
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">Cerrar</button>
+		
+    </div>
+
+</div>
+

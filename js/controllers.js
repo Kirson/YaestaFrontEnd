@@ -1849,6 +1849,42 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
            return data;
     });
 
+    $scope.openLog = function (size,log) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/modules/log/views/logDetail.html',
+            size: size,
+            controller: logYaestaDetailCtrl,
+            resolve: {
+                log: function () {
+                    return log;
+                }
+            }
+        });
+    };  
+
+  };
+
+  function logYaestaDetailCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modalInstance, log){
+
+    $scope.logs = restServices('yaestalog/getAll').query(function(data){  
+           return data;
+    });
+
+    $scope.dateOptions = {
+            dateFormat: "dd-mm-yyyy"
+    };
+
+    $scope.log=log;
+
+    $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+
   };
 
        
@@ -1885,5 +1921,6 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
         .controller('tccCtrl',tccCtrl)
         .controller('tccCreateCtrl',tccCreateCtrl)
         .controller('tccUpdateCtrl',tccUpdateCtrl)
-        .controller('logYaestaCtrl',logYaestaCtrl);
+        .controller('logYaestaCtrl',logYaestaCtrl)
+        .controller('logYaestaDetailCtrl',logYaestaDetailCtrl);
 

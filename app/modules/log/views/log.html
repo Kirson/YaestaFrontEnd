@@ -38,9 +38,9 @@
             <th>Id</th>
             <th>Proceso</th>
             <th>Orden</th>
-            <th>Info Error</th>
-            <th>Texto Informativo</th>
+            <th>Mensaje Informativo</th>
             <th>Fecha</th>
+            <th>Ver Mensaje Facturaci&oacute;n</th>
         </tr>
         </thead>
         <tbody>
@@ -48,18 +48,20 @@
             <td>{{ log.id}}</td>
             <td>{{ log.processName }}</td>
             <td>{{ log.orderId }}</td>
-            <td>{{ log.xmlInfo }}</td>
-            <td>{{ log.textInfo }}</td>
-            <td>{{ log.logDate }}</td>
+            <td>{{ log.textinfo }}</td>
+            <td>{{ log.logDate | date:'yyyy-MM-dd HH:mm' }}</td>
+            <td> 
+                <button class="btn btn-primary" ng-click="openLog('lg',log)"><i class="fa fa-search"></i></button>
+            </td>
         </tr>
         </tbody>
         <tfoot>
-                        <tr>
-                            <td colspan="6">
-                                <ul class="pagination pull-right"></ul>
-                            </td>
-                        </tr>
-            </tfoot>
+            <tr>
+                <td colspan="6">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
 
