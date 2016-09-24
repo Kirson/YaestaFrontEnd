@@ -124,6 +124,21 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="deliveryCourier">Delivery</label>
+                                        <ui-select ng-model="deliverySelected" 
+                                            theme="bootstrap" on-select="onSelectedDeliveryUnique($item)">
+                                            <ui-select-match placeholder="Seleccione">{{deliverySelected.name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="deliveryItem in deliveryList | filter: $select.search">
+                                                                {{deliveryItem.name}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
                                     <table class="footable table table-stripped">
                                         <thead>
                                             <tr>
@@ -132,7 +147,7 @@
                                                 <th>Paquetes</th>
                                                 <th>Fecha de Despacho</th>
                                                 <th>Generar Gu&iacute;a</th>
-                                                <th>Delivery</th>
+                                                <!--<th>Delivery</th>-->
                                                 <th>Imprimir</th>
                                             </tr>
                                         </thead>
@@ -151,6 +166,7 @@
                                                     <input type="date"  placeholder="Fecha" class="form-control" value="{{supplierInfo.strDeliveryDate}}">
                                                 </td>
                                                 <td><input type="checkbox" ng-model="supplierInfo.selected"></td>
+                                                <!--
                                                 <td>
                                                     <ui-select ng-model="supplierInfo.delivery" 
                                                         theme="bootstrap" on-select="onSelectedDelivery(supplierInfo,$item,$index)">
@@ -160,6 +176,7 @@
                                                         </ui-select-choices>
                                                     </ui-select>
                                                 </td>
+                                                -->
                                                  <td>
                                                     <ui-select ng-model="supplierInfo.itemIdentityType" 
                                                         theme="bootstrap" on-select="onSelectedItemIdentityType(supplierInfo,$item,$index)">

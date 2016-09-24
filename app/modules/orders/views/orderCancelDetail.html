@@ -117,9 +117,9 @@
                             <div class="row">
                                 <div class="form-group"><label class="col-sm-2 control-label">Motivo de cancelaci&oacute;n:</label>
                                             <div class="col-sm-10">
-                                                <ui-select ng-model="cancelMotive" 
-                                                        theme="bootstrap" on-select="onSelectedCancelMotive($item)">
-                                                        <ui-select-match placeholder="Seleccione">{{cancelMotive.name}}</ui-select-match>
+                                                <ui-select ng-model="motiveCancel" 
+                                                        theme="bootstrap" on-select="onSelectedMotiveCancel($item)">
+                                                        <ui-select-match placeholder="Seleccione">{{motiveCancel.name}}</ui-select-match>
                                                         <ui-select-choices repeat="iCancelMotive in motiveCancelList | filter: $select.search">
                                                                 {{iCancelMotive.name}}
                                                         </ui-select-choices>

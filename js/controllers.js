@@ -347,7 +347,7 @@
 
 
    function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert,DTOptionsBuilder, DTColumnDefBuilder) {
-        $scope.motiveCancel="";
+        $scope.motiveCancel={};
         $scope.order=order;
         $scope.deliveryList=[];
         $scope.deliverySelected={};
@@ -472,7 +472,10 @@
             console.log(vorderComplete);
             vorderComplete.appStatus = "cancel";
 
-            $scope.orderCompleteUpd =  restServices(urlService).save({order:vorderComplete,action:"cancel",motiveCancelId:$scope.motiveCancel.id,motiveCancelText:$scope.orderComplete.motiveCancelText},function(data){  
+            $scope.orderCompleteUpd =  restServices(urlService).save({order:vorderComplete,
+                                                                        action:"cancel",
+                                                                        motiveCancelId:$scope.motiveCancel.id,
+                                                                        motiveCancelText:$scope.orderComplete.motiveCancelText},function(data){  
                 return data;
             });
 
@@ -490,6 +493,15 @@
             selectedSupplier.delivery = selectedDelivery;
             $scope.supplierDeliveryInfoList.push(selectedSupplier);
             $scope.orderComplete.supplierDeliveryInfoList = $scope.supplierDeliveryInfoList;
+            console.log("ojo");
+            console.log($scope.orderComplete);
+        };
+
+        $scope.onSelectedDeliveryUnique = function (selectedDelivery) {
+            console.log("selectedDelivery");
+            console.log(selectedDelivery);
+            $scope.deliverySelected = angular.copy(selectedDelivery);
+            $scope.orderComplete.deliverySelected = $scope.deliverySelected;
             console.log("ojo");
             console.log($scope.orderComplete);
         };
@@ -514,7 +526,10 @@
             
             urlService = 'vitextIntegration/generateGuide';
 
-            $scope.guideInfoBean =  restServices(urlService).save({orderComplete:vorderComplete,supplierDeliveryInfoList:vorderComplete.supplierDeliveryInfoList,customerAdditionalInfo:$scope.customerAditionalInfo},function(data){  
+            $scope.guideInfoBean =  restServices(urlService).save({orderComplete:vorderComplete,
+                                                                   supplierDeliveryInfoList:vorderComplete.supplierDeliveryInfoList,
+                                                                   customerAdditionalInfo:$scope.customerAditionalInfo, 
+                                                                   deliverySelected:$scope.deliverySelected},function(data){  
                 return data;
             });
 
