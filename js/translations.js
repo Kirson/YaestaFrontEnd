@@ -33,6 +33,12 @@ function config($translateProvider) {
             SEARCH: 'Search for something...',
 			MODULES: 'Modules...',
 
+            Parameters: 'Parameters',
+            Logistics: 'Logistics',
+            Comercial: 'Comercial',
+            System: 'System',
+            Security:'Security'
+
         })
         .translations('es', {
 
@@ -61,6 +67,12 @@ function config($translateProvider) {
             MESSAGEINFO: 'Usted tiene 42 mensajes y 6 notificaciones.',
             SEARCH: 'Busca algo ...',
 			MODULES: 'Módulos...',
+
+            Parameters: 'Parámetros',
+            Logistics: 'Logística',
+            Comercial: 'Comercial',
+            System: 'Sistema',
+            Security:'Seguridad'
         });
 
     $translateProvider.preferredLanguage('en');
