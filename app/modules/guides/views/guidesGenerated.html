@@ -9,7 +9,7 @@
                     <a>Gu&iacute;as</a>
                 </li>
                 <li class="active">
-                    <strong>Listado de Gu&iacute;as</strong>
+                    <strong>Listado de Gu&iacute;as Generadas</strong>
                 </li>
             </ol>
         </div>
@@ -24,7 +24,7 @@
     <div class="col-lg-12">
     <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5><strong>Listado General de Gu&iacute;as</strong></h5>
+        <h5><strong>Listado de Gu&iacute;as Generadas</strong></h5>
 
         <div ibox-tools></div>
     </div>
@@ -40,14 +40,14 @@
                     <input ng-model="finishDate" datetime-picker hour="23" minute='59' placeholder="Seleccione una fecha..." date-format="yyyy-MM-dd HH:mm:ss"/>
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn btn-primary" ng-click="searchGuides(startDate,finishDate)">
+                    <button class="btn btn-primary" ng-click="searchGuidesGenerated(startDate,finishDate)">
                         <i class="fa fa-search">Buscar</i>
                     </button>
                 </div>
             </div>
         </div>
         <div class="row">
-            <button class="btn btn-primary" ng-csv="getGuideArray" 
+            <button class="btn btn-primary" ng-csv="getGuideGeneratedArray" 
                                     csv-header="['id_interno', 'numero_guia', 'nombre_delivery','nombre_cliente','estado_guia',
                                     'estado_delivery','fecha_creacion','fecha_orden','fecha_entrega',
                                     'direccion_destinatario','id_orden','id_proveedor','nombre_proveedor']"
@@ -74,7 +74,7 @@
     	    </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="guide in guideList">
+            <tr ng-repeat="guide in guideGeneratedList">
                 <td>{{ guide.id}}</td>
                 <td>{{ guide.orderId }}</td>
                 <td>{{ guide.guideNumber }}</td>

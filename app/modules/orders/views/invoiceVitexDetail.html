@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" ng-click="invoiceOrder(orderComplete)">Facturar</button>
+                                        <button type="button" class="btn btn-primary" ng-click="invoiceVitexOrder(orderComplete)">Enviar Factura a Vitex</button>
                                     </div>
                                 </div>
                                 
@@ -127,30 +127,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-show="showCreditNote">
-                        <div class="row">
-                            <label class="control-label" for="motivo">Motivo</label>
-                            <input type="text" id="motivo" name="motivo" align="right" placeholder="Motivo" class="form-control" ng-model="motive">
-                        </div>
-                        <div class="row">
-                            <label class="control-label" for="numeroFactura">N&uacute;mero Factura</label>
-                            <input type="text" id="numeroFactura" name="numeroFactura" align="right" placeholder="Numero Factura" class="form-control" ng-model="invoiceNumber">
-                        </div>
-                        <div class="row">
-                            <label class="control-label" for="fechaFactura">Fecha Factura</label>
-                            <input type="text" id="fechaFactura" name="fechaFactura" align="right" placeholder="Fecha Factura" class="form-control" ng-model="invoiceDate">
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-7">
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary" ng-click="creditNoteOrder(orderComplete)">Generar Nota de Cr&eacute;dito</button>
-                                </div>
-                            </div>
-                                
-                        </div>
-                        </div>
+                    
 
                 </div>
                 

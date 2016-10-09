@@ -17,64 +17,65 @@
 
         </div>
     </div>
-    <div class="wrapper wrapper-content animated fadeInRight">
+    <div ng-controller="warehouseCustomerCtrl">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5><strong>Listado de Clientes Nuevos Reporte Bodega</strong></h5>
 
+                            <div ibox-tools></div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <button class="btn btn-primary" ng-csv="getClientArray" 
+                                        csv-header="['codigo', 'razon_social', 'nombre_via','direccion_entrega','ubicacion_geografica']"
+                                        filename="C__Program_Files_Excelencia_Operacional_YPM_Archivos_Clientes.csv" field-separator=";" decimal-separator="," add-bom="true">
+                                    <i class="fa fa-file">Exportar Tabla</i>
+                                </button>
+                                <button class="btn btn-warning" ng-click="updateWarehouseCustomers()"><i class="fa fa-floppy-o"></i></button>
+                            </div>
 
-    <div class="row">
-    <div class="col-lg-12">
-    <div class="ibox float-e-margins">
-    <div class="ibox-title">
-        <h5><strong>Listado de Clientes Nuevos Reporte Bodega</strong></h5>
+                            <div>
+                             <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                                               placeholder="Buscar en tabla">
+                            <table class="footable table table-stripped" data-page-size="20" data-filter=#filter>
+                                <thead>
+                                <tr>
+                                    <th>C&oacute;digo</th>
+                                    <th>Raz&oacute;n Social</th>
+                                    <th>Nombre V&iacute;a</th>
+                                    <th>Direcci&oacute;n de Entrega</th>
+                        			<th>Ubicaci&oacute;n Geogr&aacute;fica</th>
+                        				
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="newClient in newClientList">
+                                    <td>{{ newClient.codigoDestino}}</td>
+                                    <td>{{ newClient.razonSocial }}</td>
+                                    <td>{{ newClient.nombreVia }}</td>
+                                    <td>{{ newClient.direccionEntrega }}</td>
+                        			<td>{{ newClient.ubicacionGeografica }}</td>
+                        			
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                </tfoot>
+                            </table>
+                            </div>
 
-        <div ibox-tools></div>
-    </div>
-    <div class="ibox-content">
-        <div class="row">
-            <button class="btn btn-primary" ng-csv="getClientArray" 
-                    csv-header="['codigo', 'razon_social', 'nombre_via','direccion_entrega','ubicacion_geografica']"
-                    filename="C__Program_Files_Excelencia_Operacional_YPM_Archivos_Clientes.csv" field-separator=";" decimal-separator="," add-bom="true">
-                <i class="fa fa-file">Exportar Tabla</i>
-            </button>
+                             
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div>
-         <input type="text" class="form-control input-sm m-b-xs" id="filter"
-                           placeholder="Buscar en tabla">
-        <table class="footable table table-stripped" data-page-size="20" data-filter=#filter>
-            <thead>
-            <tr>
-                <th>C&oacute;digo</th>
-                <th>Raz&oacute;n Social</th>
-                <th>Nombre V&iacute;a</th>
-                <th>Direcci&oacute;n de Entrega</th>
-    			<th>Ubicaci&oacute;n Geogr&aacute;fica</th>
-    				
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="newClient in newClientList">
-                <td>{{ newClient.codigoDestino}}</td>
-                <td>{{ newClient.razonSocial }}</td>
-                <td>{{ newClient.nombreVia }}</td>
-                <td>{{ newClient.direccionEntrega }}</td>
-    			<td>{{ newClient.ubicacionGeografica }}</td>
-    			
-            </tr>
-            </tbody>
-            <tfoot>
-                        <tr>
-                            <td colspan="5">
-                                <ul class="pagination pull-right"></ul>
-                            </td>
-                        </tr>
-            </tfoot>
-        </table>
-        </div>
-
-         
-
-    </div>
-    </div>
-    </div>
-    </div>
     </div>

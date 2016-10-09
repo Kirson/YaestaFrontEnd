@@ -1,0 +1,131 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">Detalle de Gu&iacute;a {{guideComplete.guideId}}</h4>
+    </div>
+    <div class="modal-body">
+        <p><strong>Detalle de la gu&iacute;a {{guideComplete.guideId}}</strong> 
+       </p>
+		
+		
+		<div class="row">
+        <div class="col-lg-12">
+
+            <div class="ibox product-detail">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label" for="customer">Cliente</label>
+                                <input type="text" id="customer" name="customer" placeholder="Cliente" class="form-control" ng-disabled="true" ng-model="guideComplete.order.client.clientName">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label" for="status">Estado</label>
+                                <input type="text" id="status" name="status" ng-model="guideComplete.status" placeholder="Estado" class="form-control" ng-disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label" for="dateO">Fecha</label>
+                                <input type="text" id="dateO" name="dateO" placeholder="Fecha" class="form-control" ng-disabled="true" ng-model="guideComplete.orderDate | date:'yyyy-MM-dd HH:mm'">
+                                <!--<input type="text" id="dateO" name="dateO" placeholder="Fecha" class="form-control" ng-disabled="true" ng-model="guideComplete.createDate | date:'yyyy-MM-dd HH:mm'">-->
+                            </div>
+                        </div>
+                         <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label" for="totalO">Valor Item</label>
+                                <input type="text" id="totalO" name="totalO" align="right" placeholder="Total" class="form-control" ng-model="guideComplete.itemValue | number:2 " ng-disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label" for="deliveryName">Delivery</label>
+                                <input type="text" id="deliveryName" name="deliveryName" align="right" placeholder="Delivery" class="form-control" ng-model="guideComplete.deliveryName" ng-disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        
+                        
+                                <div class="panel-body">
+                                    <table class="footable table table-stripped">
+                                        <thead>
+                                            <tr>
+                                                <th>Estado Delivery</th>
+                                                <th>Descripci&oacute;n</th>
+                                                <th>Fecha</th>
+                                                <th>Transporte</th>
+                                                <th>Transportista</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="track in trackingList">
+                                                <td>{{ track.status}}</td>
+                                                <td>{{ track.description}}</td>
+                                                <td>{{ track.dateTime }}</td>
+                                                <td>{{ track.transport }}</td>
+                                                <td>{{ track.carrier }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                           
+                        
+                    </div>
+                    
+
+                </div>
+                <div ng-show="showUpdateGuide">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Seleccione Estado:</label>
+                            <div class="col-sm-10">
+                                <ui-select ng-model="guideStatus" 
+                                    theme="bootstrap" on-select="onSelectedStatus($item)">
+                                    <ui-select-match placeholder="Seleccione">{{guideComplete.guideStatus.name}}</ui-select-match>
+                                    <ui-select-choices repeat="iGuideStatus in guideStatusList | filter: $select.search">
+                                                            {{iGuideStatus.name}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Fecha Programada de Retiro:</label>
+                            <div class="col-sm-10">
+                                 <input ui-date ui-date-format="dd-mm-yyyy" ng-model="guideComplete.deliveryDate">
+                            </div>
+                        </div>
+                     </div>       
+                    <div class="row">
+                        <div class="col-sm-10">
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" ng-click="saveGuide()">Actualizar Gu&iacute;a</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+               
+            </div>
+
+        </div>
+    </div>
+		
+		
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">Cerrar</button>
+		
+    </div>
+
+</div>
+

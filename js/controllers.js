@@ -77,9 +77,7 @@
 
         $scope.getCustomerArray=this.clients;
 
-        this.sequences = restServices('sequence/getAll').query(function(data){  
-           return data;
-        });      
+           
 
         
         $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
@@ -93,12 +91,6 @@
          
         $scope.getArray=$scope.orderItemList;
 
-        $scope.newClientList = restServices('client/getNewClient').query(function(data){  
-           return data;
-        });
-         
-        $scope.getClientArray=$scope.newClientList
-       
         var urlServiceCatalogOrderStatusIntegration = 'catalog/getSubCatalogs'+'ORDER_STATUS_INTEGRATION';
 
         this.orderStatusIntegrationList = restServices(urlServiceCatalogOrderStatusIntegration ).query(function(data){  
@@ -153,6 +145,19 @@
                 }
             });
         };
+
+        $scope.openPendingOrders = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/orderPendingDetail.html',
+                size: size,
+                controller: ModalOrderInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
     	
         $scope.openInvoices = function (size,order) {
             var modalInstance = $modal.open({
@@ -166,6 +171,21 @@
                 }
             });
         };
+
+
+        $scope.openInvoicesVtex = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/invoiceVitexDetail.html',
+                size: size,
+                controller: ModalInvoiceInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+
 
         $scope.openCreditNote = function (size,order) {
             console.log("Ingresa");
@@ -196,18 +216,7 @@
 
         
 
-        $scope.openSequence = function (size,seq) {
-            var modalInstance = $modal.open({
-                templateUrl: 'app/modules/catalog/views/sequence-edit.html',
-                size: size,
-                controller: sequenceUpdateCtrl,
-                resolve: {
-                    seq: function () {
-                        return seq;
-                    }
-                }
-            });
-        };
+        
 
         $scope.searchOrder = function(){
             console.log($scope.orderId);
@@ -323,11 +332,45 @@
                 default: console.log('no event caught'); 
             }
         };
+
+        
        
     };
 
 
+  function warehouseCustomerCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert, $rootScope) {
 
+    $scope.newClientList = restServices('client/getNewClient').query(function(data){  
+           return data;
+    });
+         
+    $scope.getClientArray=$scope.newClientList
+       
+    
+    $scope.updateWarehouseCustomers= function(){
+            
+        $scope.updateWC = {};
+        
+        $timeout(function() {
+            $scope.updateWC  = {};
+            $scope.updateWC  = restServices('client/updateWarehouseClient').get(function(data){  
+                    return data;
+            }); 
+               
+            $scope.$apply();
+        }, 1000);
+            
+        SweetAlert.swal("Info", "La informacion ha sido actualizada :)", "info");
+
+        $scope.newClientList = restServices('client/getNewClient').query(function(data){  
+           return data;
+        });
+         
+        $scope.getClientArray=$scope.newClientList
+    
+    };
+   
+   };
        
 
 
@@ -482,6 +525,19 @@
             SweetAlert.swal("Info", "La orden ha sido cancelada :)", "info");
         };
 
+
+        $scope.pendingOrder = function (vorderComplete) {
+           
+            urlService = 'vitextIntegration/pendingOrder';
+
+            
+            $scope.orderPending =  restServices(urlService).save({order:$scope.orderComplete},function(data){  
+                return data;
+            });
+
+            SweetAlert.swal("Info", "La orden ha marcada como pendiente :)", "info");
+        };
+
         $scope.onSelectedDelivery = function (selectedSupplier,selectedDelivery,idx) {
             console.log("selectedSupplier");
             console.log(selectedSupplier);
@@ -551,6 +607,28 @@
 
     };
 
+    function orderPendingCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
+        
+       
+        $scope.orderPendingList = restServices('vitextIntegration/getPendingOrders').query(function(data){  
+           return data;
+        });
+         
+        $scope.openPendingOrders = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/orderPendingDetail.html',
+                size: size,
+                controller: ModalOrderInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+      
+  };
+
 
     function ModalInvoiceInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert) {
 
@@ -611,8 +689,18 @@
 
             console.log("===**===");
             console.log($scope.invoice);
+            
+            SweetAlert.swal("Info", "La orden ha sido facturada:)", "info");
+            $scope.showGeneratedGuide=true;
+            $scope.showApprovedCancel=false;
+            
+        };
 
-            /*
+
+        $scope.invoiceVitexOrder = function (vorderComplete) {
+            //$modalInstance.close();
+
+
             urlService = 'vitextIntegration/invoiceOrderVtex';
 
             $scope.invoiceVtex =  restServices(urlService).save({order:vorderComplete,action:"invoice"},function(data){  
@@ -621,13 +709,13 @@
 
             console.log("===**===");
             console.log($scope.invoiceVtex);
-            */
             
-            SweetAlert.swal("Info", "La orden ha sido facturada:)", "info");
+            SweetAlert.swal("Info", "La orden ha sido facturada en VTex:)", "info");
             $scope.showGeneratedGuide=true;
             $scope.showApprovedCancel=false;
             
         };
+
 
         $scope.creditNoteOrder = function (vorderComplete) {
             //$modalInstance.close();
@@ -1060,6 +1148,7 @@
   function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
         $scope.startDate = "";
         $scope.finishDate = "";
+        $scope.deliveryDate = "";
 
         $scope.dateOptions = {
             dateFormat: "dd-mm-yyyy"
@@ -1070,6 +1159,24 @@
         });
          
         $scope.getGuideArray=$scope.guideList;  
+
+        $scope.guideGeneratedList = restServices('guide/getGuidesByStatusVO/GENERATED-PDF').query(function(data){  
+           return data;
+        });
+         
+        $scope.getGuideGeneratedArray=$scope.guideGeneratedList;  
+
+        $scope.guideProgrammedList = restServices('guide/getGuidesByStatusVO/PROGRAMED').query(function(data){  
+           return data;
+        });
+         
+        $scope.getGuideProgrammedArray=$scope.guideProgrammedList;  
+
+        $scope.guidePendingList = restServices('guide/getGuidesByStatusVO/PENDING').query(function(data){  
+           return data;
+        });
+         
+        $scope.getGuidePendingArray=$scope.guidePendingList;  
 
         $scope.searchGuides = function(vStart,vFinish){
           
@@ -1085,6 +1192,49 @@
          
             $scope.getGuideArray=$scope.guideList;   
         };
+
+        $scope.searchGuidesGenerated = function(vStart,vFinish){
+          
+            console.log("startDate");console.log($scope.startDate);  
+            console.log("finishDate");console.log($scope.finishDate);  
+            console.log("startDate");console.log(vStart);  
+            console.log("finishDate");console.log(vFinish);  
+            var vurl = 'guide/getGuidesByStatusDateRangeVO/GENERATED-PDF/'+$scope.startDate+'/'+$scope.finishDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guideGeneratedList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getGuideGeneratedArray=$scope.guideGeneratedList;   
+        };
+
+         $scope.searchGuidesProgrammed = function(vDeliveryDate){
+          
+            console.log("deliveryDate");console.log($scope.deliveryDate);  
+            var vurl = 'guide/getGuidesByStatusDeliveryDateVO/PROGRAMED/'+$scope.deliveryDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guideProgrammedList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getGuideProgrammedArray=$scope.guideProgrammedList;   
+        };
+
+         $scope.sendProgrammedGuides = function(vDeliveryDate){
+          
+            console.log("deliveryDate");console.log($scope.deliveryDate);  
+            var vurl = 'guide/sendDeliveryNotification/PROGRAMED/'+$scope.deliveryDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guideNotification = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            console.log($scope.guideNotification);
+        };
+
+
+
+
 
         $scope.openGuides = function (size,guide) {
             var modalInstance = $modal.open({
@@ -1302,6 +1452,7 @@
         $scope.seller.isWarehouse       = false;
         $scope.seller.priority          = null;
         $scope.seller.supplierType      = null;
+        $scope.seller.city              = "";
 
         $scope.bank                 = "";
         $scope.category             = "";
@@ -1516,7 +1667,7 @@
         $scope.priority             = supplier.priority;
         $scope.seller.isWarehouse   = supplier.isWarehouse;
         $scope.seller.supplierType  = supplier.supplierType;
-        
+        $scope.seller.city          = supplier.city;
 
         var urlService = 'supplier/getContacts'+$scope.seller.id;
 
@@ -1664,6 +1815,26 @@
         };
   };
 
+function sequenceCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
+
+    $scope.sequences = restServices('sequence/getAll').query(function(data){  
+           return data;
+     });   
+
+    $scope.openSequence = function (size,seq) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/catalog/views/sequence-edit.html',
+                size: size,
+                controller: sequenceUpdateCtrl,
+                resolve: {
+                    seq: function () {
+                        return seq;
+                    }
+                }
+            });
+        };
+
+};
 
 ///
 function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
@@ -1915,11 +2086,15 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
         .controller('ModalOrderInstanceCtrl', ModalOrderInstanceCtrl)
         .controller('ModalInvoiceInstanceCtrl', ModalInvoiceInstanceCtrl)
         .controller('ModalCreditNoteInstanceCtrl', ModalCreditNoteInstanceCtrl)
+        .controller('warehouseCustomerCtrl',warehouseCustomerCtrl)
         .controller('sellerCtrl',sellerCtrl)
         .controller('sellerCreateCtrl', sellerCreateCtrl)
         .controller('sellerUpdateCtrl', sellerUpdateCtrl)
+        .controller('sequenceCtrl',sequenceCtrl)
         .controller('sequenceCreateCtrl', sequenceCreateCtrl)
+        .controller('sequenceUpdateCtrl', sequenceUpdateCtrl)
         .controller('orderItemCtrl', orderItemCtrl)
+        .controller('orderPendingCtrl',orderPendingCtrl)
         .controller('guideCtrl', guideCtrl)
         .controller('guideDetailCtrl', guideDetailCtrl)
         .controller('warehouseItemCtrl',warehouseItemCtrl)

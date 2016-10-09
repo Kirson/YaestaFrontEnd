@@ -5,9 +5,9 @@
     <div class="modal-body">
         <p><strong>Detalle de la orden {{orderComplete.orderId}}</strong> 
        </p>
-        
-        
-        <div class="row">
+		
+		
+		<div class="row">
         <div class="col-lg-12">
 
             <div class="ibox product-detail">
@@ -61,6 +61,7 @@
                                     <table class="footable table table-stripped">
                                         <thead>
                                             <tr>
+                                                <th>Proveedor</th>
                                                 <th>Id Producto</th>
                                                 <th>Nombre Producto</th>
                                                 <th>Cantidad</th>
@@ -70,6 +71,7 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="item in orderComplete.items">
+                                                <td>{{ item.supplierName}}</td>
                                                 <td>{{ item.productId}}</td>
                                                 <td>{{ item.name }}</td>
                                                 <td>{{ item.quantity }}</td>
@@ -84,85 +86,79 @@
                            
                         
                     </div>
-
-                    <div class="row">
-                        
-                        
-                                <div class="panel-body">
-                                    <table class="footable table table-stripped">
-                                        <thead>
-                                            <tr>
-                                                <th>N&uacute;mero de Gu&iacute;a</th>
-                                                <th>Delivery</th>
-                                                <th>Estado</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="guide in orderComplete.guides">
-                                                <td>{{ guide.guideNumber}}</td>
-                                                <td>{{ guide.deliveryName }}</td>
-                                                <td>{{ guide.status }}</td>
-                                                
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                           
-                        
-                    </div>
-
-                    <div ng-show="showInvoice">
+                    <div ng-show="showApprovedCancel">
                         <div>
                             <div class="row">
                                 <div class="col-sm-8">
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" ng-click="invoiceOrder(orderComplete)">Facturar</button>
+                                        <button type="button" class="btn btn-primary" ng-click="aproveOrder(orderComplete)">Mostrar Detalle</button>
                                     </div>
                                 </div>
                                 
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div ng-show="showGeneratedGuide">
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <p>Recibe: {{orderComplete.shippingData.address.receiverName}}</p>
+                                    <p>Ciudad: {{orderComplete.shippingData.address.city}}</p>
+                                    <p>Direcci&oacute;n: {{orderComplete.shippingData.address.street}} {{orderComplete.shippingData.address.number}} {{orderComplete.shippingData.address.complement}}</p>
+                                </div>
+                                <div class="col-sm-2">
+                                
+                                </div>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="form-group"><label class="col-sm-2 control-label">Informaci&oacute;n de  Motivo para mantener pendiente</label> <div class="col-sm-10">
+                                        <input type="text" id="motivePendingText" name="motivePendingText" ng-model="orderComplete.motivePendingText" placeholder="Texto de Motivo de Pendiente" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="row">
+                                <div class="form-group"><label class="col-sm-2 control-label">Informaci&oacute;n de  Motivo para resolver pendiente</label> <div class="col-sm-10">
+                                        <input type="text" id="motivePendingText" name="motivePendingText" ng-model="orderComplete.solutionPendingText" placeholder="Texto de Motivo de Soluci&oacute;n de Pendiente" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group"><label class="col-sm-2 control-label">Dejar pendiente</label> <div class="col-sm-10">
+                                    <input type="checkbox" ng-model="orderComplete.pending">
+                                </div></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    
+                                </div>
+                                <div class="col-sm-4">
+                                      <div class="form-group">
+                                         <button type="button" class="btn btn-primary" ng-click="pendingOrder(orderComplete)">Actualizar</button>
+                                    </div>
+
+                                </div>
 
                             </div>
                         </div>
                     </div>
-                    <div ng-show="showCreditNote">
-                        <div class="row">
-                            <label class="control-label" for="motivo">Motivo</label>
-                            <input type="text" id="motivo" name="motivo" align="right" placeholder="Motivo" class="form-control" ng-model="motive">
-                        </div>
-                        <div class="row">
-                            <label class="control-label" for="numeroFactura">N&uacute;mero Factura</label>
-                            <input type="text" id="numeroFactura" name="numeroFactura" align="right" placeholder="Numero Factura" class="form-control" ng-model="invoiceNumber">
-                        </div>
-                        <div class="row">
-                            <label class="control-label" for="fechaFactura">Fecha Factura</label>
-                            <input type="text" id="fechaFactura" name="fechaFactura" align="right" placeholder="Fecha Factura" class="form-control" ng-model="invoiceDate">
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-7">
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary" ng-click="creditNoteOrder(orderComplete)">Generar Nota de Cr&eacute;dito</button>
-                                </div>
-                            </div>
-                                
-                        </div>
-                        </div>
-
-                </div>
-                
+               
+            </div>
 
         </div>
     </div>
-        
-        
+		
+		
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">Cerrar</button>
-       
+		
     </div>
 
 </div>
