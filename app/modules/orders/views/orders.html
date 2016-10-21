@@ -42,7 +42,7 @@
         <div class="ibox-content">
                     <input type="text" class="form-control input-sm m-b-xs" id="filter"
                            placeholder="Buscar en tabla">
-        <table  id="orderTable" class="footable table table-stripped exportTable export-excel" data-page-size="20" data-filter=#filter>
+        <table  id="orderTable" class="footable table table-stripped" data-page-size="20" data-filter=#filter>
             <thead>
             <tr>
                 <th>ID</th>
@@ -58,7 +58,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="order in orderSchema.list">
+            <tr ng-repeat="order in orderSchema.orderBeanList">
                 <td>{{ order.orderId}}</td>
                 <td>{{ order.clientName }}</td>
                 <td>{{ order.statusDescription }}</td>
@@ -81,12 +81,12 @@
                 </td>
             </tr>
             </tbody>
-            <tfoot>
-                        <tr>
-                            <td colspan="10">
-                                <ul class="pagination pull-right"></ul>
-                            </td>
-                        </tr>
+            <tfoot class="hide-if-no-paging">
+                <tr>
+                    <td colspan="10" class="text-center">
+                        <ul class="pagination"></ul>
+                    </td>
+                </tr>
             </tfoot>
         </table>
         </div>

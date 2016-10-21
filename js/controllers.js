@@ -79,8 +79,9 @@
 
            
 
-        
-        $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
+
+
+        $scope.orderSchema = restServices('vitextIntegration/getOrdersVitexRest').get(function(data){  
            $scope.$broadcast('scroll.refreshComplete');
            return data;
         });
@@ -237,7 +238,7 @@
         
             $timeout(function() {
                 $scope.orderSchema = {};
-                $scope.orderSchema = restServices('vitextIntegration/getOrdersRest').get(function(data){  
+                $scope.orderSchema = restServices('vitextIntegration/getOrdersVitexRest').get(function(data){  
                     return data;
                 }); 
                
@@ -307,6 +308,19 @@
             $timeout(function() {
                 $scope.processClients = "";
                 $scope.processClients = restServices('client/updateInfo').get(function(data){  
+                    return data;
+                });    
+               
+                $scope.$apply();
+            }, 1000);
+
+        };
+
+        $scope.reloadGuides = function(){
+
+            $timeout(function() {
+                $scope.processGuides= "";
+                $scope.processGuides = restServices('guide/processTracking').get(function(data){  
                     return data;
                 });    
                
@@ -1256,10 +1270,13 @@
         $scope.finishDate = "";
         $scope.guideStatus = "";
         $scope.showUpdateGuide=true;
+        $scope.gdate = new Date();
 
         $scope.dateOptions = {
             dateFormat: "dd-mm-yyyy"
         };
+
+        $scope.value =0;
 
         $scope.guideStatusList = restServices('catalog/getSubCatalogsGUIDE_STATUS').query(function(data){  
             $scope.$broadcast('scroll2.refreshComplete');
@@ -1272,7 +1289,15 @@
         var vurl = 'guide/findById'+guide.id;
        
         $scope.guideComplete = restServices(vurl).get(function(data){  
-           return data;
+            
+            $scope.gdate = data.orderDate;
+
+             $timeout(function() {
+                
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$apply();
+            }, 1000);
+            return data;
         });
 
         /*
@@ -1394,7 +1419,7 @@
   
   };
 
-  function sellerCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+  function sellerCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$location){
 
          $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
             $scope.$broadcast('scroll2.refreshComplete');
@@ -1599,6 +1624,8 @@
 
             
             SweetAlert.swal("Info", "El proveedor ha sido guardado)", "info");
+
+            $location.path('/modules/sellers');
         };
   };
 
