@@ -14,7 +14,14 @@
      * Contains severals global data used in diferent view
      *
      */
-    function MainCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert, $rootScope) {
+    function MainCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert, $rootScope,$location) {
+
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
 
         $scope.order = "";
         $scope.orderId = "";
@@ -52,10 +59,6 @@
         //this.parameters.$promise.then(function(data) {
             //  console.log(data);
         //});
-
-        this.catalogs = restServices('catalog/getMainCatalogs').query(function(data){  
-           return data;
-        });
 
         
 
@@ -352,7 +355,13 @@
     };
 
 
-  function warehouseCustomerCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert, $rootScope) {
+  function warehouseCustomerCtrl($scope,restServices,$modal, $timeout, $q, SweetAlert, $rootScope, $location) {
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.newClientList = restServices('client/getNewClient').query(function(data){  
            return data;
@@ -403,7 +412,14 @@
     };
 
 
-   function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert,DTOptionsBuilder, DTColumnDefBuilder) {
+   function ModalOrderInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert,DTOptionsBuilder, DTColumnDefBuilder,$location, $rootScope) {
+        
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
         $scope.motiveCancel={};
         $scope.order=order;
         $scope.deliveryList=[];
@@ -621,7 +637,13 @@
 
     };
 
-    function orderPendingCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
+    function orderPendingCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
         
        
         $scope.orderPendingList = restServices('vitextIntegration/getPendingOrders').query(function(data){  
@@ -644,7 +666,13 @@
   };
 
 
-    function ModalInvoiceInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert) {
+    function ModalInvoiceInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert,$location,$rootScope) {
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
 
         $scope.order=order;
         $scope.showInvoice=true;
@@ -757,7 +785,13 @@
 
     };
 
-    function ModalCreditNoteInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert) {
+    function ModalCreditNoteInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert, $location, $rootScope) {
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
 
         $scope.order=order;
         $scope.showCreditNote=true;
@@ -927,6 +961,12 @@
 
   function usersCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
 
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
+
     $scope.users = restServices('user/getAll').query(function(data){  
            return data;
     });
@@ -949,6 +989,12 @@
 
 
   function userCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.role = null;
     $scope.user = {};
@@ -988,6 +1034,12 @@
   };
 
   function userUpdateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$modalInstance,user){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.user = user;
     $scope.role = user.role;
@@ -1097,7 +1149,14 @@
      
   };
 
-  function orderItemCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+  function orderItemCtrl($scope,$rootScope,$http,restServices, SweetAlert,$location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
         $scope.startDate = "";
         $scope.finishDate = "";
 
@@ -1128,7 +1187,14 @@
       
   };
 
-  function warehouseItemCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+  function warehouseItemCtrl($scope,$rootScope,$http,restServices, SweetAlert,$location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
         $scope.startDate = "";
         $scope.finishDate = "";
 
@@ -1159,7 +1225,14 @@
       
   };
 
-  function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
+  function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
         $scope.startDate = "";
         $scope.finishDate = "";
         $scope.deliveryDate = "";
@@ -1265,7 +1338,14 @@
       
   };
 
-  function guideDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modalInstance,$timeout, guide){
+  function guideDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modalInstance,$timeout, guide, $location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
         $scope.startDate = "";
         $scope.finishDate = "";
         $scope.guideStatus = "";
@@ -1314,9 +1394,16 @@
          
         vurl = 'guide/getTrackingInfo/'+guide.id+'/'+guide.deliveryName;
 
+        console.log("url trackingList");
+        console.log(vurl);
+
         $scope.trackingList = restServices(vurl).query(function(data){  
            return data;
         });
+
+        console.log("trackingList");
+        console.log($scope.trackingList);
+
 
         $scope.onSelectedStatus = function (selectedStatus) {
             console.log("selectedStatus");
@@ -1350,6 +1437,12 @@
   };
 
   function sellerCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+
+    $scope.logged = $rootScope.loggedin;
+      
+      if(!$scope.logged){
+        $location.path('/auth/login');
+      }
 
     $scope.suppliers = restServices('supplier/getAll/').query(function(data){  
         return data;
@@ -1421,7 +1514,13 @@
 
   function sellerCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$location){
 
-         $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
+        $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
             $scope.$broadcast('scroll2.refreshComplete');
            return data;
         });  
@@ -1630,8 +1729,13 @@
   };
 
 
-  function sellerUpdateCtrl($scope,$rootScope,$http,restServices,supplier,$modalInstance, SweetAlert,$timeout){
+  function sellerUpdateCtrl($scope,$rootScope,$http,restServices,supplier,$modalInstance, SweetAlert,$timeout,$location){
 
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
 
         $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
             $scope.$broadcast('scroll2.refreshComplete');
@@ -1842,7 +1946,13 @@
         };
   };
 
-function sequenceCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
+function sequenceCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal,$location){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.sequences = restServices('sequence/getAll').query(function(data){  
            return data;
@@ -1864,7 +1974,13 @@ function sequenceCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal){
 };
 
 ///
-function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
+function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
 
         $scope.seq = {};
         $scope.seq.seqName = "";
@@ -1888,7 +2004,13 @@ function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
   };
 
 
-  function sequenceUpdateCtrl($scope,$rootScope,$http,restServices,seq,$modalInstance, SweetAlert){
+  function sequenceUpdateCtrl($scope,$rootScope,$http,restServices,seq,$modalInstance, SweetAlert, $location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
 
         $scope.seq = seq;
 
@@ -1916,7 +2038,13 @@ function sequenceCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert){
   };
 
 
-function tramacoCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+function tramacoCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal,$location){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.tramacoZones = restServices('tramacoZone/getAll').query(function(data){  
            return data;
@@ -1938,7 +2066,13 @@ function tramacoCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, 
 
 };
 
-function tramacoCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout){
+function tramacoCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$location){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.zoneT = {};
     $scope.zoneT.codigo     = "";
@@ -1960,7 +2094,13 @@ function tramacoCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetA
 
   };
 
-  function tramacoUpdateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$modalInstance,zoneT){
+  function tramacoUpdateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$modalInstance,zoneT,$location){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.zoneT = zoneT;
 
@@ -1988,6 +2128,12 @@ function tramacoCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetA
 
   function tccCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
 
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
+
     $scope.tccZones = restServices('coberturaTcc/getAll').query(function(data){  
            return data;
     });
@@ -2010,6 +2156,12 @@ function tramacoCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetA
 
 function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout){
 
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
+
     $scope.zoneT = {};
     $scope.zoneT.codigo     = "";
     $scope.zoneT.provincia  = "";
@@ -2031,6 +2183,12 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
   };
 
   function tccUpdateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout,$modalInstance,zoneT){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
 
     $scope.zoneT = zoneT;
 
@@ -2058,6 +2216,12 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
 
   function logYaestaCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
 
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
+
     $scope.logs = restServices('yaestalog/getAll').query(function(data){  
            return data;
     });
@@ -2079,6 +2243,12 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
 
   function logYaestaDetailCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modalInstance, log){
 
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
+
     $scope.logs = restServices('yaestalog/getAll').query(function(data){  
            return data;
     });
@@ -2099,6 +2269,266 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
 
 
   };
+
+  function catalogCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
+
+    $scope.logged = $rootScope.loggedin;
+      
+      if(!$scope.logged){
+        $location.path('/auth/login');
+      }
+
+    $scope.catalogs = restServices('catalog/getMainCatalogs').query(function(data){  
+           return data;
+    });
+
+    
+    $scope.openCatalog = function (size,catalog) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/modules/catalog/views/catalog-edit.html',
+            size: size,
+            controller: catalogUpdateCtrl,
+            resolve: {
+                catalog: function () {
+                    return catalog;
+                }
+            }
+        });
+    };
+
+    
+  
+  };
+
+function catalogCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$location){
+
+    $scope.logged = $rootScope.loggedin;
+      
+    if(!$scope.logged){
+        $location.path('/auth/login');
+    }
+
+
+    $scope.cat = {};
+    $scope.cat.name         = "";
+    $scope.cat.nemonic      = "";
+    $scope.cat.description  = "";
+        
+    $scope.catalogSelected  = {};
+    $scope.catalogDetails = [];
+        
+    $scope.newCatalog  = {
+        id: -1,
+        name: "",
+        nemonic: "",
+        description: ""
+    };
+
+    $scope.removeDetailList = [];
+
+    $scope.showAddDetail = false;
+
+    $scope.getTemplate = function (catalog) {
+        if (catalog.id === $scope.catalogSelected.id) return 'edit';
+        else return 'display';
+    };
+
+    $scope.editDetail = function (catalog) {
+        $scope.catalogSelected = angular.copy(catalog);
+    };
+
+    $scope.saveDetail = function (idx) {
+        console.log("Saving detail");
+        $scope.catalogDetails[idx] = angular.copy($scope.catalogSelected);
+        $scope.reset();
+    };
+
+    $scope.reset = function () {
+        $scope.catalogSelected = {};
+        $scope.newCatalog  = {
+            id: -1,
+            name: "",
+            nemonic: "",
+            description: ""
+        };
+    };
+
+    $scope.addDetail = function () {
+        $scope.showAddDetail = true;
+    };
+
+    $scope.addNewDetail = function () {
+        $scope.catalogDetails.push($scope.newCatalog);
+        $scope.showAddDetail = false;
+        $scope.reset();
+        $scope.getTemplate($scope.newCatalog);
+    };
+
+
+    $scope.cancelNewDetail = function () {
+        $scope.showAddDetail = false;
+        $scope.reset();
+        $scope.getTemplate($scope.newCatalog);
+    };
+
+    $scope.removeDetail = function (idx) {
+        console.log("Ingresa a remover");
+        console.log(idx);
+        $scope.catalogSelected = angular.copy($scope.catalogDetails[idx]);
+        $scope.catalogDetails.splice(idx, 1);
+        $scope.removeDetailList.push($scope.catalogSelected);
+        $scope.showAddDetail = false;
+           
+        $timeout(function() {
+            $scope.reset();
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$apply();
+        }, 1000);
+
+            
+        $scope.getTemplate($scope.newCatalog);
+    };
+
+    var urlService = 'catalog/save';
+
+    $scope.saveCatalog = function () {
+        $scope.catalog =  restServices(urlService).save({catalog:$scope.cat,detailList:$scope.catalogDetails},function(data){  
+            return data;
+        });
+
+        console.log("===**===");
+        console.log($scope.catalog);
+ 
+        SweetAlert.swal("Info", "El catalogo ha sido guardado)", "info");
+
+        $location.path('/modules/catalogs');
+    };
+  };
+
+  function catalogUpdateCtrl($scope,$rootScope,$http,restServices,catalog,$modalInstance, SweetAlert,$timeout,$location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
+        $scope.catalogSelected  = {};
+        $scope.catalogDetails = [];
+
+
+        $scope.newCatalog  = {
+            id: -1,
+            name: "",
+            nemonic: "",
+            description: ""
+        };
+
+        $scope.removeDetailList = [];
+
+        $scope.showAddDetail = false;
+
+        $scope.cat = catalog;
+
+        var urlService = 'catalog/getSubCatalogs'+$scope.cat.nemonic;
+
+        $scope.catalogDetails = restServices(urlService).query(function(data){  
+           return data;
+        });
+
+        console.log($scope.catalogDetails);
+
+        // gets the template to ng-include for a table row / item
+        $scope.getTemplate = function (catalog) {
+            if (catalog.id === $scope.catalogSelected.id) return 'edit';
+            else return 'display';
+        };
+
+        $scope.editDetail = function (catalog) {
+            $scope.catalogSelected = angular.copy(catalog);
+        };
+
+        $scope.saveDetail = function (idx) {
+            console.log("Saving detail");
+            $scope.catalogDetails[idx] = angular.copy($scope.catalogSelected);
+            $scope.reset();
+        };
+
+        $scope.reset = function () {
+            $scope.catalogSelected = {};
+            $scope.newCatalog  = {
+                id: -1,
+                name: "",
+                nemonic: "",
+                description: ""
+            };
+        };
+
+        $scope.addDetail = function () {
+            $scope.showAddDetail = true;
+        };
+
+        $scope.addNewDetail = function () {
+            $scope.catalogDetails.push($scope.newCatalog);
+            $scope.showAddDetail = false;
+            $scope.reset();
+            $scope.getTemplate($scope.newCatalog);
+        };
+
+
+        $scope.cancelNewDetail = function () {
+            $scope.showAddDetail = false;
+            $scope.reset();
+            $scope.getTemplate($scope.newCatalog);
+        };
+
+        $scope.removeDetail = function (idx) {
+            console.log("Ingresa a remover");
+            console.log(idx);
+            $scope.catalogSelected = angular.copy($scope.catalogDetails[idx]);
+            $scope.catalogDetails.splice(idx, 1);
+            $scope.removeDetailList.push($scope.catalogSelected);
+            $scope.showAddDetail = false;
+
+            $timeout(function() {
+                 urlService = 'catalog/removeDetail';
+                $scope.resp =  restServices(urlService).save({detail:$scope.catalogSelected},function(data){  
+                    return data;
+                });
+                console.log($scope.resp);
+                $scope.reset();
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$apply();
+            }, 1000);
+
+            
+            $scope.getTemplate($scope.newCatalog);
+        };
+
+        
+
+        $scope.updateCatalog = function (vcatalog) {
+           urlService = 'catalog/save';
+           $scope.catalog =  restServices(urlService).save({catalog:vcatalog,detailList:$scope.catalogDetails,removeList:$scope.removeDetailList},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.catalog);
+
+            
+            SweetAlert.swal("Info", "El catalogo ha sido actualizado)", "info");
+        };
+
+        $scope.ok = function () {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+  };
+
 
        
 
@@ -2139,5 +2569,8 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
         .controller('tccCreateCtrl',tccCreateCtrl)
         .controller('tccUpdateCtrl',tccUpdateCtrl)
         .controller('logYaestaCtrl',logYaestaCtrl)
-        .controller('logYaestaDetailCtrl',logYaestaDetailCtrl);
+        .controller('logYaestaDetailCtrl',logYaestaDetailCtrl)
+        .controller('catalogCtrl',catalogCtrl)
+        .controller('catalogCreateCtrl',catalogCreateCtrl)
+        .controller('catalogUpdateCtrl',catalogUpdateCtrl);
 

@@ -856,6 +856,108 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 }
             }
         })
+        .state('modules.catalogs', {
+            url: "/catalogs",
+            templateUrl: "app/modules/catalog/views/catalogs.html",
+            data: { pageTitle: 'Catalogos' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('modules.catalogCreate', {
+            url: "/catalogCreate",
+            templateUrl: "app/modules/catalog/views/catalog-create.html",
+            data: { pageTitle: 'Catalogos' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('modules.catalogUpdate', {
+            url: "/catalogUpdate",
+            templateUrl: "app/modules/catalog/views/catalog-edit.html",
+            data: { pageTitle: 'Catalogos' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        }
+                    ]);
+                }
+            }
+        })
         .state('modules.users', {
             url: "/users",
             templateUrl: "app/modules/user/views/users.html",
@@ -1162,36 +1264,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 }
             }
         })
-        .state('modules.catalogs', {
-            url: "/catalogs",
-            templateUrl: "app/modules/catalog/views/catalogs.html",
-            data: { pageTitle: 'Catalogos' },
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            serie: true,
-                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
-                        },
-                        {
-                            serie: true,
-                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
-                        },
-                        {
-                            name: 'datatables',
-                            files: ['js/plugins/dataTables/angular-datatables.min.js']
-                        },
-                        {
-                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
-                        },
-                        {
-                            name: 'ui.footable',
-                            files: ['js/plugins/footable/angular-footable.js']
-                        }
-                    ]);
-                }
-            }
-        })
+        
         .state('modules.parameters', {
             url: "/parameters",
             templateUrl: "app/modules/catalog/views/parameters.html",
