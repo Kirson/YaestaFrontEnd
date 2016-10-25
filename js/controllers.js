@@ -1737,6 +1737,46 @@
             $location.path('/auth/login');
         }
 
+        $scope.contactSelected  = {};
+        $scope.sellerContacts = [];
+
+        $scope.newContact  = {
+            id: -1,
+            name: "",
+            phone: "",
+            email: ""
+        };
+
+        $scope.removeContactList = [];
+
+        $scope.showAddContact = false;
+
+        console.log("supplier");
+        console.log(supplier);
+
+        $scope.seller                   = supplier;
+        $scope.seller.isNew             = false;
+        $scope.bank                     = supplier.catBank;
+        $scope.category                 = supplier.catCategory;
+        $scope.accountType              = supplier.catAccountType;
+        $scope.supplierStatus           = supplier.catSupplierStatus;
+        $scope.productListStatus        = supplier.catProductListStatus;
+        $scope.priority                 = supplier.catPriority;
+        $scope.supplierType             = supplier.catSupplierType;
+        $scope.seller.bank              = supplier.catBank;
+        $scope.seller.category          = supplier.catCategory;
+        $scope.seller.accountType       = supplier.catAccountType;
+        $scope.seller.supplierStatus    = supplier.catSupplierStatus;
+        $scope.seller.productListStatus = supplier.catProductListStatus;
+        $scope.seller.priority          = supplier.catPriority;
+        $scope.seller.isWarehouse       = supplier.isWarehouse;
+        $scope.seller.supplierType      = supplier.catSupplierType;
+        $scope.seller.city              = supplier.city;
+
+        console.log("seller");
+        console.log($scope.seller);
+
+
         $scope.categoryList = restServices('catalog/getSubCatalogsCATEGORY_CATALOG').query(function(data){  
             $scope.$broadcast('scroll2.refreshComplete');
            return data;
@@ -1771,34 +1811,6 @@
             $scope.$broadcast('scroll2.refreshComplete');
            return data;
         });
-
-        $scope.contactSelected  = {};
-        $scope.sellerContacts = [];
-
-
-        
-        $scope.newContact  = {
-            id: -1,
-            name: "",
-            phone: "",
-            email: ""
-        };
-
-        $scope.removeContactList = [];
-
-        $scope.showAddContact = false;
-
-        $scope.seller               = supplier;
-        $scope.seller.isNew         = false;
-        $scope.bank                 = supplier.bank;
-        $scope.category             = supplier.category;
-        $scope.accountType          = supplier.accountType;
-        $scope.supplierStatus       = supplier.supplierStatus;
-        $scope.productListStatus    = supplier.productListStatus;
-        $scope.priority             = supplier.priority;
-        $scope.seller.isWarehouse   = supplier.isWarehouse;
-        $scope.seller.supplierType  = supplier.supplierType;
-        $scope.seller.city          = supplier.city;
 
         var urlService = 'supplier/getContacts'+$scope.seller.id;
 
