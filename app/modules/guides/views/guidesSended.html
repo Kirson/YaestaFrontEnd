@@ -9,7 +9,7 @@
                     <a>Gu&iacute;as</a>
                 </li>
                 <li class="active">
-                    <strong>Listado de Gu&iacute;as Pendientes de Retiro</strong>
+                    <strong>Listado de Gu&iacute;as en Proceso de Entrega</strong>
                 </li>
             </ol>
         </div>
@@ -24,7 +24,7 @@
     <div class="col-lg-12">
     <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5><strong>Listado de Gu&iacute;as Pendientes de Retiro</strong></h5>
+        <h5><strong>Listado de Gu&iacute;as en Proceso de Entrega</strong></h5>
 
         <div ibox-tools></div>
     </div>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="row">
-            <button class="btn btn-primary" ng-csv="getGuideProgrammedArray" 
+            <button class="btn btn-primary" ng-csv="getGuideSendedArray" 
                                     csv-header="['id_interno', 'numero_guia', 'nombre_delivery','nombre_cliente','estado_guia',
                                     'estado_delivery','fecha_creacion','fecha_orden','fecha_entrega',
                                     'direccion_destinatario','id_orden','id_proveedor','nombre_proveedor']"
@@ -76,7 +76,7 @@
     	    </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="guide in guideProgrammedList">
+            <tr ng-repeat="guide in guideSendedList">
                 <td>{{ guide.id}}</td>
                 <td>{{ guide.orderId }}</td>
                 <td>{{ guide.guideNumber }}</td>

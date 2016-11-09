@@ -1265,6 +1265,18 @@
          
         $scope.getGuidePendingArray=$scope.guidePendingList;  
 
+        $scope.guideSendedList = restServices('guide/getGuidesByStatusVO/SENDED').query(function(data){  
+           return data;
+        });
+         
+        $scope.getGuideSendedArray=$scope.guideSendedList;  
+
+        $scope.guideDeliveryList = restServices('guide/getGuidesByStatusVO/DELIVERED').query(function(data){  
+           return data;
+        });
+         
+        $scope.getGuideDeliveryArray=$scope.guideDeliveryList;  
+
         $scope.searchGuides = function(vStart,vFinish){
           
             console.log("startDate");console.log($scope.startDate);  
