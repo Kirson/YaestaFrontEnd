@@ -36,11 +36,8 @@
                     <input ui-date ui-date-format="dd-mm-yyyy" ng-model="deliveryDate">
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn btn-primary" ng-click="searchGuidesProgrammed(deliveryDate)">
+                    <button class="btn btn-primary" ng-click="searchGuidesDeliveryProcess(deliveryDate)">
                         <i class="fa fa-search">Buscar</i>
-                    </button>
-                     <button class="btn btn-primary" ng-click="sendProgrammedGuides(deliveryDate)">
-                        <i class="fa fa-envelope ">Notificar Despacho</i>
                     </button>
                 </div>
             </div>
@@ -49,8 +46,8 @@
             <button class="btn btn-primary" ng-csv="getGuideSendedArray" 
                                     csv-header="['id_interno', 'numero_guia', 'nombre_delivery','nombre_cliente','estado_guia',
                                     'estado_delivery','fecha_creacion','fecha_orden','fecha_entrega',
-                                    'direccion_destinatario','id_orden','id_proveedor','nombre_proveedor']"
-                                    filename="exportGuides.csv" field-separator=";" decimal-separator="," add-bom="true">
+                                     'id_orden','id_proveedor','nombre_proveedor']"
+                                    filename="exportGuidesDeliveryProcess.csv" field-separator=";" decimal-separator="," add-bom="true">
                                 <i class="fa fa-file">Exportar Tabla</i>
             </button>
         </div>

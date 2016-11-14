@@ -331,6 +331,19 @@
             }, 1000);
 
         };
+
+        $scope.migrateGuides = function(){
+
+            $timeout(function() {
+                $scope.processGuides= "";
+                $scope.processGuides = restServices('guide/processMigrate').get(function(data){  
+                    return data;
+                });    
+               
+                $scope.$apply();
+            }, 1000);
+
+        };
         
 
         $scope.exportAction = function(action){ 
@@ -664,6 +677,81 @@
         };
       
   };
+
+
+function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+        
+       
+        $scope.orderInvoicePendingList = restServices('vitextIntegration/getPendingInvoiceOrders/S').query(function(data){  
+           return data;
+        });
+
+        $scope.orderInvoiceList = restServices('vitextIntegration/getPendingInvoiceOrders/N').query(function(data){  
+           return data;
+        });
+         
+        $scope.openPendingInvoiceOrders = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/ordersInvoicePendingDetail.html',
+                size: size,
+                controller: ModalOrderInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+
+        $scope.openInvoiceOrders = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/ordersInvoiceDetail.html',
+                size: size,
+                controller: ModalOrderInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+
+
+        $scope.openInvoices = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/invoiceDetail.html',
+                size: size,
+                controller: ModalInvoiceInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+
+
+        $scope.openInvoicesVtex = function (size,order) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/orders/views/invoiceVitexDetail.html',
+                size: size,
+                controller: ModalInvoiceInstanceCtrl,
+                resolve: {
+                    order: function () {
+                        return order;
+                    }
+                }
+            });
+        };
+      
+  };
+
 
 
     function ModalInvoiceInstanceCtrl ($scope, $modalInstance, order, restServices, SweetAlert,$location,$rootScope) {
@@ -1253,7 +1341,7 @@
          
         $scope.getGuideGeneratedArray=$scope.guideGeneratedList;  
 
-        $scope.guideProgrammedList = restServices('guide/getGuidesByStatusVO/PROGRAMED').query(function(data){  
+        $scope.guideProgrammedList = restServices('guide/getGuidesByStatusVO/DELIVERY_PENDING').query(function(data){  
            return data;
         });
          
@@ -1265,7 +1353,7 @@
          
         $scope.getGuidePendingArray=$scope.guidePendingList;  
 
-        $scope.guideSendedList = restServices('guide/getGuidesByStatusVO/SENDED').query(function(data){  
+        $scope.guideSendedList = restServices('guide/getGuidesByStatusVO/DELIVERY_PROCESS').query(function(data){  
            return data;
         });
          
@@ -1310,7 +1398,7 @@
          $scope.searchGuidesProgrammed = function(vDeliveryDate){
           
             console.log("deliveryDate");console.log($scope.deliveryDate);  
-            var vurl = 'guide/getGuidesByStatusDeliveryDateVO/PROGRAMED/'+$scope.deliveryDate;
+            var vurl = 'guide/getGuidesByStatusDeliveryDateVO/DELIVERY_PENDING/'+$scope.deliveryDate;
             console.log("vurl");console.log(vurl);
             $scope.guideProgrammedList = restServices(vurl).query(function(data){  
                 return data;
@@ -1322,13 +1410,50 @@
          $scope.sendProgrammedGuides = function(vDeliveryDate){
           
             console.log("deliveryDate");console.log($scope.deliveryDate);  
-            var vurl = 'guide/sendDeliveryNotification/PROGRAMED/'+$scope.deliveryDate;
+            var vurl = 'guide/sendDeliveryNotification/DELIVERY_PENDING/'+$scope.deliveryDate;
             console.log("vurl");console.log(vurl);
             $scope.guideNotification = restServices(vurl).query(function(data){  
                 return data;
             });
          
             console.log($scope.guideNotification);
+        };
+
+        $scope.searchGuidesPending = function(vDeliveryDate){
+          
+            console.log("deliveryDate");console.log($scope.deliveryDate);  
+            var vurl = 'guide/getGuidesByStatusDeliveryDateVO/PENDING/'+$scope.deliveryDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guidePendingList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getGuidePendingArray=$scope.guidePendingList;   
+        };
+
+        $scope.searchGuidesDeliveryProcess = function(vDeliveryDate){
+          
+            console.log("deliveryDate");console.log($scope.deliveryDate);  
+            var vurl = 'guide/getGuidesByStatusDeliveryDateVO/DELIVERY_PROCESS/'+$scope.deliveryDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guideSendedList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getGuideSendedArray=$scope.guideSendedList;   
+        };
+
+
+        $scope.searchGuidesDelivery = function(vDeliveryDate){
+          
+            console.log("deliveryDate");console.log($scope.deliveryDate);  
+            var vurl = 'guide/getGuidesByStatusDeliveryDateVO/DELIVERED/'+$scope.deliveryDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guideDeliveryList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getGuideDeliveryArray=$scope.guideDeliveryList;   
         };
 
 
@@ -2576,6 +2701,7 @@ function catalogCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$loc
         .controller('sequenceUpdateCtrl', sequenceUpdateCtrl)
         .controller('orderItemCtrl', orderItemCtrl)
         .controller('orderPendingCtrl',orderPendingCtrl)
+        .controller('orderInvoicePendingCtrl',orderInvoicePendingCtrl)
         .controller('guideCtrl', guideCtrl)
         .controller('guideDetailCtrl', guideDetailCtrl)
         .controller('warehouseItemCtrl',warehouseItemCtrl)

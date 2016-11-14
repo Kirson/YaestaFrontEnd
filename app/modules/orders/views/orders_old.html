@@ -52,6 +52,9 @@
     			<th>Fecha</th>
     			<th>Tienda</th>
     			<th>Detalles</th>
+                
+                    <th>Factura / Nota de Cr&eacute;dito</th>
+               
                 <th>Cancelaci&oacute;n</th>
                 <th>Dejar Pendiente</th>
             </tr>
@@ -67,6 +70,12 @@
     			<td> 
     				<button class="btn btn-primary" ng-click="openOrders('lg',order)"><i class="fa fa-search"></i></button>
     			</td>
+               
+    			<td> 
+    				<button class="btn btn-primary" ng-click="openInvoices('lg',order)"><i class="fa fa-dollar"></i></button>
+                    <button class="btn btn-warning" ng-click="openInvoicesVtex('lg',order)"><i class="fa fa-dollar"></i></button>
+    			</td>
+               
                 <td> 
                     <button class="btn btn-primary" ng-click="openCancelOrders('lg',order)"><i class="fa fa-trash"></i></button>
                 </td>

@@ -9,7 +9,7 @@
                     <a>Órdenes</a>
                 </li>
                 <li class="active">
-                    <strong>Buscar Orden</strong>
+                    <strong>Listado de Órdenes</strong>
                 </li>
             </ol>
         </div>
@@ -17,25 +17,19 @@
 
         </div>
     </div>
-    <div class="wrapper wrapper-content animated fadeInRight" ng-controller="MainCtrl">
+    <div class="wrapper wrapper-content animated fadeInRight" ng-controller="orderInvoicePendingCtrl">
 
 
     <div class="row">
     <div class="col-lg-12">
     <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5><strong>Listado de Órdenes</strong></h5>
+        <h5><strong>Listado de Órdenes Pendientes de Facturaci&oacute;n</strong></h5>
 
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
-        <div class="row"><input type="text" class="form-control input-sm m-b-xs" id="vorden"
-                           placeholder="orden" ng-model="orderId">
-            <button class="btn btn-primary" ng-click="searchOrder()">
-                <i class="fa fa-search">Buscar</i>
-            </button>
-           
-        </div>
+       
         <div class="ibox-content">
                     <input type="text" class="form-control input-sm m-b-xs" id="filter"
                            placeholder="Buscar en tabla">
@@ -45,36 +39,32 @@
                 <th>ID</th>
                 <th>Cliente</th>
                 <th>Estado</th>
-    			<th>Total</th>
-    			<th>Fecha</th>
-    			<th>Tienda</th>
-    			<th>Detalles</th>
-                <th>Cancelaci&oacute;n</th>
-                <th>Dejar Pendiente</th>
+                <th>Total</th>
+                <th>Fecha</th>
+                <th>Detalles</th>
+                <th>Factura / Nota de Cr&eacute;dito</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr ng-repeat="order in orderInvoicePendingList">
                 <td>{{ order.orderId}}</td>
                 <td>{{ order.customerName }}</td>
                 <td>{{ order.statusDescription }}</td>
-                <td align="right">{{ order.totalValue | number:2 }}</td>
-    			<td>{{ order.creationDate | date:'yyyy-MM-dd HH:mm'}}</td>
-    			<td>{{ order.origin }}</td>
-    			<td> 
-    				<button class="btn btn-primary" ng-click="openOrders('lg',order)"><i class="fa fa-search"></i></button>
-    			</td>
+                <td align="right">{{ order.value | number:2 }}</td>
+                <td>{{ order.creationDate | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td> 
-                    <button class="btn btn-primary" ng-click="openCancelOrders('lg',order)"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-primary" ng-click="openPendingInvoiceOrders('lg',order)"><i class="fa fa-search"></i></button>
                 </td>
                 <td> 
-                    <button class="btn btn-primary" ng-click="openPendingOrders('lg',order)"><i class="fa fa-exclamation-triangle"></i></button>
+                    <button class="btn btn-primary" ng-click="openInvoices('lg',order)"><i class="fa fa-dollar"></i></button>
+                    <button class="btn btn-warning" ng-click="openInvoicesVtex('lg',order)"><i class="fa fa-dollar"></i></button>
                 </td>
+               
             </tr>
             </tbody>
             <tfoot>
                         <tr>
-                            <td colspan="10">
+                            <td colspan="6">
                                 <ul class="pagination pull-right"></ul>
                             </td>
                         </tr>

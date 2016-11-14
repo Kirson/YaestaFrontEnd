@@ -222,6 +222,82 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 }
             }
         })
+        .state('modules.ordersInvoicePending', {
+            url: "/ordersInvoicePending",
+            templateUrl: "app/modules/orders/views/ordersInvoicePending.html",
+            data: { pageTitle: 'Ordenes Pendientes de Facturacion' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/angular-datepicker.js']                          
+                        }
+                    ]);
+                }
+            }
+        })
+         .state('modules.ordersInvoice', {
+            url: "/ordersInvoice",
+            templateUrl: "app/modules/orders/views/ordersInvoice.html",
+            data: { pageTitle: 'Ordenes Facturadas' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/angular-datepicker.js']                          
+                        }
+                    ]);
+                }
+            }
+        })
         .state('modules.warehouseItems', {
             url: "/warehouseItems",
             templateUrl: "app/modules/orders/views/warehouseItems.html",

@@ -26,12 +26,11 @@
                                 <input type="text" id="status" name="status" ng-model="guideComplete.status" placeholder="Estado" class="form-control" ng-disabled="true">
                             </div>
                         </div>
-                        <!--
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="control-label" for="dateO">Fecha</label>
                                 <input type="text" id="dateO" name="dateO" placeholder="Fecha" class="form-control" ng-disabled="true" ng-model="gdate | date:'yyyy-MM-dd HH:mm'">
-                                
+                                <!--<input type="text" id="dateO" name="dateO" placeholder="Fecha" class="form-control" ng-disabled="true" ng-model="guideComplete.createDate | date:'yyyy-MM-dd HH:mm'">-->
                             </div>
                         </div>
                          <div class="col-sm-3">
@@ -40,7 +39,6 @@
                                 <input type="text" id="totalO" name="totalO" align="right" placeholder="Total" class="form-control" ng-model="guideComplete.itemValue | number:2 " ng-disabled="true">
                             </div>
                         </div>
-                        -->
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="control-label" for="deliveryName">Delivery</label>
@@ -48,34 +46,13 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        
-                         <div class="panel-body">
-                            <table class="footable table table-stripped">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre Item</th>
-                                               
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="item in guideComplete.details">
-                                        <td>{{ item.itemName}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                           
-                        
-                    </div>
                     
                     <div class="row">
                         
-                         <div class="panel-body">
-                            <table class="footable table table-stripped">
-                                <thead>
+                        
+                                <div class="panel-body">
+                                    <table class="footable table table-stripped">
+                                        <thead>
                                             <tr>
                                                 <th>Estado Delivery</th>
                                                 <th>Descripci&oacute;n</th>
@@ -83,8 +60,8 @@
                                                 <th>Transporte</th>
                                                 <th>Transportista</th>
                                             </tr>
-                                </thead>
-                                <tbody>
+                                        </thead>
+                                        <tbody>
                                             <tr ng-repeat="track in trackingList">
                                                 <td>{{ track.status}}</td>
                                                 <td>{{ track.description}}</td>
@@ -92,9 +69,9 @@
                                                 <td>{{ track.transport }}</td>
                                                 <td>{{ track.carrier }}</td>
                                             </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                        </tbody>
+                                    </table>
+                                </div>
 
                            
                         

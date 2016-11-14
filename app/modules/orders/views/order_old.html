@@ -9,7 +9,7 @@
                     <a>Órdenes</a>
                 </li>
                 <li class="active">
-                    <strong>Listado de Órdenes</strong>
+                    <strong>Buscar Orden</strong>
                 </li>
             </ol>
         </div>
@@ -29,20 +29,17 @@
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
-        <div class="row">
-            <button class="btn btn-primary" ng-click="refresh()">
-                <i class="fa fa-search">Refrescar</i>
+        <div class="row"><input type="text" class="form-control input-sm m-b-xs" id="vorden"
+                           placeholder="orden" ng-model="orderId">
+            <button class="btn btn-primary" ng-click="searchOrder()">
+                <i class="fa fa-search">Buscar</i>
             </button>
-            <!--
-             <button class="btn btn-primary" ng-click="exportAction('excel');">
-                <i class="fa fa-file">Exportar Tabla</i>
-            </button>
-            -->
+           
         </div>
         <div class="ibox-content">
                     <input type="text" class="form-control input-sm m-b-xs" id="filter"
                            placeholder="Buscar en tabla">
-        <table  id="orderTable" class="footable table table-stripped" data-page-size="20" data-filter=#filter>
+        <table  id="orderTable" class="footable table table-stripped exportTable export-excel" data-page-size="20" data-filter=#filter>
             <thead>
             <tr>
                 <th>ID</th>
@@ -52,14 +49,15 @@
     			<th>Fecha</th>
     			<th>Tienda</th>
     			<th>Detalles</th>
+                <th>Factura / Nota de Cr&eacute;dito</th>
                 <th>Cancelaci&oacute;n</th>
                 <th>Dejar Pendiente</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="order in orderSchema.orderBeanList">
+            <tr>
                 <td>{{ order.orderId}}</td>
-                <td>{{ order.clientName }}</td>
+                <td>{{ order.customerName }}</td>
                 <td>{{ order.statusDescription }}</td>
                 <td align="right">{{ order.totalValue | number:2 }}</td>
     			<td>{{ order.creationDate | date:'yyyy-MM-dd HH:mm'}}</td>
@@ -67,7 +65,12 @@
     			<td> 
     				<button class="btn btn-primary" ng-click="openOrders('lg',order)"><i class="fa fa-search"></i></button>
     			</td>
-                <td> 
+                
+    			<td> 
+    				<button class="btn btn-primary" ng-click="openInvoices('lg',order)"><i class="fa fa-dollar"></i></button>
+                    <button class="btn btn-warning" ng-click="openInvoicesVtex('lg',order)"><i class="fa fa-dollar"></i></button>
+    			</td>
+                 <td> 
                     <button class="btn btn-primary" ng-click="openCancelOrders('lg',order)"><i class="fa fa-trash"></i></button>
                 </td>
                 <td> 
@@ -75,12 +78,12 @@
                 </td>
             </tr>
             </tbody>
-            <tfoot class="hide-if-no-paging">
-                <tr>
-                    <td colspan="10" class="text-center">
-                        <ul class="pagination"></ul>
-                    </td>
-                </tr>
+            <tfoot>
+                        <tr>
+                            <td colspan="10">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
             </tfoot>
         </table>
         </div>
