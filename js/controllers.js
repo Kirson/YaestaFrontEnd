@@ -441,6 +441,7 @@
         $scope.itemIdentityTypeSelected={};
         $scope.showApprovedCancel=true;
         $scope.customerAditionalInfo="";
+        $scope.customerDocument="";
         $scope.dtInstance1 = {};
         $scope.dtInstance2 = {};
         $scope.dtOptions = DTOptionsBuilder.newOptions();
@@ -628,6 +629,7 @@
             $scope.guideInfoBean =  restServices(urlService).save({orderComplete:vorderComplete,
                                                                    supplierDeliveryInfoList:vorderComplete.supplierDeliveryInfoList,
                                                                    customerAdditionalInfo:$scope.customerAditionalInfo, 
+                                                                   customerDocument:$scope.customerDocument, 
                                                                    deliverySelected:$scope.deliverySelected},function(data){  
                 return data;
             });
