@@ -1,0 +1,109 @@
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>YaEsta.com - Órdenes & Items</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Inicio</a>
+                </li>
+                <li>
+                    <a>Órdenes & Items</a>
+                </li>
+                <li class="active">
+                    <strong>Listado de Órdenes de Bodega</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" ng-controller="warehouseItemCtrl">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><strong>Listado de Órdenes & Items de Bodega</strong></h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2" for="guideDate">Fecha Gu&iacute;a</label>
+                                <div class="input-group date col-lg-3">
+                                    <input ui-date ui-date-format="yyyy-mm-dd"  ng-model="guideDate"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <div class="col-lg-2">
+                                        <button class="btn btn-primary" ng-click="searchNewWarehouseItemsGuide()">
+                                            <i class="fa fa-search">Buscar</i>
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button class="btn btn-primary" ng-csv="getArrayWarehouse" 
+                                    csv-header="['TRANSACCION', 'PEDIDO', 'NRO_DCMTO','ORDEN_COMPRA','COC_CLI',
+                                    'CLIENTE','DIRECCION','FECHA','TIP_DOC',
+                                    'FEC_ENTREGA','HOR_ENTREGA','PRODUCTO','CANTIDAD',
+                                    'LOTE','FECHA_VCMTO','ALMACEN']"
+                                    filename="exportItemWarehouse.csv" field-separator=";" decimal-separator="," add-bom="true">
+                                <i class="fa fa-file">Exportar Tabla</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Buscar en tabla">
+                        <table  id="orderTable" class="footable table table-stripped exportTable export-excel" data-page-size="20" data-filter=#filter>
+                            <thead>
+                                <tr>
+                                    <th>Transacci&oacute;n</th>
+                                    <th>Pedido</th>
+                                    <th>N&uacute;mero Documento</th>
+                                    <th>Orden de Compra</th>
+                                    <th>C&oacute;digo de Cliente</th>
+                                    <th>Cliente</th>
+                                    <th>Direcci&oacute;n</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo Documento</th>
+                                    <th>Fecha de Entrega</th>
+                                    <th>Hora de Entrega</th>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Lote</th>
+                                    <th>Fecha de Vencimiento</th>
+                                    <th>Almacen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="orderItem in warehouseItemList">
+                                    <td>{{ orderItem.transaccion}}</td>
+                                    <td>{{ orderItem.pedido }}</td>
+                                    <td>{{ orderItem.numeroDocumento }}</td>
+                                    <td>{{ orderItem.ordenCompra }}</td>
+                                    <td>{{ orderItem.codigoCliente }}</td>
+                                    <td>{{ orderItem.cliente }}</td>
+                                    <td>{{ orderItem.direccion }}</td>
+                                    <td>{{ orderItem.fecha }}</td>
+                                    <td>{{ orderItem.tipoDocumento }}</td>
+                                    <td>{{ orderItem.fechaEntrega }}</td>
+                                    <td>{{ orderItem.horaEntrega }}</td>
+                                    <td>{{ orderItem.producto }}</td>
+                                    <td>{{ orderItem.cantidad }}</td>
+                                    <td>{{ orderItem.lote }}</td>
+                                    <td>{{ orderItem.fechaVencimiento }}</td>
+                                    <td>{{ orderItem.almacen }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="15">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+    </div>

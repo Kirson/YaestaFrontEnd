@@ -1287,6 +1287,7 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
 
         $scope.startDate = "";
         $scope.finishDate = "";
+        $scope.guideDate = "";
 
         $scope.dateOptions = {
             dateFormat: "dd-mm-yyyy"
@@ -1313,6 +1314,17 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
             $scope.getArrayWarehouse=$scope.warehouseItemList;   
         };  
       
+
+        $scope.searchNewWarehouseItemsGuide = function(){
+          
+            var vurl = 'order/getItemsWarehouseByGuideDate/'+$scope.guideDate;
+            console.log("vurl");console.log(vurl);
+            $scope.warehouseItemList = restServices(vurl).query(function(data){  
+                return data;
+            });
+         
+            $scope.getArrayWarehouse=$scope.warehouseItemList;   
+        };  
   };
 
   function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
@@ -1366,6 +1378,12 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
         });
          
         $scope.getGuideDeliveryArray=$scope.guideDeliveryList;  
+
+        $scope.guidePaymentMethodList = restServices('guide/findByDeliveryStatusPaymentMethodVO/TRAMACO/DELIVERED').query(function(data){  
+           return data;
+        });
+         
+        $scope.getGuidePaymentMethodListArray=$scope.guidePaymentMethodList;  
 
         $scope.searchGuides = function(vStart,vFinish){
           

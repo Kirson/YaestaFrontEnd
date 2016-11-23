@@ -126,6 +126,15 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
+                                        <label class="control-label" for="tCustomerDocument">Documento de  Referencia Cliente</label>
+                                        <input type="text" id="tCustomerDocument" name="tCustomerDocument" ng-model="customerDocument" placeholder="Documento de Referencia Cliente" class="form-control"
+                                        ng-maxlength="15" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
                                         <label class="control-label" for="deliveryCourier">Delivery</label>
                                         <ui-select ng-model="deliverySelected" 
                                             theme="bootstrap" on-select="onSelectedDeliveryUnique($item)">
