@@ -28,8 +28,8 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label class="control-label" for="dateO">Fecha</label>
-                                <input type="text" id="dateO" name="dateO" placeholder="Fecha" class="form-control" ng-disabled="true" ng-model="orderComplete.creationDate | date:'yyyy-MM-dd HH:mm'">
+                                <label class="control-label" for="dateO">Fecha Orden</label>
+                                <input type="text" id="dateO" name="dateO" placeholder="Fecha" class="form-control" ng-disabled="true" ng-model="orderComplete.creationDate">
                             </div>
                         </div>
                          <div class="col-sm-3">
@@ -209,6 +209,17 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary" ng-click="generateGuide(orderComplete)">Generar Gu&iacute;as</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary" ng-click="resendGuides(orderComplete)">Reenviar Gu&iacute;as</button>
                                     </div>
                                 </div>
 

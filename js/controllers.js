@@ -494,7 +494,7 @@
         });
 
         console.log("itemIdentityTypeLis");
-        console.log($scope.itemIdentityTypeLis);
+        console.log($scope.itemIdentityTypeList);
 
         $scope.onSelectedMotiveCancel = function (selectedMotiveCancel) {
             console.log("selectedMotiveCancel");
@@ -641,6 +641,34 @@
             console.log($scope.guideInfoBean.$promise);
 
             SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
+            /*
+            if($scope.guideInfoBean.error=="OK"){
+              SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
+            }else{
+                SweetAlert.swal("Error", "Problema al generar guias orden:)", "error");
+            }*/
+
+        }
+
+        $scope.resendGuides = function(vorderComplete){
+            
+            urlService = 'vitextIntegration/resendGuides';
+
+            $scope.guideInfoBean =  restServices(urlService).save({orderComplete:vorderComplete,
+                                                                   supplierDeliveryInfoList:vorderComplete.supplierDeliveryInfoList,
+                                                                   customerAdditionalInfo:$scope.customerAditionalInfo, 
+                                                                   customerDocument:$scope.customerDocument, 
+                                                                   deliverySelected:$scope.deliverySelected},function(data){  
+                return data;
+            });
+
+            
+            var vmensaje = "La guias han sido reenviada :)";
+            console.log("Respuesta de reenviar guias")
+            console.log($scope.guideInfoBean);
+            console.log($scope.guideInfoBean.$promise);
+
+            SweetAlert.swal("Info", "La guia ha sido reenviada :)", "info");
             /*
             if($scope.guideInfoBean.error=="OK"){
               SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
