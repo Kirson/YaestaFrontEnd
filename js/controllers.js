@@ -1370,47 +1370,54 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
         $scope.dateOptions = {
             dateFormat: "dd-mm-yyyy"
         };
-       
+        /*       
         $scope.guideList = restServices('guide/getAllVO').query(function(data){  
            return data;
         });
-         
+         */
+        $scope.guideList = [];
         $scope.getGuideArray=$scope.guideList;  
-
+        /*
         $scope.guideGeneratedList = restServices('guide/getGuidesByStatusVO/GENERATED-PDF').query(function(data){  
            return data;
         });
-         
+         */
+        $scope.guideGeneratedList=[];
         $scope.getGuideGeneratedArray=$scope.guideGeneratedList;  
-
+        /*
         $scope.guideProgrammedList = restServices('guide/getGuidesByStatusVO/DELIVERY_PENDING').query(function(data){  
            return data;
         });
-         
+        */
+        $scope.guideProgrammedList=[];
         $scope.getGuideProgrammedArray=$scope.guideProgrammedList;  
-
+        /*
         $scope.guidePendingList = restServices('guide/getGuidesByStatusVO/PENDING').query(function(data){  
            return data;
         });
-         
+        */
+        $scope.guidePendingList =[];
         $scope.getGuidePendingArray=$scope.guidePendingList;  
-
+        /*
         $scope.guideSendedList = restServices('guide/getGuidesByStatusVO/DELIVERY_PROCESS').query(function(data){  
            return data;
         });
-         
+        */
+        $scope.guideSendedList =[];
         $scope.getGuideSendedArray=$scope.guideSendedList;  
-
+        /*
         $scope.guideDeliveryList = restServices('guide/getGuidesByStatusVO/DELIVERED').query(function(data){  
            return data;
         });
-         
+        */
+        $scope.guideDeliveryList =[];
         $scope.getGuideDeliveryArray=$scope.guideDeliveryList;  
-
+        /*
         $scope.guidePaymentMethodList = restServices('guide/findByDeliveryStatusPaymentMethodVO/TRAMACO/DELIVERED').query(function(data){  
            return data;
         });
-         
+        */
+        $scope.guidePaymentMethodList = [];
         $scope.getGuidePaymentMethodListArray=$scope.guidePaymentMethodList;  
 
         $scope.searchGuides = function(vStart,vFinish){
@@ -2419,9 +2426,22 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
         $location.path('/auth/login');
     }
 
-    $scope.logs = restServices('yaestalog/getAll').query(function(data){  
+    $scope.orderId = '';
+
+    var urlService = 'yaestalog/findByOrderId/'+$scope.orderId ;
+
+    $scope.logs = restServices(urlService).query(function(data){  
            return data;
     });
+
+    $scope.searchLog = function () {
+
+        urlService = 'yaestalog/findByOrderId/'+$scope.orderId ;
+
+        $scope.logs = restServices(urlService).query(function(data){  
+           return data;
+        });
+    };
 
     $scope.openLog = function (size,log) {
         var modalInstance = $modal.open({

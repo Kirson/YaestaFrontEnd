@@ -30,40 +30,54 @@
 </div>
 
 <div class="ibox-content">
-    <input type="text" class="form-control input-sm m-b-xs" id="filter"
-                           placeholder="Buscar en tabla">
-    <table class="footable table table-stripped" data-page-size="20" data-filter=#filter>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Proceso</th>
-            <th>Orden</th>
-            <th>Mensaje Informativo</th>
-            <th>Fecha</th>
-            <th>Ver Mensaje Facturaci&oacute;n</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="log in logs">
-            <td>{{ log.id}}</td>
-            <td>{{ log.processName }}</td>
-            <td>{{ log.orderId }}</td>
-            <td>{{ log.textinfo }}</td>
-            <td>{{ log.logDate | date:'yyyy-MM-dd HH:mm' }}</td>
-            <td> 
-                <button class="btn btn-primary" ng-click="openLog('lg',log)"><i class="fa fa-search"></i></button>
-            </td>
-        </tr>
-        </tbody>
-        <tfoot>
+    <div class="row">
+        <div class="form-group">
+                <label class="control-label col-lg-2" for="startDate">N&uacute;mero de Orden</label>
+                <div class="input-group date col-lg-3">
+                    <input ng-model="orderId">
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-primary" ng-click="searchLog()">
+                        <i class="fa fa-search">Buscar</i>
+                    </button>
+                </div>
+        </div>
+    </div>
+    <div class="row">
+        <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                               placeholder="Buscar en tabla">
+        <table class="footable table table-stripped" data-page-size="20" data-filter=#filter>
+            <thead>
             <tr>
-                <td colspan="6">
-                    <ul class="pagination pull-right"></ul>
+                <th>Id</th>
+                <th>Proceso</th>
+                <th>Orden</th>
+                <th>Mensaje Informativo</th>
+                <th>Fecha</th>
+                <th>Ver Mensaje Facturaci&oacute;n</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="log in logs">
+                <td>{{ log.id}}</td>
+                <td>{{ log.processName }}</td>
+                <td>{{ log.orderId }}</td>
+                <td>{{ log.textinfo }}</td>
+                <td>{{ log.logDate | date:'yyyy-MM-dd HH:mm' }}</td>
+                <td> 
+                    <button class="btn btn-primary" ng-click="openLog('lg',log)"><i class="fa fa-search"></i></button>
                 </td>
             </tr>
-        </tfoot>
-    </table>
-
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <ul class="pagination pull-right"></ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
 </div>
 </div>
