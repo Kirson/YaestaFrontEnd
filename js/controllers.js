@@ -640,7 +640,7 @@
             console.log($scope.guideInfoBean);
             console.log($scope.guideInfoBean.$promise);
 
-            SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
+            SweetAlert.swal("Info", "La guia ha sido enviada al proceso de generacion. Debera recibir un correo de confirmacion, de lo contrario consulte el log del sistema :)", "info");
             /*
             if($scope.guideInfoBean.error=="OK"){
               SweetAlert.swal("Info", "La guia ha sido generada :)", "info");
@@ -1355,6 +1355,32 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
         };  
   };
 
+  function guideProcessCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
+        $scope.guideProcessNoCloseList = restServices('guideProcess/getGuideProcessNoCloseList').query(function(data){  
+           return data;
+        });
+    }
+
+     function guideProcessDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location,$state){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
+        var varProcessDate = $state.parProcessDate;
+        var varStatus = $state.parStatus;
+    }
+
+
   function guideCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
 
         $scope.logged = $rootScope.loggedin;
@@ -1527,6 +1553,19 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
                 }
             });
         };  
+
+         $scope.openGuidesGenerated = function (size,guide) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/guides/views/guidesGeneratedDetail.html',
+                size: size,
+                controller: guideDetailCtrl,
+                resolve: {
+                    guide: function () {
+                        return guide;
+                    }
+                }
+            });
+        };  
       
   };
 
@@ -1614,6 +1653,19 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
 
         $scope.saveGuide = function () {
            var urlService = 'guide/saveGuide';
+           $scope.guideUpd =  restServices(urlService).save({guide:$scope.guideComplete},function(data){  
+                return data;
+            });
+
+            console.log("===**===");
+            console.log($scope.guideUpd);
+
+            
+            SweetAlert.swal("Info", "La guia ha sido actualizada)", "info");
+        };
+
+        $scope.updateGuide = function () {
+           var urlService = 'guide/updateGuide';
            $scope.guideUpd =  restServices(urlService).save({guide:$scope.guideComplete},function(data){  
                 return data;
             });
@@ -2772,6 +2824,8 @@ function catalogCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$loc
         .controller('orderInvoicePendingCtrl',orderInvoicePendingCtrl)
         .controller('guideCtrl', guideCtrl)
         .controller('guideDetailCtrl', guideDetailCtrl)
+        .controller('guideProcessCtrl', guideProcessCtrl)
+        .controller('guideProcessDetailCtrl', guideProcessDetailCtrl)
         .controller('warehouseItemCtrl',warehouseItemCtrl)
         .controller('CalendarCtrl', CalendarCtrl)
     	.controller('translateCtrl', translateCtrl)

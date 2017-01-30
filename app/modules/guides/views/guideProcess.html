@@ -1,0 +1,81 @@
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>YaEsta.com - Gu&iacute;as</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Inicio</a>
+                </li>
+                <li>
+                    <a>Procesamiento de Gu&iacute;as</a>
+                </li>
+                <li class="active">
+                    <strong>Listado de Procesamiento de Gu&iacute;as</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" ng-controller="guideProcessCtrl">
+
+
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5><strong>Listado General de Procesamiento de Gu&iacute;as</strong></h5>
+
+        <div ibox-tools></div>
+    </div>
+    <div class="ibox-content">
+        
+        <div class="ibox-content">
+                    <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                           placeholder="Buscar en tabla">
+        <table  id="guideTable" class="footable table table-stripped" data-page-size="20" data-filter=#filter>
+            <thead>
+            <tr>
+                <th>Fecha de Proceso</th>
+                <th># Gu&iacute;as Programadas</th>
+                <th># Gu&iacute;as Pendientes</th>
+                <th># Gu&iacute;as Canceladas</th>
+                <th># Gu&iacute;as Entregadas</th>
+                <th># Gu&iacute;as Pendientes de Entrega</th>
+                <th>Fecha Abierta</th>
+               
+    	    </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="guideInfo in guideProcessNoCloseList">
+                <td>{{ guideInfo.processDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{ guideInfo.numProgrammed }}</td>
+                <td>{{ guideInfo.numPending }}</td>
+                <td>{{ guideInfo.numCanceled }}</td>
+                <td>{{ guideInfo.numDelivery }}</td>
+                <td>{{ guideInfo.numDeliveryPending }}</td>
+                <td>{{ guideInfo.strClosedDate }}</td>
+                
+    			
+            </tr>
+            </tbody>
+            <tfoot>
+                        <tr>
+                            <td colspan="10">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+            </tfoot>
+        </table>
+        </div>
+        <div class="row">
+           
+        </div>
+
+         
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
