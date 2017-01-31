@@ -49,11 +49,26 @@
             <tbody>
             <tr ng-repeat="guideInfo in guideProcessNoCloseList">
                 <td>{{ guideInfo.processDate | date:'yyyy-MM-dd'}}</td>
-                <td>{{ guideInfo.numProgrammed }}</td>
-                <td>{{ guideInfo.numPending }}</td>
-                <td>{{ guideInfo.numCanceled }}</td>
-                <td>{{ guideInfo.numDelivery }}</td>
-                <td>{{ guideInfo.numDeliveryPending }}</td>
+                <td>
+                    <a ui-sref="modules.guidesProcessDetail({ parProcessDate: guideInfo.processDate, parStatus:'PROGRAMMED' })" ui-sref-opts="{reload: true}">{{ guideInfo.numProgrammed }}
+                    </a>
+                </td>
+                <td>
+                    <a ui-sref="modules.guidesProcessDetail({ parProcessDate: guideInfo.processDate, parStatus:'PENDING' })" ui-sref-opts="{reload: true}">{{ guideInfo.numPending }}
+                    </a>
+                </td>
+                <td>
+                    <a ui-sref="modules.guidesProcessDetail({ parProcessDate: guideInfo.processDate, parStatus:'CANCELED' })" ui-sref-opts="{reload: true}">{{ guideInfo.numCanceled }}
+                    </a>
+                </td>
+                <td>
+                    <a ui-sref="modules.guidesProcessDetail({ parProcessDate: guideInfo.processDate, parStatus:'DELIVERED' })" ui-sref-opts="{reload: true}">{{ guideInfo.numDelivery }}
+                    </a>
+                </td>
+                <td>
+                    <a ui-sref="modules.guidesProcessDetail({ parProcessDate: guideInfo.processDate, parStatus:'DELIVERY-PENDING' })" ui-sref-opts="{reload: true}">{{ guideInfo.numDeliveryPending }}
+                    </a>
+                </td>
                 <td>{{ guideInfo.strClosedDate }}</td>
                 
     			

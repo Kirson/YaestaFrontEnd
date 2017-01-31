@@ -1366,9 +1366,15 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
         $scope.guideProcessNoCloseList = restServices('guideProcess/getGuideProcessNoCloseList').query(function(data){  
            return data;
         });
+
+        $scope.gotoUrl = function (guideInfo,vStatus) {
+            var vurl = 'app/modules/guides/views/guideProcessDetail.html/'+guideInfo.processDate+'/'+vStatus;
+            console.log(vurl);
+            //$location.path(vurl);
+        }
     }
 
-     function guideProcessDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location,$state){
+     function guideProcessDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location,$state,$routeParams,$stateParams){
 
         $scope.logged = $rootScope.loggedin;
       
@@ -1376,8 +1382,33 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
             $location.path('/auth/login');
         }
 
-        var varProcessDate = $state.parProcessDate;
-        var varStatus = $state.parStatus;
+        var varProcessDate =$stateParams.parProcessDate;
+        console.log("processDate");
+        console.log(varProcessDate);
+        var varStatus = $stateParams.parStatus;
+        console.log("status");
+        console.log(varStatus);
+
+        var vurl = 'guide/getGuidesByStatusProgrammedDateVO/'+varStatus+'/'+varProcessDate;
+            console.log("vurl");console.log(vurl);
+            $scope.guideList = restServices(vurl).query(function(data){  
+                return data;
+            });
+
+
+        $scope.openGuides = function (size,guide) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/modules/guides/views/guideDetail.html',
+                size: size,
+                controller: guideDetailCtrl,
+                resolve: {
+                    guide: function () {
+                        return guide;
+                    }
+                }
+            });
+        };  
+
     }
 
 
