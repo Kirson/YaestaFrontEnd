@@ -9,7 +9,7 @@
                     <a>Gu&iacute;as</a>
                 </li>
                 <li class="active">
-                    <strong>Listado de Gu&iacute;as Pendientes</strong>
+                    <strong>Listado de Gu&iacute;as de Pago contra Entrega</strong>
                 </li>
             </ol>
         </div>
@@ -17,37 +17,53 @@
 
         </div>
     </div>
-    <div class="wrapper wrapper-content animated fadeInRight" ng-controller="guideCtrl">
+    <div class="wrapper wrapper-content animated fadeInRight" ng-controller="guidePaymentCtrl">
 
 
     <div class="row">
     <div class="col-lg-12">
     <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5><strong>Listado de Gu&iacute;as Pendientes SVC</strong></h5>
+        <h5><strong>Listado de Gu&iacute;as de  Pago contra Entrega</strong></h5>
 
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
+       
         <div class="row">
             <div class="form-group">
-                <label class="control-label col-lg-2" for="startDate">Fecha Programada</label>
-                <div class="input-group date col-lg-3">
-                    <input ui-date ui-date-format="dd-mm-yyyy" ng-model="deliveryDate">
-                </div>
+                <label class="control-label" for="deliveryCourier">Delivery</label>
+                <ui-select ng-model="deliverySelected" 
+                    theme="bootstrap" on-select="onSelectedDelivery($item)">
+                    <ui-select-match placeholder="Seleccione">{{deliverySelected.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="deliveryItem in deliveryList | filter: $select.search">
+                        {{deliveryItem.name}}
+                    </ui-select-choices>
+                </ui-select>
+                <label class="control-label" for="periode">Per&iacute;odo</label>
+                <ui-select ng-model="periodeSelected" 
+                    theme="bootstrap" on-select="onSelectedPeriode($item)">
+                    <ui-select-match placeholder="Seleccione">{{periodeSelected.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="periodeItem in periodeList | filter: $select.search">
+                        {{periodeItem.name}}
+                    </ui-select-choices>
+                </ui-select>
                 <div class="col-lg-2">
-                    <button class="btn btn-primary" ng-click="searchGuidesPending(deliveryDate)">
+                    <button class="btn btn-primary" ng-click="searchGuidesPayment()">
                         <i class="fa fa-search">Buscar</i>
                     </button>
                 </div>
             </div>
         </div>
+       
         <div class="row">
-            <button class="btn btn-primary" ng-csv="getGuidePendingArray" 
-                                    csv-header="['id_interno', 'numero_guia', 'nombre_delivery','nombre_cliente','estado_guia',
-                                    'estado_delivery','fecha_creacion','fecha_orden','fecha_entrega',
-                                    'id_orden','id_proveedor','nombre_proveedor']"
-                                    filename="exportGuidesPending.csv" field-separator=";" decimal-separator="," add-bom="true">
+            <button class="btn btn-primary" ng-csv="getGuidePaymentMethodListArray" 
+                                    csv-header="['id_interno', 'numero_orden', 'numero_guia',
+                                                 'estado_guia','nombre_delivery','nombre_proveedor',
+                                                 'nombre_cliente','fecha_orden','valor_cobrado']"
+                                    filename="exportGuidesDeliveryProcess.csv" field-separator=";" decimal-separator="," add-bom="true">
                                 <i class="fa fa-file">Exportar Tabla</i>
             </button>
         </div>
@@ -64,28 +80,26 @@
                 <th># Orden</th>
                 <th># Gu&iacute;a</th>
                 <th>Estado Gu&iacute;a</th>
-                <th>Estado Entrega</th>
                 <th>Delivery</th>
                 <th>Proveedor</th>
     			<th>Cliente</th>
     			<th>Fecha Orden</th>
-                <th>Detalles</th>
+                <th>Valor a cobrar en gu&iacute;a</th>
+              
     	    </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="guide in guidePendingList">
+            <tr ng-repeat="guide in guidePaymentMethodList">
                 <td>{{ guide.id}}</td>
-                <td>{{ guide.orderId }}</td>
+                <td>{{ guide.orderNumber}}</td>
                 <td>{{ guide.guideNumber }}</td>
-                <td>{{ guide.guideStatus }}</td>
-                <td>{{ guide.deliveryStatus }}</td>
+                <td>{{ guide.status }}</td>
                 <td>{{ guide.deliveryName }}</td>
                 <td>{{ guide.supplierName }}</td>
                 <td>{{ guide.customerName }}</td>
     			<td>{{ guide.orderDate | date:'yyyy-MM-dd HH:mm'}}</td>
-    			<td> 
-                    <button class="btn btn-primary" ng-click="openGuides('lg',guide)"><i class="fa fa-search"></i></button>
-                </td>
+                <td>{{ guide.guideValue }}</td>
+    			
     			
             </tr>
             </tbody>

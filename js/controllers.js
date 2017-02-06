@@ -332,6 +332,19 @@
 
         };
 
+        $scope.doProcessDate = function(){
+
+            $timeout(function() {
+                $scope.doProcessDate= "";
+                $scope.doProcessDate = restServices('guide/doProcessDate').get(function(data){  
+                    return data;
+                });    
+               
+                $scope.$apply();
+            }, 1000);
+
+        };
+
         $scope.migrateGuides = function(){
 
             $timeout(function() {
@@ -1281,10 +1294,12 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
         $scope.dateOptions = {
             dateFormat: "dd-mm-yyyy"
         };
-       
-        $scope.orderItemList = restServices('order/getAllItemsVO').query(function(data){  
-           return data;
-        });
+        /*
+            $scope.orderItemList = restServices('order/getAllItemsVO').query(function(data){  
+                return data;
+            });
+        */
+        $scope.orderItemList = [];
          
         $scope.getArray=$scope.orderItemList;  
 
@@ -1355,6 +1370,55 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
         };  
   };
 
+   function guidePaymentCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
+
+        $scope.logged = $rootScope.loggedin;
+      
+        if(!$scope.logged){
+            $location.path('/auth/login');
+        }
+
+        $scope.deliverySelected = "";
+        $scope.periodeSelected = "";
+
+       $scope.deliveryList = restServices('catalog/getSubCatalogsDELIVERY_PROVIDER').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+       $scope.periodeList = restServices('catalog/getSubCatalogsPERIODE').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        $scope.onSelectedDelivery = function (selectedDelivery) {
+            console.log("selectedDelivery");
+            console.log(selectedDelivery);
+            $scope.deliverySelected = angular.copy(selectedDelivery);
+        };
+
+        $scope.onSelectedPeriode = function (selectedPeriode) {
+            console.log("selectedPeriode");
+            console.log(selectedPeriode);
+            $scope.periodeSelected = angular.copy(selectedPeriode);
+        };
+
+        $scope.guidePaymentMethodList = [];
+        $scope.getGuidePaymentMethodListArray=[]; 
+
+        $scope.searchGuidesPayment = function(){
+            var vurl = 'guide/getGuidesByPaymentMethod/'+$scope.deliverySelected.nemonic+'/'+$scope.periodeSelected.nemonic;
+            console.log("vurl");console.log(vurl);
+            $scope.guidePaymentMethodList = restServices(vurl).query(function(data){  
+                return data;
+            });
+            $scope.getGuidePaymentMethodListArray=$scope.guidePaymentMethodList; 
+        };
+
+       
+    };
+
+
   function guideProcessCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location){
 
         $scope.logged = $rootScope.loggedin;
@@ -1372,6 +1436,8 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
             console.log(vurl);
             //$location.path(vurl);
         }
+
+       
     }
 
      function guideProcessDetailCtrl($scope,$rootScope,$http,restServices, SweetAlert, $modal, $location,$state,$routeParams,$stateParams){
@@ -1396,9 +1462,27 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
             });
 
 
-        $scope.openGuides = function (size,guide) {
+        $scope.openGuidesProcess = function (size,guide) {
+
+           var vStatus = guide.guideStatus;
+            var vTemplate = 'app/modules/guides/views/guideDetail.html';
+            if(vStatus=='PROGRAMED'){
+                vTemplate = 'app/modules/guides/views/guidesProgrammedDetail.html';
+            }else if(vStatus=='PENDING'){
+                vTemplate = 'app/modules/guides/views/guidesPendingDetail.html';
+            }else if(vStatus=='CANCELED'){
+                vTemplate = 'app/modules/guides/views/guidesCancelDetail.html';
+            }else if(vStatus=='DELIVERED'){
+                vTemplate = 'app/modules/guides/views/guidesDeliveryDetail.html';
+            }else if(vStatus=='DELIVERY-PENDING'){
+                vTemplate = 'app/modules/guides/views/guidesPendingDeliveryDetail.html';
+            }
+
+            console.log("vTemplate");
+            console.log(vTemplate);
+
             var modalInstance = $modal.open({
-                templateUrl: 'app/modules/guides/views/guideDetail.html',
+                templateUrl: vTemplate,
                 size: size,
                 controller: guideDetailCtrl,
                 resolve: {
@@ -1407,7 +1491,14 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
                     }
                 }
             });
-        };  
+        };
+
+         $scope.gotoBack = function () {
+            //var vurl = 'app/modules/guides/views/guideProcess.html';
+            //console.log(vurl);
+            $location.path('/modules/guidesProcess');
+            //$location.path(vurl);
+        }  
 
     }
 
@@ -1573,8 +1664,27 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
 
 
         $scope.openGuides = function (size,guide) {
+
+
+            var status = guide.status;
+            var vTemplate = 'app/modules/guides/views/guideDetail.html';
+            if(status=='PROGRAMED'){
+                vTemplate = 'app/modules/guides/views/guidesProgrammedDetail.html';
+            }else if(status=='PENDING'){
+                vTemplate = 'app/modules/guides/views/guidesPendingDetail.html';
+            }else if(status=='CANCELED'){
+                vTemplate = 'app/modules/guides/views/guidesCancelDetail.html';
+            }else if(status=='DELIVERED'){
+                vTemplate = 'app/modules/guides/views/guidesDeliveryDetail.html';
+            }else if(status=='DELIVERY-PENDING'){
+                vTemplate = 'app/modules/guides/views/guidesPendingDeliveryDetail.html';
+            }
+
+            console.log("vTemplate");
+            console.log(vTemplate);
+
             var modalInstance = $modal.open({
-                templateUrl: 'app/modules/guides/views/guideDetail.html',
+                templateUrl: vTemplate,
                 size: size,
                 controller: guideDetailCtrl,
                 resolve: {
@@ -1621,6 +1731,26 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
         $scope.value =0;
 
         $scope.guideStatusList = restServices('catalog/getSubCatalogsGUIDE_STATUS').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        $scope.guideStatusGeneratedList = restServices('guide/filterGuideStatus/GENERATED-PDF').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        $scope.guideStatusProgramedList = restServices('guide/filterGuideStatus/PROGRAMED').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        $scope.guideStatusPendingDeliveryList = restServices('guide/filterGuideStatus/DELIVERY-PENDING').query(function(data){  
+            $scope.$broadcast('scroll2.refreshComplete');
+           return data;
+        });
+
+        $scope.guideStatusPendingList = restServices('guide/filterGuideStatus/PENDING').query(function(data){  
             $scope.$broadcast('scroll2.refreshComplete');
            return data;
         });
@@ -2511,15 +2641,18 @@ function tccCreateCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert
 
     $scope.orderId = '';
 
-    var urlService = 'yaestalog/findByOrderId/'+$scope.orderId ;
-
+    //var urlService = 'yaestalog/findByOrderId/';
+    /*
     $scope.logs = restServices(urlService).query(function(data){  
            return data;
     });
-
+    */
     $scope.searchLog = function () {
 
-        urlService = 'yaestalog/findByOrderId/'+$scope.orderId ;
+        var urlService = 'yaestalog/findByOrderId/'+$scope.orderId ;
+        console.log("===*++*===");
+        console.log(urlService);
+        console.log($scope.orderId);
 
         $scope.logs = restServices(urlService).query(function(data){  
            return data;
@@ -2857,6 +2990,7 @@ function catalogCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$loc
         .controller('guideDetailCtrl', guideDetailCtrl)
         .controller('guideProcessCtrl', guideProcessCtrl)
         .controller('guideProcessDetailCtrl', guideProcessDetailCtrl)
+        .controller('guidePaymentCtrl', guidePaymentCtrl)
         .controller('warehouseItemCtrl',warehouseItemCtrl)
         .controller('CalendarCtrl', CalendarCtrl)
     	.controller('translateCtrl', translateCtrl)

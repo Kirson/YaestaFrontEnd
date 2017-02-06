@@ -9,7 +9,7 @@
                     <a>Gu&iacute;as</a>
                 </li>
                 <li class="active">
-                    <strong>Listado de Gu&iacute;as Pendientes</strong>
+                    <strong>Listado de Gu&iacute;as Canceladas</strong>
                 </li>
             </ol>
         </div>
@@ -24,7 +24,7 @@
     <div class="col-lg-12">
     <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5><strong>Listado de Gu&iacute;as Pendientes SVC</strong></h5>
+        <h5><strong>Listado de Gu&iacute;as Canceladas</strong></h5>
 
         <div ibox-tools></div>
     </div>
@@ -36,18 +36,23 @@
                     <input ui-date ui-date-format="dd-mm-yyyy" ng-model="deliveryDate">
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn btn-primary" ng-click="searchGuidesPending(deliveryDate)">
+                    <button class="btn btn-primary" ng-click="searchGuidesDelivery(deliveryDate)">
                         <i class="fa fa-search">Buscar</i>
                     </button>
+                    <!--
+                     <button class="btn btn-primary" ng-click="sendProgrammedGuides(deliveryDate)">
+                        <i class="fa fa-envelope ">Notificar Despacho</i>
+                    </button>
+                    -->
                 </div>
             </div>
         </div>
         <div class="row">
-            <button class="btn btn-primary" ng-csv="getGuidePendingArray" 
+            <button class="btn btn-primary" ng-csv="getGuideDeliveryArray" 
                                     csv-header="['id_interno', 'numero_guia', 'nombre_delivery','nombre_cliente','estado_guia',
                                     'estado_delivery','fecha_creacion','fecha_orden','fecha_entrega',
-                                    'id_orden','id_proveedor','nombre_proveedor']"
-                                    filename="exportGuidesPending.csv" field-separator=";" decimal-separator="," add-bom="true">
+                                     'id_orden','id_proveedor','nombre_proveedor']"
+                                    filename="exportGuides.csv" field-separator=";" decimal-separator="," add-bom="true">
                                 <i class="fa fa-file">Exportar Tabla</i>
             </button>
         </div>
@@ -73,7 +78,7 @@
     	    </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="guide in guidePendingList">
+            <tr ng-repeat="guide in guideDeliveryList ">
                 <td>{{ guide.id}}</td>
                 <td>{{ guide.orderId }}</td>
                 <td>{{ guide.guideNumber }}</td>

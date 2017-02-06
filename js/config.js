@@ -577,7 +577,124 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 
         .state('modules.guideGeneratedDetail', {
             url: "/guideGeneratedDetail",
-            templateUrl: "app/modules/guides/views/guideGeneratedDetail.html",
+            templateUrl: "app/modules/guides/views/guidesGeneratedDetail.html",
+            data: { pageTitle: 'Detalle de Guias' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/angular-datepicker.js']                          
+                        }
+                    ]);
+                }
+            }
+        })
+
+        .state('modules.guidesPaymentPending', {
+            url: "/guidesPaymentPending",
+            templateUrl: "app/modules/guides/views/guidesPaymentPending.html",
+            data: { pageTitle: 'Guias de Pago contra entrega' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/angular-datepicker.js']                          
+                        }
+                    ]);
+                }
+            }
+        })
+
+        .state('modules.guidesCancel', {
+            url: "/guidesCancel",
+            templateUrl: "app/modules/guides/views/guidesCancel.html",
+            data: { pageTitle: 'Guias Canceladas' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/angular-datepicker.js']                          
+                        }
+                    ]);
+                }
+            }
+        })
+
+        .state('modules.guideCancelDetail', {
+            url: "/guideCancelDetail",
+            templateUrl: "app/modules/guides/views/guidesCancelDetail.html",
             data: { pageTitle: 'Detalle de Guias' },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
@@ -655,7 +772,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 
         .state('modules.guideProgrammedDetail', {
             url: "/guideProgrammedDetail",
-            templateUrl: "app/modules/guides/views/guideProgrammedDetail.html",
+            templateUrl: "app/modules/guides/views/guidesProgrammedDetail.html",
             data: { pageTitle: 'Detalle de Guias Programadas' },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
@@ -733,7 +850,85 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 
         .state('modules.guidePendingDetail', {
             url: "/guidePendingDetail",
-            templateUrl: "app/modules/guides/views/guidePendingDetail.html",
+            templateUrl: "app/modules/guides/views/guidesPendingDetail.html",
+            data: { pageTitle: 'Detalle de Guias Pendientes' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/angular-datepicker.js']                          
+                        }
+                    ]);
+                }
+            }
+        })
+
+        .state('modules.guidesPendingDelivery', {
+            url: "/guidesPendingDelivery",
+            templateUrl: "app/modules/guides/views/guidesPendingDelivery.html",
+            data: { pageTitle: 'Guias Pendientes' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.js','css/plugins/dataTables/dataTables.bootstrap.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.bootstrap.js']
+                        },
+                        {
+                            name: 'datatables',
+                            files: ['js/plugins/dataTables/angular-datatables.min.js']
+                        },
+                        {
+                            files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                        },
+                        {
+                            name: 'ui.footable',
+                            files: ['js/plugins/footable/angular-footable.js']
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/angular-datepicker.js']                          
+                        }
+                    ]);
+                }
+            }
+        })
+
+        .state('modules.guidePendingDeliveryDetail', {
+            url: "/guidePendingDeliveryDetail",
+            templateUrl: "app/modules/guides/views/guidesPendingDeliveryDetail.html",
             data: { pageTitle: 'Detalle de Guias Pendientes' },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
@@ -888,7 +1083,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 
         .state('modules.guideDeliveryDetail', {
             url: "/guideDeliveryDetail",
-            templateUrl: "app/modules/guides/views/guideDeliveryDetail.html",
+            templateUrl: "app/modules/guides/views/guidesDeliveryDetail.html",
             data: { pageTitle: 'Detalle de Guias Entregadas' },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {

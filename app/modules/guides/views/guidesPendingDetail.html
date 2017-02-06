@@ -87,13 +87,14 @@
                                 <ui-select ng-model="guideStatus" 
                                     theme="bootstrap" on-select="onSelectedStatus($item)">
                                     <ui-select-match placeholder="Seleccione">{{guideComplete.guideStatus.name}}</ui-select-match>
-                                    <ui-select-choices repeat="iGuideStatus in guideStatusList | filter: $select.search">
+                                    <ui-select-choices repeat="iGuideStatus in guideStatusPendingList | filter: $select.search">
                                                             {{iGuideStatus.name}}
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
                         </div>
                     </div>  
+                    <!--
                     <div class="row">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Fecha Programada de Retiro:</label>
@@ -102,6 +103,7 @@
                             </div>
                         </div>
                      </div>       
+                     -->
                     <div class="row">
                         <div class="col-sm-10">
                         </div>

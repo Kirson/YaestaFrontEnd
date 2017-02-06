@@ -42,7 +42,7 @@
                 <th># Gu&iacute;as Canceladas</th>
                 <th># Gu&iacute;as Entregadas</th>
                 <th># Gu&iacute;as Pendientes de Entrega</th>
-                <th>Fecha Abierta</th>
+                <th>Fecha Cerrada</th>
                
     	    </tr>
             </thead>
@@ -50,7 +50,7 @@
             <tr ng-repeat="guideInfo in guideProcessNoCloseList">
                 <td>{{ guideInfo.processDate | date:'yyyy-MM-dd'}}</td>
                 <td>
-                    <a ui-sref="modules.guidesProcessDetail({ parProcessDate: guideInfo.processDate, parStatus:'PROGRAMMED' })" ui-sref-opts="{reload: true}">{{ guideInfo.numProgrammed }}
+                    <a ui-sref="modules.guidesProcessDetail({ parProcessDate: guideInfo.processDate, parStatus:'PROGRAMED' })" ui-sref-opts="{reload: true}">{{ guideInfo.numProgrammed }}
                     </a>
                 </td>
                 <td>
