@@ -484,6 +484,11 @@
 
         console.log("orderComplete");
         console.log($scope.orderComplete);
+		
+		$scope.deliverySelected = angular.copy($scope.orderComplete.defaultDelivery);
+		 console.log("defaultDelivery");
+		 console.log($scope.orderComplete.defaultDelivery);
+		 console.log($scope.deliverySelected);
 
         $scope.deliveryList = restServices('catalog/getSubCatalogsDELIVERY_PROVIDER').query(function(data){  
             $scope.$broadcast('scroll2.refreshComplete');
@@ -548,12 +553,20 @@
             vorderComplete.appStatus = "approved";
 
             $scope.orderCompleteUpd =  restServices(urlService).save({order:vorderComplete,action:"approved"},function(data){  
+				$scope.deliverySelected = data.defaultDelivery;
+				$scope.$broadcast('scroll2.refreshComplete');
                 return data;
             });
 
             console.log("===**===");
-            console.log($scope.orderCompleteUpd );
-
+            console.log($scope.orderCompleteUpd);
+			console.log($scope.deliverySelected);
+			/*
+			$scope.deliverySelected = angular.copy($scope.orderCompleteUpd.defaultDelivery);
+			 console.log($scope.deliverySelected);
+			 $scope.deliverySelected = $scope.orderCompleteUpd.defaultDelivery;
+			 console.log($scope.deliverySelected);
+			*/
               SweetAlert.swal("Info", "La orden ha sido actualizada :)", "info");
               $scope.showGeneratedGuide=true;
               $scope.showApprovedCancel=false;

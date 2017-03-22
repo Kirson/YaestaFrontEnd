@@ -42,7 +42,7 @@
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="Ejemplo: proveedor@email.com" ng-model="seller.contactEmail" ng-maxlength="30"></div>
                                 </div>
                                 <div class="form-group"><label class="col-sm-2 control-label">Tel&eacute;fono Contacto:</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="5930201010101" ng-maxlength="13" ng-model="seller.phone" maxlength="13"></div>
+                                    <div class="col-sm-10"><input type="text" class="form-control" placeholder="5930201010101" ng-maxlength="13" ng-model="seller.phone" maxlength="13" only-numbers></div>
                                 </div>
                                 <div class="form-group"><label class="col-sm-2 control-label">Direcci&oacute;n Contacto:</label>
                                     <div class="col-sm-10"><input type="text" class="form-control" placeholder="Ejem: Avenida 10 de Agosto y Naciones Unidas" ng-model="seller.address" ng-maxlength="80"></div>
@@ -104,7 +104,7 @@
                                 <script type="text/ng-template" id="edit">
                                     <td><input type="text" ng-model="contactSelected.name" /></td>
                                     <td><input type="text" ng-model="contactSelected.email" /></td>
-                                    <td><input type="text" ng-model="contactSelected.phone" /></td>
+                                    <td><input type="text" ng-model="contactSelected.phone" only-numbers /></td>
                                     <td>
                                         <button ng-click="saveContact($index)">Actualizar</button>
                                         <button ng-click="reset()">Cancelar</button>
@@ -120,7 +120,7 @@
                                             <div class="form-group"><label class="col-sm-2 control-label">Email:</label>
                                             <div class="col-sm-10"><input type="text" class="form-control" placeholder="Email de Contacto" ng-model="newContact.email"></div>
                                             <div class="form-group"><label class="col-sm-2 control-label">Tel&eacute;fono:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Tel&eacute;fono de Contacto" ng-model="newContact.phone"></div>
+                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Tel&eacute;fono de Contacto" ng-model="newContact.phone" only-numbers></div>
                                         </fieldset>
                                         <button type="button" class="btn btn-primary" ng-click="addNewContact()"> Agregar Contacto</button>
                                          <button type="button" class="btn btn-primary" ng-click="cancelNewContact()"> Cancelar</button>
