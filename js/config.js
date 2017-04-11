@@ -2052,6 +2052,10 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 angular
     .module('inspinia')
     .config(config)
-    .run(function($rootScope, $state) {
+    .run(function($rootScope, $state, $templateCache) {
         $rootScope.$state = $state;
+		
+		$rootScope.$on('$viewContentLoaded', function() {
+			$templateCache.removeAll();
+		});
     });
