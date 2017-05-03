@@ -1853,6 +1853,29 @@ function orderInvoicePendingCtrl($scope,$rootScope,$http,restServices, SweetAler
 
       
   };
+  
+  function customerCtrl($scope,$rootScope,$http,restServices, SweetAlert,$location,$timeout){
+	  $scope.logged = $rootScope.loggedin;
+	  $scope.customer = "";
+	  $scope.customerDocument="";
+      
+      if(!$scope.logged){
+        $location.path('/auth/login');
+      }
+	  
+	  $scope.searchCustomer = function(){
+            console.log($scope.customerDocument);
+            var vurl='client/getCustomer/'+$scope.customerDocument;
+            $timeout(function() {
+                $scope.customer = "";
+                $scope.customer = restServices(vurl).get(function(data){  
+                    return data;
+                }); 
+               
+                $scope.$apply();
+            }, 1000);    
+        };
+  };
 
   function sellerCtrl($scope,$rootScope,$http,restServices,$location,SweetAlert, $timeout, $modal){
 
@@ -3022,5 +3045,6 @@ function catalogCreateCtrl($scope,$rootScope,$http,restServices, SweetAlert,$loc
         .controller('logYaestaDetailCtrl',logYaestaDetailCtrl)
         .controller('catalogCtrl',catalogCtrl)
         .controller('catalogCreateCtrl',catalogCreateCtrl)
-        .controller('catalogUpdateCtrl',catalogUpdateCtrl);
+        .controller('catalogUpdateCtrl',catalogUpdateCtrl)
+		.controller('customerCtrl',customerCtrl);
 
